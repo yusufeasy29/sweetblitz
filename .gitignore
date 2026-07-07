@@ -1,0 +1,9 @@
+node_modules/
+www/
+SweetBlitz.zip
+sweetblitz.com.txt
+zip_oyun.bat
+.gradle/
+build/
+*.aab
+*.apk

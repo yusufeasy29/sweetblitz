@@ -4361,6 +4361,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   nextLevelBtn.addEventListener('click', () => {
     soundEngine.init();
+    if (typeof showInterstitialAd === 'function') showInterstitialAd();
     const oldLevel = level;
     
     // Yıldız Hesapla
@@ -4422,6 +4423,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   retryLevelBtn.addEventListener('click', () => {
     soundEngine.init();
+    if (typeof showInterstitialAd === 'function') showInterstitialAd();
     score = scoreAtLevelStart; // Skoru seviye başlangıcına sıfırla
     jokers = { ...jokersAtLevelStart };
     activeJoker = null;
@@ -5583,4 +5585,51 @@ function checkAndShowDailyReward() {
 // Sayfa yüklendikten 1.2sn sonra günlük ödülü kontrol et
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(checkAndShowDailyReward, 1200);
+  setTimeout(initCapacitorAdMob, 500);
 });
+
+// ══════════════════════════════════════════════════════════════
+// GOOGLE ADMOB REKLAM ENTEGRASYONU (CAPACITOR COMMUNITY ADMOB)
+// ══════════════════════════════════════════════════════════════
+
+let adShowCounter = 0;
+
+async function initCapacitorAdMob() {
+  if (typeof window !== 'undefined' && window.Capacitor && window.Capacitor.Plugins.AdMob) {
+    const { AdMob } = window.Capacitor.Plugins;
+    try {
+      await AdMob.initialize({
+        initializeForTesting: true // Test reklamları aktif
+      });
+      console.log("AdMob başarıyla başlatıldı.");
+    } catch (e) {
+      console.error("AdMob başlatılamadı:", e);
+    }
+  }
+}
+
+async function showInterstitialAd() {
+  if (typeof window !== 'undefined' && window.Capacitor && window.Capacitor.Plugins.AdMob) {
+    const { AdMob } = window.Capacitor.Plugins;
+    adShowCounter++;
+    
+    // Her 3 ekran geçişinde bir reklam göster
+    if (adShowCounter % 3 !== 0) {
+      console.log("Reklam sayacı: " + adShowCounter + "/3 (Reklam gösterilmeyecek)");
+      return;
+    }
+
+    try {
+      // Android Test Interstitial Ad ID: ca-app-pub-3940256099942544/1033173712
+      // Gerçek reklam ID'si aldığında bu test ID'yi onunla değiştireceksin.
+      await AdMob.prepareInterstitial({
+        adId: 'ca-app-pub-3940256099942544/1033173712',
+        isTesting: true
+      });
+      await AdMob.showInterstitial();
+      console.log("Geçiş reklamı gösterildi.");
+    } catch (e) {
+      console.error("Geçiş reklamı gösterim hatası:", e);
+    }
+  }
+}
