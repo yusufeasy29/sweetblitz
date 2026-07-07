@@ -4506,8 +4506,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isAnimating || movesLeft <= 0) return;
       soundEngine.init();
       if (jokers.hammer <= 0) {
-        spawnFloatingText(3, 1, "Çekiç bitti! 🔨", "#ff6b6b");
         soundEngine.playRevert();
+        if (confirm("Çekiç bitti! Ücretsiz 1 Çekiç kazanmak için kısa bir reklam izlemek ister misiniz?")) {
+          showRewardedAdForBooster('hammer');
+        }
         return;
       }
 
@@ -4525,8 +4527,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isAnimating || movesLeft <= 0) return;
       soundEngine.init();
       if (jokers.spray <= 0) {
-        spawnFloatingText(3, 1, "Sprey bitti! 🚀", "#ff6b6b");
         soundEngine.playRevert();
+        if (confirm("Sprey bitti! Ücretsiz 1 Sprey kazanmak için kısa bir reklam izlemek ister misiniz?")) {
+          showRewardedAdForBooster('spray');
+        }
         return;
       }
 
@@ -4544,8 +4548,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isAnimating || movesLeft <= 0) return;
       soundEngine.init();
       if (jokers.moves <= 0) {
-        spawnFloatingText(3, 1, "+Hamle bitti! ⚡", "#ff6b6b");
         soundEngine.playRevert();
+        if (confirm("Ek hamle bitti! Ücretsiz +5 Hamle kazanmak için kısa bir reklam izlemek ister misiniz?")) {
+          showRewardedAdForBooster('moves');
+        }
         return;
       }
 
@@ -4564,8 +4570,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isAnimating || movesLeft <= 0) return;
       soundEngine.init();
       if (jokers.bomb <= 0) {
-        spawnFloatingText(3, 1, "Bomba bitti! 💣", "#ff6b6b");
         soundEngine.playRevert();
+        if (confirm("Bomba bitti! Ücretsiz 1 Bomba kazanmak için kısa bir reklam izlemek ister misiniz?")) {
+          showRewardedAdForBooster('bomb');
+        }
         return;
       }
 
@@ -4584,8 +4592,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isAnimating || movesLeft <= 0) return;
       soundEngine.init();
       if (jokers.fish <= 0) {
-        spawnFloatingText(3, 1, "Balık bitti! 🐠", "#ff6b6b");
         soundEngine.playRevert();
+        if (confirm("Balık bitti! Ücretsiz 1 Balık kazanmak için kısa bir reklam izlemek ister misiniz?")) {
+          showRewardedAdForBooster('fish');
+        }
         return;
       }
 
@@ -5613,9 +5623,12 @@ async function showInterstitialAd() {
     const { AdMob } = window.Capacitor.Plugins;
     adShowCounter++;
     
-    // Test aşamasında her seferinde reklam göster
+      // Her 3 ekran geçişinde bir reklam göster
+      if (adShowCounter % 3 !== 0) {
+        console.log("Reklam sayacı: " + adShowCounter + "/3 (Reklam gösterilmeyecek)");
+        return;
+      }
 
-    try {
       // Android Test Interstitial Ad ID: ca-app-pub-3940256099942544/1033173712
       // Gerçek reklam ID'si aldığında bu test ID'yi onunla değiştireceksin.
       await AdMob.prepareInterstitial({
@@ -5626,6 +5639,65 @@ async function showInterstitialAd() {
       console.log("Geçiş reklamı gösterildi.");
     } catch (e) {
       console.error("Geçiş reklamı gösterim hatası:", e);
+    }
+  }
+}
+
+async function showRewardedAdForBooster(boosterType) {
+  const names = { hammer: 'Çekiç 🔨', spray: 'Sprey 🚀', moves: '+5 Hamle ⚡', bomb: 'Bomba 💣', fish: 'Balık 🐠' };
+  const nameTr = names[boosterType] || 'Joker 🎁';
+
+  if (typeof window !== 'undefined' && window.Capacitor && window.Capacitor.Plugins.AdMob) {
+    const { AdMob } = window.Capacitor.Plugins;
+    try {
+      spawnFloatingText(3, 2, "Reklam yükleniyor...", "#ffd23f");
+      
+      // Android Test Rewarded Ad ID: ca-app-pub-3940256099942544/5224354917
+      await AdMob.prepareRewardVideoAd({
+        adId: 'ca-app-pub-3940256099942544/5224354917',
+        isTesting: true
+      });
+      
+      let gotReward = false;
+      const listener = await AdMob.addListener('rewardedVideoAdReward', (info) => {
+        gotReward = true;
+      });
+      const listenerAlt = await AdMob.addListener('onAdReward', (info) => {
+        gotReward = true;
+      });
+
+      await AdMob.showRewardVideoAd();
+
+      // Dinleyicileri temizle
+      setTimeout(() => {
+        listener.remove();
+        listenerAlt.remove();
+      }, 1000);
+
+      // Ödülü ver
+      if (gotReward) {
+        jokers[boosterType]++;
+        saveGameState();
+        updateJokersUI();
+        if (typeof updateSidebarStats === 'function') updateSidebarStats();
+        soundEngine.playSpecial();
+        spawnFloatingText(3, 2, "+1 " + nameTr + " Kazanıldı! 🎉", "#4caf50");
+      } else {
+        spawnFloatingText(3, 2, "Reklam tamamlanmadı 😢", "#ff6b6b");
+      }
+    } catch (e) {
+      console.error("Rewarded ad error:", e);
+      spawnFloatingText(3, 2, "Reklam yüklenemedi 😞", "#ff6b6b");
+    }
+  } else {
+    // Tarayıcı test simülasyonu
+    if (confirm("Web tarayıcısındasınız. Test amaçlı reklam izlemeyi simüle edip +1 " + nameTr + " kazanmak ister misiniz?")) {
+      jokers[boosterType]++;
+      saveGameState();
+      updateJokersUI();
+      if (typeof updateSidebarStats === 'function') updateSidebarStats();
+      soundEngine.playSpecial();
+      spawnFloatingText(3, 2, "+1 " + nameTr + " (Simüle) 🎁", "#4caf50");
     }
   }
 }
