@@ -5660,19 +5660,29 @@ async function showRewardedAdForBooster(boosterType) {
       });
       
       let gotReward = false;
-      const listener = await AdMob.addListener('rewardedVideoAdReward', (info) => {
+      
+      // Tüm olası Capacitor AdMob ödül event isimlerini dinle
+      const l1 = await AdMob.addListener('onRewarded', (info) => {
         gotReward = true;
       });
-      const listenerAlt = await AdMob.addListener('onAdReward', (info) => {
+      const l2 = await AdMob.addListener('rewardedVideoAdReward', (info) => {
+        gotReward = true;
+      });
+      const l3 = await AdMob.addListener('onAdReward', (info) => {
         gotReward = true;
       });
 
-      await AdMob.showRewardVideoAd();
+      // Reklamı göster ve sonucunu da kontrol et
+      const result = await AdMob.showRewardVideoAd();
+      if (result && result.amount > 0) {
+        gotReward = true;
+      }
 
       // Dinleyicileri temizle
       setTimeout(() => {
-        listener.remove();
-        listenerAlt.remove();
+        l1.remove();
+        l2.remove();
+        l3.remove();
       }, 1000);
 
       // Ödülü ver
