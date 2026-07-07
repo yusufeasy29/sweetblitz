@@ -5613,11 +5613,7 @@ async function showInterstitialAd() {
     const { AdMob } = window.Capacitor.Plugins;
     adShowCounter++;
     
-    // Her 3 ekran geçişinde bir reklam göster
-    if (adShowCounter % 3 !== 0) {
-      console.log("Reklam sayacı: " + adShowCounter + "/3 (Reklam gösterilmeyecek)");
-      return;
-    }
+    // Test aşamasında her seferinde reklam göster
 
     try {
       // Android Test Interstitial Ad ID: ca-app-pub-3940256099942544/1033173712
