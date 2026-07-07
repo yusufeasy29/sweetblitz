@@ -831,7 +831,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 6px;
   position: relative;
   cursor: pointer;
   transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -857,18 +858,24 @@ body {
 }
 
 .joker-icon {
-  font-size: 1.6rem;
+  font-size: 1.45rem;
   line-height: 1.1;
-  margin-bottom: 1px;
+  margin-bottom: 0px;
   filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
 }
 
 .joker-name {
-  font-size: 0.58rem;
-  font-weight: 800;
+  font-size: 0.55rem;
+  font-weight: 900;
   color: #ffffff;
-  letter-spacing: 0.4px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+  position: absolute;
+  bottom: 7px;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  pointer-events: none;
 }
 
 .joker-badge {
