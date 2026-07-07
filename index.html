@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Sweet Blitz - Renkli Şeker Eşleştirme Oyunu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Mobil Cihazlar için PWA / Tam Ekran Meta Etiketleri -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Google Sign-In SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <!-- Arka Plan Efekti -->
+  <div class="bg-bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <div class="game-container">
+    
+    <!-- BAŞLANGIÇ EKRANI (SPLASH) -->
+    <div id="start-screen" class="screen active">
+
+      <!-- Arka plan yüzen şekerler -->
+      <div class="splash-candies" aria-hidden="true">
+        <div class="splash-candy sc1">🍬</div>
+        <div class="splash-candy sc2">🍭</div>
+        <div class="splash-candy sc3">🍫</div>
+        <div class="splash-candy sc4">⭐</div>
+        <div class="splash-candy sc5">🍬</div>
+        <div class="splash-candy sc6">✨</div>
+        <div class="splash-candy sc7">🍭</div>
+        <div class="splash-candy sc8">💎</div>
+      </div>
+
+      <!-- Logo -->
+      <div class="splash-logo-wrap">
+        <div class="splash-logo-stars">
+          <span class="sls sls1">⭐</span>
+          <span class="sls sls2">✨</span>
+          <span class="sls sls3">⭐</span>
+        </div>
+        <h1 class="game-title">SWEET<br><span>BLITZ</span></h1>
+        <div class="splash-logo-tagline">Şekerleri patlat, galaksiye ulaş! 🚀</div>
+      </div>
+
+      <!-- Karakter -->
+      <div class="splash-character" aria-hidden="true">
+        <!-- Şeker Prens SVG karakteri -->
+        <svg class="char-svg" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+          <!-- Gölge -->
+          <ellipse cx="60" cy="154" rx="28" ry="6" fill="rgba(0,0,0,0.25)"/>
+
+          <!-- Vücut (şeker sarısı top) -->
+          <circle cx="60" cy="105" r="30" fill="url(#bodyGrad)"/>
+          <circle cx="60" cy="105" r="30" fill="none" stroke="#d4860a" stroke-width="1.5"/>
+          <!-- Göbek çizgisi (şeker çizgisi) -->
+          <path d="M35 105 Q60 118 85 105" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+          <path d="M38 115 Q60 125 82 115" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+
+          <!-- Kollar -->
+          <ellipse cx="28" cy="100" rx="10" ry="14" fill="url(#bodyGrad)" stroke="#d4860a" stroke-width="1.2" transform="rotate(-20 28 100)"/>
+          <ellipse cx="92" cy="100" rx="10" ry="14" fill="url(#bodyGrad)" stroke="#d4860a" stroke-width="1.2" transform="rotate(20 92 100)"/>
+          <!-- El (sol, şeker tutuyor) -->
+          <circle cx="18" cy="95" r="8" fill="#ff6b9d" stroke="#c44080" stroke-width="1.2"/>
+          <!-- Şeker elinde -->
+          <line x1="11" y1="88" x2="6" y2="80" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="6" cy="77" r="6" fill="url(#lolliGrad)" stroke="#ff3366" stroke-width="1.5"/>
+          <path d="M3 77 Q6 74 9 77 Q6 80 3 77Z" fill="rgba(255,255,255,0.4)"/>
+
+          <!-- Sağ el -->
+          <circle cx="102" cy="95" r="8" fill="#ff6b9d" stroke="#c44080" stroke-width="1.2"/>
+
+          <!-- Bacaklar -->
+          <rect x="44" y="132" width="14" height="22" rx="7" fill="url(#bodyGrad)" stroke="#d4860a" stroke-width="1.2"/>
+          <rect x="62" y="132" width="14" height="22" rx="7" fill="url(#bodyGrad)" stroke="#d4860a" stroke-width="1.2"/>
+          <!-- Ayakkabılar -->
+          <ellipse cx="51" cy="154" rx="10" ry="6" fill="#6c3fc5" stroke="#4a2a9a" stroke-width="1"/>
+          <ellipse cx="69" cy="154" rx="10" ry="6" fill="#6c3fc5" stroke="#4a2a9a" stroke-width="1"/>
+
+          <!-- Baş -->
+          <circle cx="60" cy="65" r="30" fill="url(#headGrad)"/>
+          <circle cx="60" cy="65" r="30" fill="none" stroke="#c44080" stroke-width="1.5"/>
+
+          <!-- Şapka -->
+          <ellipse cx="60" cy="37" rx="22" ry="6" fill="#6c3fc5" stroke="#4a2a9a" stroke-width="1.5"/>
+          <rect x="48" y="10" width="24" height="28" rx="5" fill="url(#hatGrad)" stroke="#4a2a9a" stroke-width="1.5"/>
+          <!-- Şapka bant -->
+          <rect x="48" y="33" width="24" height="5" rx="2" fill="#ffd23f"/>
+          <!-- Şapka yıldız -->
+          <text x="60" y="28" text-anchor="middle" font-size="12" fill="#ffd23f">⭐</text>
+
+          <!-- Yüz -->
+          <!-- Gözler (büyük neşeli) -->
+          <circle cx="50" cy="62" r="8" fill="white"/>
+          <circle cx="70" cy="62" r="8" fill="white"/>
+          <circle cx="52" cy="63" r="5" fill="#2d1b6e"/>
+          <circle cx="72" cy="63" r="5" fill="#2d1b6e"/>
+          <!-- Göz parıltısı -->
+          <circle cx="54" cy="61" r="2" fill="white"/>
+          <circle cx="74" cy="61" r="2" fill="white"/>
+
+          <!-- Yanaklar -->
+          <ellipse cx="43" cy="72" rx="7" ry="5" fill="rgba(255,100,150,0.4)"/>
+          <ellipse cx="77" cy="72" rx="7" ry="5" fill="rgba(255,100,150,0.4)"/>
+
+          <!-- Ağız (gülümseme) -->
+          <path d="M48 76 Q60 88 72 76" fill="none" stroke="#c44080" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Dişler -->
+          <path d="M51 77 Q60 86 69 77 Q60 80 51 77Z" fill="white"/>
+
+          <!-- Burun -->
+          <ellipse cx="60" cy="71" rx="4" ry="3" fill="rgba(200,80,120,0.4)"/>
+
+          <!-- Defs -->
+          <defs>
+            <linearGradient id="headGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffb3cc"/>
+              <stop offset="100%" stop-color="#ff6b9d"/>
+            </linearGradient>
+            <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffd700"/>
+              <stop offset="100%" stop-color="#ff9f00"/>
+            </linearGradient>
+            <linearGradient id="hatGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#9c5fe5"/>
+              <stop offset="100%" stop-color="#5b21b6"/>
+            </linearGradient>
+            <linearGradient id="lolliGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ff3366"/>
+              <stop offset="50%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#ff3366"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <!-- Karakter konuşma balonu -->
+        <div class="char-bubble">
+          Hazır mısın? 🍭
+        </div>
+      </div>
+
+      <!-- Butonlar -->
+      <div class="splash-buttons">
+        <button id="btn-start" class="btn btn-primary splash-play-btn">
+          <span class="play-btn-icon">▶</span>
+          OYNA
+        </button>
+        <button id="btn-google-login" class="btn btn-google splash-google-btn">
+          <svg class="google-icon" viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg" style="margin-right: 7px; vertical-align: middle;">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+          </svg>
+          Google ile Giriş Yap
+        </button>
+      </div>
+
+    </div>
+
+    <!-- SEVİYE HARİTASI EKRANI (LOBBY/LOBİ EKRANI) -->
+    <div id="map-screen" class="screen">
+      <!-- Sol Pembe Panel (Sidebar Menu) -->
+      <aside class="map-sidebar">
+        <!-- Profil Resmi Alnı -->
+        <div class="profile-container">
+          <div class="profile-avatar-frame">
+            <div class="profile-avatar" id="map-profile-pic">🍭</div>
+            <div class="profile-avatar-badge">213</div>
+          </div>
+          <div class="profile-score-badge">10000</div>
+        </div>
+
+        <!-- Kalpler (Canlar) -->
+        <div class="sidebar-item hearts-container">
+          <div class="sidebar-icon">❤️</div>
+          <div class="sidebar-value" id="lives-value">5</div>
+          <div class="sidebar-label" id="lives-label">Full</div>
+        </div>
+
+        <!-- Altın Külçeleri -->
+        <div class="sidebar-item gold-container">
+          <div class="sidebar-icon">🪙</div>
+          <div class="sidebar-value" id="gold-value">7648</div>
+        </div>
+
+        <!-- Mektuplar / Inbox -->
+        <div class="sidebar-item inbox-container" id="btn-open-inbox" title="Gelen Kutusu" style="cursor: pointer;">
+          <div class="sidebar-icon">✉️</div>
+          <div class="inbox-badge">4</div>
+        </div>
+
+        <!-- Günlük Çarkıfelek / Daily Spin -->
+        <div class="sidebar-item spin-wheel-trigger" id="btn-daily-spin" title="Günlük Çark">
+          <div class="sidebar-icon">🎡</div>
+        </div>
+
+        <!-- Müzik Aç/Kapat -->
+        <button id="btn-map-mute-music" class="btn-sidebar-icon" aria-label="Müzik Aç/Kapat" title="Müzik Aç/Kapat" style="margin-top: 15px;">
+          <span id="map-music-icon-span" style="font-size: 1.3rem;">🎵</span>
+        </button>
+        <!-- Efekt Sesi Aç/Kapat -->
+        <button id="btn-map-mute-sfx" class="btn-sidebar-icon" aria-label="Ses Efektleri Aç/Kapat" title="Ses Efektleri Aç/Kapat" style="margin-top: 10px;">
+          <span id="map-sfx-icon-span" style="font-size: 1.3rem;">🔊</span>
+        </button>
+      </aside>
+
+      <!-- Harita Ana Alanı -->
+      <div class="map-viewport" id="map-viewport">
+        <div class="map-scroll-container" id="map-scroll-container">
+          <!-- Harita Görsel Katmanı (Arka Plan Gökyüzü / Deniz / Çimen SVG) -->
+          <svg class="map-svg-layer" id="map-svg-layer">
+            <defs>
+              <linearGradient id="map-grass-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#b4ec51" />
+                <stop offset="100%" stop-color="#429321" />
+              </linearGradient>
+            </defs>
+            <!-- Kesikli yol çizgisi dinamik olarak çizilecek -->
+            <path id="map-path-line" d="" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="8" stroke-dasharray="14,14" stroke-linecap="round" />
+          </svg>
+          
+          <!-- Dekorasyon Alanı (Whale, Ship, Clouds) -->
+          <div class="map-decorations" id="map-decorations">
+            <!-- JS ile dinamik eklenecek -->
+          </div>
+
+          <!-- Bölüm Düğmeleri (Nodes) -->
+          <div class="map-nodes-container" id="map-nodes-container">
+            <!-- JS ile dinamik eklenecek -->
+          </div>
+
+          <!-- Oyuncu Karakter Simgesi (Avatar Token) -->
+          <div class="player-avatar-token" id="player-avatar-token">
+            <div class="token-glow"></div>
+            <div class="token-pin">
+              <!-- Oyuncu Avatarı -->
+              <div class="token-avatar-img">🧑‍🚀</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEVİYE DETAYLARI MODAL PANELİ -->
+    <div id="level-modal" class="modal-overlay">
+      <div class="level-modal-content">
+        <button class="modal-close-btn" id="btn-close-modal">&times;</button>
+        <h2 id="modal-level-title">SEVİYE 1</h2>
+        <div class="modal-stars" id="modal-level-stars">
+          <span class="modal-star">★</span>
+          <span class="modal-star">★</span>
+          <span class="modal-star">★</span>
+        </div>
+        
+        <div class="modal-goals-card">
+          <h4>BÖLÜM HEDEFLERİ</h4>
+          <div class="modal-goals-list" id="modal-goals-list">
+            <!-- JS ile yüklenecek hedefler -->
+          </div>
+        </div>
+
+        <div class="modal-highscore">
+          <span>En Yüksek Skor:</span> <strong id="modal-high-score-val">0</strong>
+        </div>
+
+        <button id="btn-play-level" class="btn btn-primary animate-pulse">OYNA</button>
+      </div>
+    </div>
+
+    <!-- EKRAN GEÇİŞ EFEKTİ (SWIRL TRANSITION OVERLAY) -->
+    <div id="screen-transition" class="screen-transition-overlay">
+      <div class="swirl-container">
+        <div class="swirl-bg"></div>
+        <div class="swirl-decor font-candy">🍭</div>
+      </div>
+    </div>
+
+
+    <!-- OYUN ALANI -->
+    <div id="game-screen" class="screen">
+
+      <!-- Üst Gösterge Tablosu (HUD) -->
+      <header class="game-header">
+        <!-- Canlar / Lives -->
+        <div class="hud-item lives-container" style="cursor: pointer;" onclick="showRefillLivesModal()">
+          <div class="hud-label">CAN</div>
+          <div id="header-lives-val" class="hud-value" style="color: #ff3366; display: flex; align-items: center; gap: 2px; line-height: 1; font-size: 1.25rem;">❤️ 5</div>
+          <span id="header-lives-timer" style="font-size: 0.55rem; color: #ff8f9c; margin-top: 2px; display: none; font-weight: bold;">00:00</span>
+        </div>
+
+        <div class="hud-item moves-container">
+          <div class="hud-label">HAMLE</div>
+          <div id="moves-left" class="hud-value" style="color: #ff3366; font-size: 1.35rem; font-weight: 900;">30</div>
+        </div>
+        
+        <div class="score-container">
+          <div class="hud-label">SKOR</div>
+          <div id="score" class="hud-value text-glow">0</div>
+          <!-- Yıldız İlerleme Çubuğu (Star Progress Bar) -->
+          <div id="star-bar-container">
+            <div id="star-bar-progress" style="width: 0%;"></div>
+            <div class="star-milestone star-1" id="star-milestone-1" title="1 Yıldız">⭐</div>
+            <div class="star-milestone star-2" id="star-milestone-2" title="2 Yıldız">⭐</div>
+            <div class="star-milestone star-3" id="star-milestone-3" title="3 Yıldız">⭐</div>
+          </div>
+        </div>
+
+        <div class="hud-item level-container">
+          <div class="hud-label">SEVİYE</div>
+          <div id="level" class="hud-value">1</div>
+          <div id="world-name" class="world-name">Şeker Ormanı</div>
+        </div>
+      </header>
+
+      <!-- Hedefler Paneli -->
+      <div class="targets-container">
+        <div class="hud-label">BÖLÜM HEDEFLERİ</div>
+        <div id="targets-list" class="targets-list">
+          <!-- Dinamik hedef şeker kartları JS ile buraya eklenecek -->
+        </div>
+      </div>
+
+      <!-- Oyun Tahtası -->
+      <div class="board-wrapper">
+        <div id="game-board" class="game-board">
+          <!-- Şekerler JS ile buraya eklenecek -->
+        </div>
+        <!-- Parçacıklar ve Puan Uçuşları için Canvas -->
+        <canvas id="effects-canvas"></canvas>
+      </div>
+
+      <!-- JOKERLER PANELİ -->
+      <div class="jokers-container">
+        <button id="joker-hammer" class="joker-btn" aria-label="Lolipop Çekici">
+          <div class="joker-icon">🍭🔨</div>
+          <div class="joker-name">ÇEKİÇ</div>
+          <div id="joker-hammer-count" class="joker-badge">3</div>
+        </button>
+        <button id="joker-spray" class="joker-btn" aria-label="Renk Değiştirici">
+          <div class="joker-icon">🎨⚡</div>
+          <div class="joker-name">SPREY</div>
+          <div id="joker-spray-count" class="joker-badge">2</div>
+        </button>
+        <button id="joker-bomb" class="joker-btn" aria-label="Renk Bombası">
+          <div class="joker-icon">💣✨</div>
+          <div class="joker-name">BOMBA</div>
+          <div id="joker-bomb-count" class="joker-badge">2</div>
+        </button>
+        <button id="joker-fish" class="joker-btn" aria-label="Jöle Balığı">
+          <div class="joker-icon">🐠⚡</div>
+          <div class="joker-name">BALIK</div>
+          <div id="joker-fish-count" class="joker-badge">2</div>
+        </button>
+        <button id="joker-moves" class="joker-btn" aria-label="+5 Hamle">
+          <div class="joker-icon">➕5️⃣</div>
+          <div class="joker-name">+5 HAMLE</div>
+          <div id="joker-moves-count" class="joker-badge">2</div>
+        </button>
+      </div>
+
+      <!-- Alt Menü / Kontroller -->
+      <footer class="game-footer">
+        <button id="btn-mute-music" class="btn-icon" aria-label="Müziği Kapat/Aç" title="Müzik Aç/Kapat">
+          <span id="music-icon-span" style="font-size: 1.3rem;">🎵</span>
+        </button>
+        <button id="btn-mute-sfx" class="btn-icon" aria-label="Sesleri Kapat/Aç" title="Ses Efektleri Aç/Kapat">
+          <span id="sfx-icon-span" style="font-size: 1.3rem;">🔊</span>
+        </button>
+        <button id="btn-back-to-map" class="btn-secondary-icon" aria-label="Haritaya Dön" onclick="exitToMap()" title="Haritaya Dön">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+            <line x1="9" y1="12" x2="21" y2="12"/>
+          </svg>
+        </button>
+      </footer>
+    </div>
+
+    <!-- OYUN BİTTİ (BAŞARI / BAŞARISIZLIK) EKRANI -->
+    <div id="game-over-screen" class="screen">
+      <h2 class="screen-title" id="game-over-title">TEBRİKLER!</h2>
+      <div id="game-over-message" class="game-over-msg">Seviye başarıyla geçildi!</div>
+
+      <div class="stats-card">
+        <div class="stat-row">
+          <span>Seviye</span>
+          <strong id="final-level">1</strong>
+        </div>
+        <div class="stat-row">
+          <span>Toplam Skor</span>
+          <strong id="final-score" class="text-glow">0</strong>
+        </div>
+        <div class="stat-row">
+          <span>En Yüksek Skor</span>
+          <strong id="high-score">0</strong>
+        </div>
+      </div>
+
+      <div class="game-over-buttons" style="width: 100%; display: flex; justify-content: center; gap: 16px;">
+        <button id="btn-next-level" class="btn btn-primary animate-pulse" style="display: none;">SONRAKİ SEVİYE</button>
+        <button id="btn-retry-level" class="btn btn-primary animate-pulse" style="display: none;">TEKRAR DENE</button>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- GÜNLÜK GİRİŞ ÖDÜL MODALI -->
+  <div id="daily-reward-modal" class="modal-overlay">
+    <div class="modal-content daily-reward-modal-content">
+
+      <!-- Başlık -->
+      <div class="daily-reward-header">
+        <div class="daily-reward-stars">⭐ ⭐ ⭐</div>
+        <h2 class="daily-reward-title">Günlük Ödül!</h2>
+        <p class="daily-reward-subtitle">Her gün gir, ödülünü al! 🎁</p>
+      </div>
+
+      <!-- 7 Günlük Takvim Izgara -->
+      <div class="daily-reward-grid" id="daily-reward-grid">
+        <!-- JS ile doldurulacak -->
+      </div>
+
+      <!-- Bugünkü Büyük Ödül Gösterimi -->
+      <div class="daily-reward-today">
+        <div class="daily-reward-today-label">Bugünkü Ödülün</div>
+        <div class="daily-reward-today-icon" id="daily-reward-today-icon">🔨</div>
+        <div class="daily-reward-today-name" id="daily-reward-today-name">1× Çekiç</div>
+      </div>
+
+      <!-- Al Butonu -->
+      <button id="btn-claim-daily" class="daily-reward-claim-btn">
+        🎉 Ödülü Al!
+      </button>
+
+    </div>
+  </div>
+
+  <!-- GÜNLÜK ÇARKIFELEK MODALI (Daily Spin Wheel Modal) -->
+  <div id="spin-wheel-modal" class="modal-overlay">
+    <div class="modal-content spin-wheel-modal-content" style="border: 4px solid #fed330 !important; background: #131a1a !important; box-shadow: 0 0 25px rgba(254, 211, 48, 0.45) !important;">
+      <button class="modal-close-btn" id="btn-close-spin-modal">&times;</button>
+      <h2 class="modal-title" style="color: #fed330; font-size: 1.8rem; font-weight: 900; margin-bottom: 4px; text-align: left; width: 100%;">ŞANSLI ÇARK</h2>
+      
+      <!-- İstatistikler Row (Jeton ve Kalan Ücretsiz) -->
+      <div class="wheel-stats" style="display: flex; justify-content: space-between; margin: 10px 0 20px 0; font-weight: 800; font-size: 0.95rem; width: 100%; border-bottom: 1.5px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+        <span style="color: #ffffff; display: flex; align-items: center; gap: 4px;">Altın: <span id="wheel-gold-value" style="color: #ffd23f;">0</span> 🪙</span>
+        <span style="color: #ffffff;">Kalan Ücretsiz: <span id="wheel-free-spins" style="color: #4caf50;">1</span></span>
+      </div>
+      
+      <!-- Çark ve İşaretçi (Wheel and Pointer) -->
+      <div class="wheel-outer-container" style="margin-top: 10px;">
+        <div class="wheel-pointer" style="top: -15px; color: #fed330; font-size: 2.5rem; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));">▼</div>
+        <div class="wheel-main" id="wheel-main" style="border: 6px solid #fed330; background: #111416; overflow: hidden; padding: 0;">
+          <svg viewBox="0 0 260 260" width="100%" height="100%" style="display: block;">
+            <!-- Sektör Dilimleri -->
+            <path d="M 130 130 L 130 0 A 130 130 0 0 1 242.6 65 Z" fill="#00e5ff" />
+            <path d="M 130 130 L 242.6 65 A 130 130 0 0 1 242.6 195 Z" fill="#218c74" />
+            <path d="M 130 130 L 242.6 195 A 130 130 0 0 1 130 260 Z" fill="#fed330" />
+            <path d="M 130 130 L 130 260 A 130 130 0 0 1 17.4 195 Z" fill="#0984e3" />
+            <path d="M 130 130 L 17.4 195 A 130 130 0 0 1 17.4 65 Z" fill="#218c74" />
+            <path d="M 130 130 L 17.4 65 A 130 130 0 0 1 130 0 Z" fill="#a55eea" />
+            
+            <!-- Bölüm Çizgileri -->
+            <line x1="130" y1="130" x2="130" y2="0" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="242.6" y2="65" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="242.6" y2="195" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="130" y2="260" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="17.4" y2="195" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="17.4" y2="65" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" />
+            
+            <!-- Ödül Yazıları (Merkezden dışa doğru yatay yerleşim) -->
+            <g transform="rotate(-60 130 130)">
+              <text x="188" y="134" fill="#ffffff" font-size="11.5" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif">1 Bomba 💣</text>
+            </g>
+            <g transform="rotate(0 130 130)">
+              <text x="188" y="134" fill="#ffffff" font-size="11.5" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif">Boş 🍃</text>
+            </g>
+            <g transform="rotate(60 130 130)">
+              <text x="188" y="134" fill="#000000" font-size="11" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif">1 Çekiç 🔨</text>
+            </g>
+            <g transform="rotate(120 130 130)">
+              <text x="188" y="134" fill="#ffffff" font-size="11.5" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif">1 Balık 🐠</text>
+            </g>
+            <g transform="rotate(180 130 130)">
+              <text x="188" y="134" fill="#ffffff" font-size="11.5" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif">Boş 🍃</text>
+            </g>
+            <g transform="rotate(240 130 130)">
+              <text x="188" y="134" fill="#ffffff" font-size="11.5" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif">1 Sprey 🚀</text>
+            </g>
+          </svg>
+        </div>
+        <div class="wheel-center-hub"></div>
+      </div>
+      
+      <button id="btn-spin-wheel" class="modal-btn confirm-btn text-glow" style="width: 100%; max-width: 250px; padding: 14px 20px; border-radius: 20px; font-weight: 800; font-size: 1.15rem; cursor: pointer; margin-top: 24px;">DÖNDÜR</button>
+      <p id="spin-wheel-timer-msg" class="modal-subtitle" style="font-size: 0.85rem; color: #ff5252; margin-top: 12px; display: none; font-weight: 700;">Gelecek ücretsiz dönüşe kalan: <span id="spin-wheel-time-left"></span></p>
+    </div>
+  </div>
+
+  <!-- INBOX MODALI (Gelen Kutusu Modali) -->
+  <div id="inbox-modal" class="modal-overlay">
+    <div class="modal-content inbox-modal-content" style="border: 4px solid #7c4dff !important; background: #131a1a !important; box-shadow: 0 0 25px rgba(124, 77, 255, 0.45) !important; max-width: 420px; padding: 24px; border-radius: 24px;">
+      <button class="modal-close-btn" id="btn-close-inbox-modal" style="background: #ff5252; color: white; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 900; border: none; font-size: 1.25rem; top: 15px; right: 15px; position: absolute; cursor: pointer; padding: 0;">&times;</button>
+      
+      <h2 class="modal-title" style="color: #ffd23f; font-size: 1.8rem; font-weight: 900; margin-bottom: 4px; text-align: left; width: 100%;">GELEN KUTUSU ✉️</h2>
+      <p class="modal-subtitle" style="font-size: 0.9rem; margin-bottom: 20px; text-align: left; color: #aaa;">Bildirimleri oku ve hediyelerini topla!</p>
+      
+      <!-- Mesaj Listesi Container -->
+      <div id="inbox-messages-list" style="width: 100%; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 4px;">
+        <!-- Mesaj kartları JavaScript ile eklenecek -->
+      </div>
+      
+      <!-- Toplu Hepsini Al Butonu -->
+      <button id="btn-claim-all-inbox" class="modal-btn confirm-btn text-glow" style="width: 100%; padding: 12px 20px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer; margin-top: 20px; background: linear-gradient(135deg, #7c4dff 0%, #e040fb 100%); border: none; color: white;">HEPSİNİ AL</button>
+    </div>
+  </div>
+
+  <!-- CAN REFILL MODALİ (Lives Refill Modal) -->
+  <div id="lives-refill-modal" class="modal-overlay">
+    <div class="modal-content lives-refill-modal-content">
+      <button class="modal-close-btn" id="btn-close-lives-modal">&times;</button>
+      <h2 class="modal-title text-glow" style="color: #ff3366; font-size: 1.8rem; margin-bottom: 8px;">Canınız Bitti! ❤️</h2>
+      <p class="modal-subtitle" style="font-size: 0.9rem; margin-bottom: 20px;">Oynamaya devam etmek için canınız kalmadı.</p>
+      
+      <div class="lives-refill-options" style="margin: 20px 0;">
+        <span style="font-size: 4.5rem; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));">❤️🩹</span>
+        <p style="font-size: 1rem; margin-top: 10px; color: #ffffff;">Tüm canlarınızı <strong>150 Altın</strong> karşılığında anında doldurabilirsiniz!</p>
+      </div>
+      
+      <button id="btn-refill-lives-gold" class="modal-btn confirm-btn text-glow" style="width: 100%; max-width: 250px; padding: 14px 20px; border-radius: 16px; font-weight: 800; font-size: 1.2rem; cursor: pointer; background: #4caf50; border: none; color: white;">150 ALTIN İLE DOLDUR</button>
+      <p class="modal-subtitle" style="font-size: 0.85rem; color: #aaa; margin-top: 12px;">Veya yeni bir canın yenilenmesini bekleyin.</p>
+    </div>
+  </div>
+
+  <!-- SVG Şeker Şablonları (Candy Crush Klasik Tasarımları) -->
+  <div style="position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none;">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Yumuşak Gölgelendirme -->
+        <filter id="shadow-candy" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2.5" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.3"/>
+        </filter>
+        
+        <!-- 1. Kırmızı Çilek/Jelly Bean Şeker (Classic Candy Crush Glossy Red Jelly Bean) -->
+        <g id="candy-red">
+          <radialGradient id="grad-red" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#ffb7b2"/>
+            <stop offset="60%" stop-color="#ff003c"/>
+            <stop offset="100%" stop-color="#6e0018"/>
+          </radialGradient>
+          <!-- Jelly bean capsule shape, rotated like classic Candy Crush -->
+          <rect x="9" y="14" width="30" height="20" rx="10" ry="10" transform="rotate(-30 24 24)" fill="url(#grad-red)" filter="url(#shadow-candy)"/>
+          <!-- Glossy reflection curve -->
+          <ellipse cx="20" cy="18" rx="8" ry="3" transform="rotate(-30 20 18)" fill="#ffffff" opacity="0.65"/>
+          <!-- Star sparkle highlight -->
+          <circle cx="16" cy="17" r="1.5" fill="#ffffff" opacity="0.85"/>
+        </g>
+
+        <!-- 2. Turuncu Oval Şeker (Classic Candy Crush Orange Oval) -->
+        <g id="candy-orange">
+          <radialGradient id="grad-orange" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#fff3e0"/>
+            <stop offset="50%" stop-color="#ff7043"/>
+            <stop offset="100%" stop-color="#d84315"/>
+          </radialGradient>
+          <!-- Horizontal capsule/oval flat bottom/top -->
+          <rect x="7" y="13" width="34" height="22" rx="11" ry="11" fill="url(#grad-orange)" filter="url(#shadow-candy)"/>
+          <!-- Top edge highlight -->
+          <ellipse cx="24" cy="18" rx="12" ry="4" fill="#ffffff" opacity="0.6"/>
+          <!-- Small lens gloss spot -->
+          <circle cx="14" cy="19" r="1.8" fill="#ffffff" opacity="0.85"/>
+        </g>
+
+        <!-- 3. Sarı Limon Damla Şeker (Classic Candy Crush Yellow Lemon Drop) -->
+        <g id="candy-yellow">
+          <radialGradient id="grad-yellow" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fffde7"/>
+            <stop offset="55%" stop-color="#ffee58"/>
+            <stop offset="100%" stop-color="#f57f17"/>
+          </radialGradient>
+          <!-- Classic tear drop shape pointed at the top -->
+          <path d="M24,5 C24,5 40,21 40,32 C40,40 33,42 24,42 C15,42 8,40 8,32 C8,21 24,5 24,5 Z" fill="url(#grad-yellow)" filter="url(#shadow-candy)"/>
+          <!-- Inner highlight curve -->
+          <path d="M24,8 C24,8 37,21 37,32 C37,37 31,39 24,39" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.5"/>
+          <!-- Glossy reflection -->
+          <ellipse cx="17" cy="27" rx="4.5" ry="2.2" transform="rotate(-35 17 27)" fill="#ffffff" opacity="0.8"/>
+        </g>
+
+        <!-- 4. Yeşil Kare Küp Şeker (Classic Candy Crush Green Square) -->
+        <g id="candy-green">
+          <radialGradient id="grad-green" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#f1f8e9"/>
+            <stop offset="55%" stop-color="#66bb6a"/>
+            <stop offset="100%" stop-color="#004d40"/>
+          </radialGradient>
+          <!-- Rounded square cube -->
+          <rect x="8" y="8" width="32" height="32" rx="7.5" ry="7.5" fill="url(#grad-green)" filter="url(#shadow-candy)"/>
+          <!-- Inner glossy border stroke -->
+          <rect x="10" y="10" width="28" height="28" rx="5.5" ry="5.5" fill="none" stroke="#ffffff" stroke-width="1.8" opacity="0.55"/>
+          <!-- Top curved highlight -->
+          <path d="M11,13 Q24,9 37,13" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+        </g>
+
+        <!-- 5. Mavi Küre Şeker (Classic Candy Crush Blue Lollipop Head) -->
+        <g id="candy-blue">
+          <radialGradient id="grad-blue" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#e0f7fa"/>
+            <stop offset="50%" stop-color="#0288d1"/>
+            <stop offset="100%" stop-color="#0d47a1"/>
+          </radialGradient>
+          <!-- Perfect blue sphere circle -->
+          <circle cx="24" cy="24" r="17" fill="url(#grad-blue)" filter="url(#shadow-candy)"/>
+          <!-- Top crescent sphere gloss -->
+          <ellipse cx="20" cy="15" rx="8" ry="3.5" transform="rotate(-30 20 15)" fill="#ffffff" opacity="0.8"/>
+          <circle cx="15" cy="14" r="1.5" fill="#ffffff" opacity="0.85"/>
+        </g>
+
+        <!-- 6. Mor Çiçek/Üzüm Şekeri (Classic Candy Crush Purple Cluster) -->
+        <g id="candy-purple">
+          <radialGradient id="grad-purple" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#fce4ec"/>
+            <stop offset="60%" stop-color="#ec407a"/>
+            <stop offset="100%" stop-color="#880e4f"/>
+          </radialGradient>
+          <!-- Grape cluster-like cloud/flower shape -->
+          <path d="M24,7 C29,7 33,11 34,16 C38,16 41,19 41,23 C41,27 38,30 35,30 C33,35 29,38 24,38 C19,38 15,35 13,30 C10,30 7,27 7,23 C7,19 10,16 14,16 C15,11 19,7 24,7 Z" fill="url(#grad-purple)" filter="url(#shadow-candy)"/>
+          <!-- Spherical top gloss overlay -->
+          <ellipse cx="24" cy="14" rx="7" ry="3" fill="#ffffff" opacity="0.75"/>
+          <circle cx="18" cy="14" r="1.5" fill="#ffffff" opacity="0.8"/>
+        </g>
+
+
+        <!-- Özel Bomba Şekeri Efekti (Glowing starburst outline wrapper) -->
+        <!-- Özel Paket Şeker Efekti (Wrapped Candy Crinkled Bag) -->
+        <g id="special-wrapped">
+          <!-- Transparan crinkled dış plastik poşet paket -->
+          <path d="M 8 8 L 12 5 L 16 8 L 20 5 L 24 8 L 28 5 L 32 8 L 36 5 L 40 8 L 43 12 L 40 16 L 43 20 L 40 24 L 43 28 L 40 32 L 43 36 L 40 40 L 36 43 L 32 40 L 28 43 L 24 40 L 20 43 L 16 40 L 12 43 L 8 40 L 5 36 L 8 32 L 5 28 L 8 24 L 5 20 L 8 16 L 5 12 Z" 
+                fill="rgba(255, 255, 255, 0.22)" 
+                stroke="rgba(255, 255, 255, 0.65)" 
+                stroke-width="1.8" 
+                filter="url(#shadow-candy)" />
+          <!-- Parlama efekti -->
+          <path d="M 12 12 Q 24 15 36 12" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6" />
+        </g>
+
+        <!-- 7. Çikolata Renk Bombası (Chocolate Color Bomb with Sprinkles) -->
+        <g id="candy-bomb">
+          <radialGradient id="grad-bomb-base" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#8d6e63" />  <!-- Açık çikolata kahvesi -->
+            <stop offset="60%" stop-color="#4e342e" /> <!-- Koyu çikolata -->
+            <stop offset="100%" stop-color="#2d1510" /> <!-- Derin gölge kahvesi -->
+          </radialGradient>
+          
+          <!-- Çikolata Gövde -->
+          <circle cx="24" cy="24" r="18" fill="url(#grad-bomb-base)" filter="url(#shadow-candy)"/>
+          
+          <!-- Renkli Drajeler / Sprinkles -->
+          <linearGradient id="sp-blue" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#e0f7fa"/><stop offset="40%" stop-color="#0288d1"/><stop offset="100%" stop-color="#01579b"/>
+          </linearGradient>
+          <linearGradient id="sp-yellow" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#fffde7"/><stop offset="40%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#ff8f00"/>
+          </linearGradient>
+          <linearGradient id="sp-green" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#e8f5e9"/><stop offset="40%" stop-color="#4caf50"/><stop offset="100%" stop-color="#1b5e20"/>
+          </linearGradient>
+          <linearGradient id="sp-pink" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#fce4ec"/><stop offset="40%" stop-color="#ec407a"/><stop offset="100%" stop-color="#880e4f"/>
+          </linearGradient>
+          <linearGradient id="sp-red" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ffebee"/><stop offset="40%" stop-color="#f44336"/><stop offset="100%" stop-color="#b71c1c"/>
+          </linearGradient>
+          <linearGradient id="sp-white" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ffffff"/><stop offset="60%" stop-color="#cfd8dc"/><stop offset="100%" stop-color="#78909c"/>
+          </linearGradient>
+
+          <!-- Yüzeydeki Drajeler -->
+          <circle cx="15" cy="18" r="2.8" fill="url(#sp-pink)"/>
+          <circle cx="15" cy="18" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="14.2" cy="16.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+
+          <circle cx="21" cy="13" r="3.2" fill="url(#sp-yellow)"/>
+          <circle cx="21" cy="13" r="3.2" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="20" cy="11.5" r="0.9" fill="#ffffff" opacity="0.8"/>
+
+          <circle cx="28" cy="15" r="2.8" fill="url(#sp-blue)"/>
+          <circle cx="28" cy="15" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="27.2" cy="13.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+
+          <circle cx="34" cy="20" r="3" fill="url(#sp-green)"/>
+          <circle cx="34" cy="20" r="3" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="33" cy="18.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+
+          <circle cx="33" cy="29" r="3.2" fill="url(#sp-pink)"/>
+          <circle cx="33" cy="29" r="3.2" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="32" cy="27.5" r="0.9" fill="#ffffff" opacity="0.8"/>
+
+          <circle cx="27" cy="35" r="2.8" fill="url(#sp-yellow)"/>
+          <circle cx="27" cy="35" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="26.2" cy="33.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+
+          <circle cx="19" cy="34" r="3" fill="url(#sp-blue)"/>
+          <circle cx="19" cy="34" r="3" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="18" cy="32.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+
+          <circle cx="13" cy="27" r="2.8" fill="url(#sp-green)"/>
+          <circle cx="13" cy="27" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="12.2" cy="25.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+
+          <circle cx="24" cy="24" r="3.2" fill="url(#sp-red)"/>
+          <circle cx="24" cy="24" r="3.2" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="23" cy="22.5" r="0.9" fill="#ffffff" opacity="0.8"/>
+
+          <circle cx="20" cy="24" r="2.8" fill="url(#sp-white)"/>
+          <circle cx="20" cy="24" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="19.2" cy="22.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+
+          <circle cx="28" cy="23" r="2.8" fill="url(#sp-yellow)"/>
+          <circle cx="28" cy="23" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="27.2" cy="21.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+
+          <!-- Dışarı Taşan Küresel Drajeler (3D efekti verir) -->
+          <path d="M 6 20 A 3 3 0 0 1 7 26 Z" fill="url(#sp-white)" opacity="0.95"/>
+          <path d="M 41 18 A 3 3 0 0 1 42 24 Z" fill="url(#sp-red)" opacity="0.95"/>
+          <path d="M 22 5 A 3 3 0 0 1 27 6 Z" fill="url(#sp-blue)" opacity="0.95"/>
+          <path d="M 18 42 A 3 3 0 0 1 23 43 Z" fill="url(#sp-green)" opacity="0.95"/>
+
+          <!-- 3D Küresel Parlama Overlay -->
+          <ellipse cx="20" cy="14" rx="8" ry="3.5" transform="rotate(-30 20 14)" fill="#ffffff" opacity="0.3"/>
+          <circle cx="15" cy="12" r="1.5" fill="#ffffff" opacity="0.6"/>
+        </g>
+        
+        <!-- 8. Jöle Balığı (Jelly Fish) Şeker Şablonu -->
+        <g id="candy-fish-shape">
+          <!-- Body and Tail -->
+          <path d="M38,24 C38,15 28,11 20,16 C13,12 8,9 8,16 C10,20 11,22 9,24 C11,26 10,28 8,32 C8,39 13,36 20,32 C28,37 38,33 38,24 Z" filter="url(#shadow-candy)"/>
+          <!-- Highlight curve -->
+          <path d="M22,15 C26,14 30,16 32,20" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+          <!-- Blush -->
+          <circle cx="26" cy="23" r="2" fill="#ff7675" opacity="0.6"/>
+          <!-- Eye white -->
+          <circle cx="28" cy="20" r="3" fill="#ffffff"/>
+          <!-- Pupil -->
+          <circle cx="29" cy="20" r="1.2" fill="#000000"/>
+        </g>
+        <!-- Çizgili Şeker Degradeleri (Alternating White and Base Colors) -->
+        <linearGradient id="grad-red-striped-h" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ff3366" /><stop offset="14%" stop-color="#ff3366" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#b3002d" /><stop offset="42%" stop-color="#b3002d" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ff3366" /><stop offset="70%" stop-color="#ff3366" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#b3002d" /><stop offset="100%" stop-color="#b3002d" />
+        </linearGradient>
+        <linearGradient id="grad-red-striped-v" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#ff3366" /><stop offset="14%" stop-color="#ff3366" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#b3002d" /><stop offset="42%" stop-color="#b3002d" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ff3366" /><stop offset="70%" stop-color="#ff3366" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#b3002d" /><stop offset="100%" stop-color="#b3002d" />
+        </linearGradient>
+
+        <linearGradient id="grad-orange-striped-h" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ff7f3f" /><stop offset="14%" stop-color="#ff7f3f" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#d32f2f" /><stop offset="42%" stop-color="#d32f2f" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ff7f3f" /><stop offset="70%" stop-color="#ff7f3f" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#d32f2f" /><stop offset="100%" stop-color="#d32f2f" />
+        </linearGradient>
+        <linearGradient id="grad-orange-striped-v" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#ff7f3f" /><stop offset="14%" stop-color="#ff7f3f" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#d32f2f" /><stop offset="42%" stop-color="#d32f2f" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ff7f3f" /><stop offset="70%" stop-color="#ff7f3f" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#d32f2f" /><stop offset="100%" stop-color="#d32f2f" />
+        </linearGradient>
+
+        <linearGradient id="grad-yellow-striped-h" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffea00" /><stop offset="14%" stop-color="#ffea00" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#e65100" /><stop offset="42%" stop-color="#e65100" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ffea00" /><stop offset="70%" stop-color="#ffea00" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#e65100" /><stop offset="100%" stop-color="#e65100" />
+        </linearGradient>
+        <linearGradient id="grad-yellow-striped-v" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#ffea00" /><stop offset="14%" stop-color="#ffea00" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#e65100" /><stop offset="42%" stop-color="#e65100" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ffea00" /><stop offset="70%" stop-color="#ffea00" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#e65100" /><stop offset="100%" stop-color="#e65100" />
+        </linearGradient>
+
+        <linearGradient id="grad-green-striped-h" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4caf50" /><stop offset="14%" stop-color="#4caf50" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#1b5e20" /><stop offset="42%" stop-color="#1b5e20" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#4caf50" /><stop offset="70%" stop-color="#4caf50" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#1b5e20" /><stop offset="100%" stop-color="#1b5e20" />
+        </linearGradient>
+        <linearGradient id="grad-green-striped-v" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#4caf50" /><stop offset="14%" stop-color="#4caf50" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#1b5e20" /><stop offset="42%" stop-color="#1b5e20" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#4caf50" /><stop offset="70%" stop-color="#4caf50" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#1b5e20" /><stop offset="100%" stop-color="#1b5e20" />
+        </linearGradient>
+
+        <linearGradient id="grad-blue-striped-h" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0288d1" /><stop offset="14%" stop-color="#0288d1" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#006064" /><stop offset="42%" stop-color="#006064" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#0288d1" /><stop offset="70%" stop-color="#0288d1" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#006064" /><stop offset="100%" stop-color="#006064" />
+        </linearGradient>
+        <linearGradient id="grad-blue-striped-v" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#0288d1" /><stop offset="14%" stop-color="#0288d1" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#006064" /><stop offset="42%" stop-color="#006064" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#0288d1" /><stop offset="70%" stop-color="#0288d1" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#006064" /><stop offset="100%" stop-color="#006064" />
+        </linearGradient>
+
+        <linearGradient id="grad-purple-striped-h" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ec407a" /><stop offset="14%" stop-color="#ec407a" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#880e4f" /><stop offset="42%" stop-color="#880e4f" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ec407a" /><stop offset="70%" stop-color="#ec407a" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#880e4f" /><stop offset="100%" stop-color="#880e4f" />
+        </linearGradient>
+        <linearGradient id="grad-purple-striped-v" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#ec407a" /><stop offset="14%" stop-color="#ec407a" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#880e4f" /><stop offset="42%" stop-color="#880e4f" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ec407a" /><stop offset="70%" stop-color="#ec407a" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#880e4f" /><stop offset="100%" stop-color="#880e4f" />
+        </linearGradient>
+
+        <!-- Kırmızı Çizgili Şeker Şablonları -->
+        <g id="candy-red-striped-h">
+          <path d="M24 6 C13 6, 8 16, 8 26 C8 38, 16 42, 24 42 C32 42, 40 38, 40 26 C40 16, 35 6, 24 6 Z" fill="url(#grad-red-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
+          <circle cx="18" cy="12" r="1.5" fill="#ffffff" opacity="0.6"/>
+        </g>
+        <g id="candy-red-striped-v">
+          <path d="M24 6 C13 6, 8 16, 8 26 C8 38, 16 42, 24 42 C32 42, 40 38, 40 26 C40 16, 35 6, 24 6 Z" fill="url(#grad-red-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
+          <circle cx="18" cy="12" r="1.5" fill="#ffffff" opacity="0.6"/>
+        </g>
+
+        <!-- Turuncu Çizgili Şeker Şablonları -->
+        <g id="candy-orange-striped-h">
+          <path d="M24 6 L40 24 L24 42 L8 24 Z" fill="url(#grad-orange-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="15" rx="6" ry="2.5" fill="#ffffff" opacity="0.65"/>
+          <circle cx="20" cy="13" r="1.2" fill="#ffffff" opacity="0.6"/>
+        </g>
+        <g id="candy-orange-striped-v">
+          <path d="M24 6 L40 24 L24 42 L8 24 Z" fill="url(#grad-orange-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="15" rx="6" ry="2.5" fill="#ffffff" opacity="0.65"/>
+          <circle cx="20" cy="13" r="1.2" fill="#ffffff" opacity="0.6"/>
+        </g>
+
+        <!-- Sarı Çizgili Şeker Şablonları -->
+        <g id="candy-yellow-striped-h">
+          <path d="M24 6 C24 6, 38 22, 38 31 C38 38, 32 42, 24 42 C16 42, 10 38, 10 31 C10 22, 24 6, 24 6 Z" fill="url(#grad-yellow-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="15" rx="7" ry="2.5" fill="#ffffff" opacity="0.65"/>
+          <circle cx="19" cy="13" r="1.2" fill="#ffffff" opacity="0.6"/>
+        </g>
+        <g id="candy-yellow-striped-v">
+          <path d="M24 6 C24 6, 38 22, 38 31 C38 38, 32 42, 24 42 C16 42, 10 38, 10 31 C10 22, 24 6, 24 6 Z" fill="url(#grad-yellow-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="15" rx="7" ry="2.5" fill="#ffffff" opacity="0.65"/>
+          <circle cx="19" cy="13" r="1.2" fill="#ffffff" opacity="0.6"/>
+        </g>
+
+        <!-- Yeşil Çizgili Şeker Şablonları -->
+        <g id="candy-green-striped-h">
+          <rect x="8" y="8" width="32" height="32" rx="8" ry="8" fill="url(#grad-green-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
+          <circle cx="18" cy="12" r="1.5" fill="#ffffff" opacity="0.6"/>
+        </g>
+        <g id="candy-green-striped-v">
+          <rect x="8" y="8" width="32" height="32" rx="8" ry="8" fill="url(#grad-green-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
+          <circle cx="18" cy="12" r="1.5" fill="#ffffff" opacity="0.6"/>
+        </g>
+
+        <!-- Mavi Çizgili Şeker Şablonları -->
+        <g id="candy-blue-striped-h">
+          <rect x="7" y="11" width="34" height="26" rx="13" ry="13" fill="url(#grad-blue-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="18" rx="12" ry="4" fill="#ffffff" opacity="0.65"/>
+        </g>
+        <g id="candy-blue-striped-v">
+          <rect x="7" y="11" width="34" height="26" rx="13" ry="13" fill="url(#grad-blue-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="18" rx="12" ry="4" fill="#ffffff" opacity="0.65"/>
+        </g>
+
+        <!-- Mor Çizgili Şeker Şablonları -->
+        <g id="candy-purple-striped-h">
+          <path d="M8 32 C8 20, 14 8, 24 8 C34 8, 40 20, 40 32 C40 39, 34 42, 24 42 C14 42, 8 39, 8 32 Z" fill="url(#grad-purple-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
+        </g>
+        <g id="candy-purple-striped-v">
+          <path d="M8 32 C8 20, 14 8, 24 8 C34 8, 40 20, 40 32 C40 39, 34 42, 24 42 C14 42, 8 39, 8 32 Z" fill="url(#grad-purple-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
+        </g>
+      </defs>
+    </svg>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

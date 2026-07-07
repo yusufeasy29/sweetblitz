@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Hesabı ile Oturum Açın</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      background-color: #f0f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 40px;
+      width: 100%;
+      max-width: 450px;
+      min-height: 500px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #e0e0e0;
+    }
+
+    .google-logo {
+      width: 75px;
+      height: 24px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #1f1f1f;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    p.subtitle {
+      font-size: 0.95rem;
+      color: #444746;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .accounts-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .account-item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #c7c7c7;
+      border-radius: 12px;
+      cursor: pointer;
+      background: #ffffff;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .account-item:hover {
+      background: #f7f9fc;
+      border-color: #0b57d0;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      color: white;
+      margin-right: 16px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .avatar-red { background-color: #ea4335; }
+    .avatar-blue { background-color: #1a73e8; }
+    .avatar-green { background-color: #34a853; }
+    .avatar-purple { background-color: #8e24aa; }
+
+    .account-details {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .account-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1f1f1f;
+    }
+
+    .account-email {
+      font-size: 0.8rem;
+      color: #5f6368;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background-color: #e0e0e0;
+      margin: 16px 0;
+    }
+
+    .btn-use-other {
+      background: none;
+      border: none;
+      color: #0b57d0;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 4px;
+      transition: background 0.2s;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-use-other:hover {
+      background: #f1f3f4;
+    }
+
+    /* Custom Form */
+    .custom-form {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .input-group label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #444746;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #747775;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      color: #1f1f1f;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: #0b57d0;
+      border-width: 2px;
+      padding: 11px 15px; /* keep height same */
+    }
+
+    .form-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 12px;
+      width: 100%;
+    }
+
+    .btn-form {
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-cancel {
+      background: none;
+      color: #0b57d0;
+    }
+
+    .btn-cancel:hover {
+      background: #f1f3f4;
+    }
+
+    .btn-submit {
+      background: #0b57d0;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background: #0842a0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    /* Loading Screen overlay */
+    .loading-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #ffffff;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    /* Google Circular Spinner Animation */
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #4285F4;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite, colorChange 3s linear infinite;
+      margin-bottom: 24px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes colorChange {
+      0%, 100% { border-top-color: #4285F4; } /* Blue */
+      25% { border-top-color: #EA4335; }      /* Red */
+      50% { border-top-color: #FBBC05; }      /* Yellow */
+      75% { border-top-color: #34A853; }      /* Green */
+    }
+
+    .loading-text {
+      font-size: 1.1rem;
+      color: #1f1f1f;
+      font-weight: 400;
+    }
+
+    .loading-email {
+      font-size: 0.85rem;
+      color: #5f6368;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+    <!-- Google Logo SVG -->
+    <svg class="google-logo" viewBox="0 0 74 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.24 11.2V9.06h8.24c.08.45.12.92.12 1.48 0 1.8-.49 3.52-1.39 4.88-1.04 1.57-2.6 2.76-4.52 3.32C9.77 19.3 7.6 19 5.86 17.92A9.4 9.4 0 0 1 2 10c0-2.8 1.14-5.38 3.14-7.23C7.03 1.03 9.77.34 12.3.82c2.14.4 4.02 1.62 5.25 3.37l-1.92 1.93a6.83 6.83 0 0 0-3.66-2.02c-1.89-.35-3.93.18-5.38 1.39C5.1 6.83 4.3 8.79 4.3 10.82c0 2.2 1.05 4.3 2.8 5.56 1.49 1.08 3.52 1.44 5.3 1.02a6.38 6.38 0 0 0 4.14-3.1 6.13 6.13 0 0 0 .66-3.1H9.24Z" fill="#4285F4"/>
+      <path d="M26.2 6.77c2.27 0 4.24 1.34 5 3.36.75 2 0 4.3-1.63 5.67a5.2 5.2 0 0 1-6.74 0c-1.63-1.37-2.38-3.67-1.63-5.67.76-2.02 2.73-3.36 5-3.36Zm0 2.15a3.1 3.1 0 0 0-2.85 3.08c0 1.7 1.25 3.1 2.85 3.1a3.1 3.1 0 0 0 2.85-3.1 3.1 3.1 0 0 0-2.85-3.08Z" fill="#EA4335"/>
+      <path d="M38.8 6.77c2.27 0 4.24 1.34 5 3.36.75 2 0 4.3-1.63 5.67a5.2 5.2 0 0 1-6.74 0c-1.63-1.37-2.38-3.67-1.63-5.67.76-2.02 2.73-3.36 5-3.36Zm0 2.15a3.1 3.1 0 0 0-2.85 3.08c0 1.7 1.25 3.1 2.85 3.1a3.1 3.1 0 0 0 2.85-3.1 3.1 3.1 0 0 0-2.85-3.08Z" fill="#FBBC05"/>
+      <path d="M51.2 6.77c1.78 0 3.38 1 4.19 2.53v-2.1h2.15v9.88c0 2.52-1.34 4.52-3.78 5.1a6.6 6.6 0 0 1-5.18-.5l.8-1.8c1.13.73 2.73.96 3.73.34 1.05-.66 1.48-1.95 1.48-3.2v-1.12c-.8 1.49-2.4 2.5-4.19 2.5-2.27 0-4.24-1.34-5-3.36a6.18 6.18 0 0 1 1.63-5.67 5.2 5.2 0 0 1 6.74 0c-.8 1.5-2.4 2.5-4.2 2.5Zm.15 2.15a3.1 3.1 0 0 0-2.85 3.08c0 1.7 1.25 3.1 2.85 3.1a3.1 3.1 0 0 0 2.85-3.1 3.1 3.1 0 0 0-2.85-3.08Z" fill="#4285F4"/>
+      <path d="M62.6.46h2.24v16.12h-2.24V.46Z" fill="#34A853"/>
+      <path d="M71.2 6.77c2.14 0 3.9 1.25 4.6 2.97l-6.83 2.8c-.4-1-.3-2.1.34-2.92.5-.66 1.24-1.02 1.9-1.02Zm.25 2.05c-.88 0-1.8.52-2.28 1.42l4.88-2c-.35-.86-1.38-1.42-2.6-1.42Z" fill="#EA4335"/>
+    </svg>
+
+    <h1>Bir hesap seçin</h1>
+    <p class="subtitle"><strong>Sweet Blitz</strong> uygulamasına devam etmek için</p>
+
+    <!-- Hesap Chooser Alanı -->
+    <div id="chooser-section" style="width: 100%;">
+      <div class="accounts-list">
+        <!-- Hesap 1 -->
+        <div class="account-item" onclick="loginWith('Ahmet Yılmaz', 'ahmet.yilmaz@gmail.com', 'avatar-blue', 'A')">
+          <div class="avatar avatar-blue">A</div>
+          <div class="account-details">
+            <span class="account-name">Ahmet Yılmaz</span>
+            <span class="account-email">ahmet.yilmaz@gmail.com</span>
+          </div>
+        </div>
+
+        <!-- Hesap 2 -->
+        <div class="account-item" onclick="loginWith('Zeynep Kaya', 'zeynep.kaya@gmail.com', 'avatar-purple', 'Z')">
+          <div class="avatar avatar-purple">Z</div>
+          <div class="account-details">
+            <span class="account-name">Zeynep Kaya</span>
+            <span class="account-email">zeynep.kaya@gmail.com</span>
+          </div>
+        </div>
+
+        <!-- Hesap 3 -->
+        <div class="account-item" onclick="loginWith('Misafir Oyuncu', 'guest.sweetblitz@gmail.com', 'avatar-green', 'M')">
+          <div class="avatar avatar-green">M</div>
+          <div class="account-details">
+            <span class="account-name">Misafir Oyuncu</span>
+            <span class="account-email">guest.sweetblitz@gmail.com</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <button class="btn-use-other" onclick="showCustomForm()">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #5f6368;">
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+        </svg>
+        Başka bir hesap kullan
+      </button>
+    </div>
+
+    <!-- Başka Hesap Giriş Formu -->
+    <form id="custom-login-form" class="custom-form" onsubmit="handleCustomSubmit(event)">
+      <div class="input-group">
+        <label for="input-name">Adınız Soyadınız</label>
+        <input type="text" id="input-name" required placeholder="Örn. Can Demir">
+      </div>
+      <div class="input-group">
+        <label for="input-email">E-posta Adresiniz</label>
+        <input type="email" id="input-email" required placeholder="Örn. candemir@gmail.com">
+      </div>
+      
+      <div class="form-buttons">
+        <button type="button" class="btn-form btn-cancel" onclick="showChooser()">İptal</button>
+        <button type="submit" class="btn-form btn-submit">Bağlan</button>
+      </div>
+    </form>
+
+    <!-- Yükleniyor Ekranı -->
+    <div id="loading-overlay" class="loading-overlay">
+      <div class="spinner"></div>
+      <span class="loading-text" id="loading-title">Oturum açılıyor...</span>
+      <span class="loading-email" id="loading-subtitle">Hesap kontrol ediliyor</span>
+    </div>
+  </div>
+
+  <script>
+    const chooserSec = document.getElementById('chooser-section');
+    const customForm = document.getElementById('custom-login-form');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const titleH1 = document.querySelector('h1');
+    const subtitleP = document.querySelector('p.subtitle');
+
+    function showCustomForm() {
+      chooserSec.style.display = 'none';
+      customForm.style.display = 'flex';
+      titleH1.innerText = 'Oturum Açın';
+    }
+
+    function showChooser() {
+      customForm.style.display = 'none';
+      chooserSec.style.display = 'block';
+      titleH1.innerText = 'Bir hesap seçin';
+    }
+
+    function loginWith(name, email, bgClass, letter) {
+      loadingOverlay.style.display = 'flex';
+      document.getElementById('loading-title').innerText = "Google Hesabına bağlanılıyor...";
+      document.getElementById('loading-subtitle').innerText = email;
+
+      // 1.2 saniye sonra veriyi geri yolla ve kapat
+      setTimeout(() => {
+        if (window.opener) {
+          window.opener.postMessage({
+            type: 'google-login-success',
+            name: name,
+            email: email,
+            bgClass: bgClass,
+            letter: letter
+          }, '*');
+        }
+        window.close();
+      }, 1200);
+    }
+
+    function handleCustomSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('input-name').value.trim();
+      const email = document.getElementById('input-email').value.trim();
+      const letter = name.charAt(0).toUpperCase() || 'G';
+      
+      // Randomly assign a class for custom inputs
+      const classes = ['avatar-blue', 'avatar-purple', 'avatar-green', 'avatar-red'];
+      const bgClass = classes[Math.floor(Math.random() * classes.length)];
+      
+      loginWith(name, email, bgClass, letter);
+    }
+  </script>
+</body>
+</html>
