@@ -395,134 +395,116 @@ body {
     linear-gradient(135deg, #c026d3 0%, #7c3aed 60%, #1e1b4b 100%);
 }
 
-/* --- PREMIUM GAME HUD HEADER --- */
-.game-header-premium {
+.game-header {
   width: 100%;
-  background: linear-gradient(180deg, #ff8fa1 0%, #ff527b 100%);
-  border: 3.5px solid #ffffff;
-  border-radius: 24px;
-  padding: 8px 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 
-    0 10px 24px rgba(255, 82, 123, 0.45), 
-    inset 0 3px 0 rgba(255, 255, 255, 0.55);
-  margin-top: env(safe-area-inset-top, 4px);
-  position: relative;
-  z-index: 100;
-}
-
-/* Sol: Hamle Sayısı Rozeti */
-.hud-moves-badge {
-  background: linear-gradient(135deg, #ffffff 0%, #ffebee 100%);
-  border: 3px solid #ff4081;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 
-    0 4px 10px rgba(0,0,0,0.18), 
-    inset 0 2px 4px rgba(255,255,255,0.8);
-  flex-shrink: 0;
-}
-
-.hud-moves-label {
-  font-size: 0.46rem;
-  font-weight: 900;
-  color: #e91e63;
-  letter-spacing: 0.4px;
-  line-height: 1;
-}
-
-.hud-moves-number {
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: #c2185b;
-  line-height: 1;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
-  font-family: var(--font-main);
-}
-
-/* Orta: İlerleme ve Hedefler */
-.hud-center-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 0.9fr 0.9fr 1.4fr 0.9fr;
   align-items: center;
   gap: 6px;
-  margin: 0 10px;
+  margin-top: env(safe-area-inset-top, 4px);
 }
 
-.star-progress-wrapper {
-  width: 95%;
-}
-
-#star-bar-container {
-  position: relative;
-  width: 100%;
-  height: 14px;
-  background: rgba(0, 0, 0, 0.28);
-  border-radius: 8px;
-  border: 2px solid #ffffff;
-  box-shadow: inset 0 2px 3px rgba(0,0,0,0.45);
-}
-
-#star-bar-progress {
-  background: linear-gradient(90deg, #ffea00 0%, #ff9100 100%);
-  height: 100%;
-  border-radius: 5px;
-  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.4);
-}
-
-/* Hedef Şekerlerin Listesi */
-.hud-targets-box {
-  background: rgba(0, 0, 0, 0.16);
+.hud-item, .score-container {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-radius: 12px;
-  padding: 3px 8px;
-  width: 100%;
-  max-width: 160px;
+  padding: 4px 2px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.25);
+  box-shadow: var(--glass-shadow);
+}
+
+.score-container {
+  padding: 6px 4px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(147, 51, 234, 0.5);
+}
+
+.hud-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+.hud-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.score-container .hud-value {
+  font-size: 1.25rem;
+  color: var(--accent-color);
+}
+
+/* Parlama efekti */
+.text-glow {
+  text-shadow: 0 0 10px rgba(255, 210, 63, 0.6);
+}
+
+/* Hedefler Paneli */
+.targets-container {
+  width: 100%;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--glass-shadow);
 }
 
 .targets-list {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  margin-top: 3px;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .target-card {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 2px 8px;
   transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.target-card svg {
-  width: 22px;
-  height: 22px;
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
-}
-
-.target-card .target-count {
-  font-size: 0.95rem;
-  font-weight: 900;
-  color: #ffffff;
-  text-shadow: 0 1.5px 3px rgba(0,0,0,0.6);
-  font-family: var(--font-main);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
 }
 
 .target-card.completed {
-  opacity: 0.6;
-  transform: scale(0.9);
+  background: rgba(76, 175, 80, 0.18);
+  border-color: rgba(76, 175, 80, 0.45);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.25);
+}
+
+.target-card svg {
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+}
+
+.target-card .target-count {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.target-card.completed .target-count {
+  color: #8bc34a;
+  text-shadow: 0 0 5px rgba(139, 195, 74, 0.5);
 }
 
 .target-card.bounce {
@@ -531,95 +513,7 @@ body {
 
 @keyframes targetBounce {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-}
-
-/* Sağ: Altın Çerçeveli Karakter */
-.hud-avatar-container {
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.hud-avatar-frame {
-  width: 58px;
-  height: 58px;
-  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.25));
-  transition: transform 0.2s ease;
-}
-
-.hud-avatar-container:hover .hud-avatar-frame {
-  transform: scale(1.05) rotate(2deg);
-}
-
-.hud-lives-badge {
-  position: absolute;
-  bottom: -4px;
-  background: linear-gradient(135deg, #ff4081 0%, #e91e63 100%);
-  border: 2px solid #ffffff;
-  border-radius: 12px;
-  padding: 1px 6px;
-  font-size: 0.62rem;
-  font-weight: 900;
-  color: #ffffff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.25);
-  white-space: nowrap;
-}
-
-/* İkincil Gösterge Paneli */
-.game-secondary-hud {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  border-radius: 14px;
-  padding: 5px 12px;
-  margin-top: 6px;
-  box-shadow: 
-    0 4px 10px rgba(0,0,0,0.1),
-    inset 0 1px 1px rgba(255,255,255,0.05);
-}
-
-.hud-sec-item {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.hud-sec-label {
-  font-size: 0.55rem;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.3px;
-}
-
-.hud-sec-value {
-  font-size: 0.85rem;
-  font-weight: 900;
-  color: #ffffff;
-  font-family: var(--font-main);
-}
-
-.score-item {
-  background: rgba(0, 0, 0, 0.15);
-  padding: 2px 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.world-name-val {
-  color: #ffd54f !important;
-  font-size: 0.72rem;
-  font-weight: 800;
-}
-
-.text-glow {
-  text-shadow: 0 0 8px rgba(255, 213, 79, 0.6);
+  50% { transform: scale(1.28); background: rgba(255, 255, 255, 0.2); }
 }
 
 /* Oyun Tahtası Alanı */
@@ -627,21 +521,13 @@ body {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background-color: #1a162b;
-  background-image: 
-    linear-gradient(45deg, #241e3d 25%, transparent 25%), 
-    linear-gradient(-45deg, #241e3d 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #241e3d 75%), 
-    linear-gradient(-45deg, transparent 75%, #241e3d 75%);
-  background-size: calc(200% / 8) calc(200% / 8); /* 8x8 checkerboard size */
-  background-position: 0 0, 0 0, 0 0, 0 0;
-  border: 7px solid #ffffff;
+  background: rgba(18, 7, 43, 0.55);
+  border: 4px solid rgba(244, 63, 194, 0.45);
   border-radius: 28px;
   overflow: hidden;
   box-shadow: 
-    0 16px 45px rgba(0,0,0,0.7),
-    0 0 30px rgba(255, 255, 255, 0.35),
-    inset 0 4px 10px rgba(0,0,0,0.8);
+    0 16px 40px rgba(0,0,0,0.6),
+    0 0 25px rgba(244, 63, 194, 0.25);
   margin: auto 0;
   touch-action: none;
 }
@@ -945,8 +831,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding-top: 6px;
+  justify-content: center;
   position: relative;
   cursor: pointer;
   transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -972,24 +857,18 @@ body {
 }
 
 .joker-icon {
-  font-size: 1.45rem;
+  font-size: 1.6rem;
   line-height: 1.1;
-  margin-bottom: 0px;
+  margin-bottom: 1px;
   filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
 }
 
 .joker-name {
-  font-size: 0.55rem;
-  font-weight: 900;
+  font-size: 0.58rem;
+  font-weight: 800;
   color: #ffffff;
-  letter-spacing: 0.3px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
-  position: absolute;
-  bottom: 7px;
-  width: 100%;
-  left: 0;
-  text-align: center;
-  pointer-events: none;
+  letter-spacing: 0.4px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
 .joker-badge {
@@ -1052,23 +931,20 @@ body {
 }
 
 .jelly-inner {
-  width: 94%;
-  height: 94%;
-  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.65) 0%, rgba(236, 72, 153, 0.38) 55%, rgba(190, 24, 93, 0.52) 100%);
-  border: 3px solid #ffffff;
-  border-radius: 16px;
-  box-shadow: 
-    0 4px 8px rgba(244, 63, 94, 0.22),
-    inset 0 4px 6px rgba(255, 255, 255, 0.7),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.18);
-  backdrop-filter: blur(1.5px);
-  -webkit-backdrop-filter: blur(1.5px);
-  animation: jellyWobble 2.5s infinite ease-in-out alternate;
+  width: 90%;
+  height: 90%;
+  background: rgba(236, 72, 153, 0.45); /* Parlak pembe cam jöle */
+  border: 2px solid rgba(244, 63, 94, 0.7);
+  border-radius: 14px;
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.5), 0 0 10px rgba(236, 72, 153, 0.4);
+  backdrop-filter: blur(2.5px);
+  -webkit-backdrop-filter: blur(2.5px);
+  animation: jellyWobble 2.2s infinite ease-in-out alternate;
 }
 
 @keyframes jellyWobble {
-  0% { transform: scale(0.95) rotate(-1deg); }
-  100% { transform: scale(1.03) rotate(1deg); }
+  0% { transform: scale(0.96) skewX(-1.5deg); }
+  100% { transform: scale(1.03) skewX(1.5deg); }
 }
 
 .jelly.cleared {
@@ -1345,11 +1221,9 @@ body {
 .map-sidebar {
   width: 75px;
   height: 100%;
-  background: linear-gradient(180deg, #ff8fa1 0%, #e02878 50%, #880e4f 100%);
-  border-right: 4px solid #ffffff;
-  box-shadow: 
-    5px 0 20px rgba(0, 0, 0, 0.4), 
-    inset -2px 0 0 rgba(0,0,0,0.15);
+  background: linear-gradient(180deg, #ff71ad 0%, #e02878 50%, #9c1550 100%);
+  border-right: 3px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1416,17 +1290,15 @@ body {
 
 /* Sidebar Item (Hearts, Gold, Letters) */
 .sidebar-item {
-  width: 58px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
-  border: 2px solid #ffffff;
-  border-radius: 18px;
+  width: 56px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
   padding: 6px 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 
-    0 4px 8px rgba(0,0,0,0.18),
-    inset 0 1.5px 1.5px rgba(255,255,255,0.4);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
   position: relative;
 }
 
@@ -1518,20 +1390,7 @@ body {
   width: 100%;
   height: 2500px; /* Yol uzunluğu */
   position: relative;
-  /* Premium Candy Land Cartoon Background Landscape */
-  background: 
-    radial-gradient(circle at 10% 15%, rgba(255,204,213,0.4) 0%, transparent 40%),
-    radial-gradient(circle at 85% 45%, rgba(224,247,250,0.5) 0%, transparent 35%),
-    radial-gradient(circle at 20% 75%, rgba(255,235,59,0.3) 0%, transparent 30%),
-    linear-gradient(180deg, 
-      #a0c4ff 0%,    /* Sky Blue */
-      #c1f0c8 15%,   /* Green Candy Hills */
-      #a8e6cf 35%,
-      #ffd3b6 50%,   /* Peach Desert */
-      #ffaaa5 65%,
-      #e8aeec 80%,   /* Lilac Mountain Land */
-      #ffccd5 100%   /* Pink Bubblegum Valley */
-    );
+  background: linear-gradient(180deg, #6ab04c 0%, #badc58 25%, #6ab04c 50%, #4834d4 62%, #130cb7 64%, #22a6b3 66%, #6ab04c 75%, #4beb10 100%);
   background-size: 100% 100%;
   overflow: hidden;
 }
@@ -1545,14 +1404,6 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 1;
-}
-
-/* Şeker Kamışı Kesikli Yol Çizgisi */
-#map-path-line {
-  stroke: #ff3366 !important; /* Canlı Şeker Pembesi */
-  stroke-width: 10px !important;
-  stroke-dasharray: 20, 15 !important;
-  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.35));
 }
 
 /* Dekoratif Katman */
@@ -1642,75 +1493,63 @@ body {
   height: 90px;
 }
 
+/* Düğmenin Kendisi */
 .level-node-btn {
-  width: 54px;
-  height: 54px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   font-family: var(--font-main);
-  font-size: 1.35rem;
-  font-weight: 900;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: white;
-  border: 3.5px solid #ffffff;
+  border: 3.5px solid #00f5d4; /* Neon cyan border */
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   outline: none;
-  box-shadow: 
-    0 6px 0 #e65100, 
-    0 8px 15px rgba(0,0,0,0.35),
-    inset 0 3px 5px rgba(255,255,255,0.6);
-  background: radial-gradient(circle at 35% 35%, #ffd54f 0%, #ff9800 60%, #ff5722 100%); /* Gold/Orange 3D button */
-  transition: all 0.1s ease;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 0 #0077b6, 0 10px 15px rgba(0,0,0,0.35); /* Deep blue 3D base */
+  background: radial-gradient(circle at 35% 35%, #ff007f 0%, #d90429 70%, #7209b7 100%); /* Vibrant magenta gradient */
+  transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   position: relative;
 }
 
 /* Düğmeye Tıklama Hissi */
 .level-node-btn:active {
   transform: translateY(3px);
-  box-shadow: 
-    0 3px 0 #e65100, 
-    0 4px 8px rgba(0,0,0,0.25),
-    inset 0 1.5px 3px rgba(255,255,255,0.4);
+  box-shadow: 0 2px 0 #bd3d07, 0 4px 6px rgba(0,0,0,0.25);
 }
 
 /* Kilitli Seviye Düğmesi */
 .level-node-wrapper.locked .level-node-btn {
-  background: radial-gradient(circle at 35% 35%, #cfd8dc 0%, #78909c 70%, #455a64 100%);
-  box-shadow: 
-    0 6px 0 #37474f, 
-    0 6px 10px rgba(0,0,0,0.2),
-    inset 0 2px 3px rgba(255,255,255,0.4);
-  border-color: #e2e8f0;
+  background: radial-gradient(circle at 35% 35%, #b2bec3 0%, #7f8c8d 80%, #34495e 100%);
+  box-shadow: 0 5px 0 #2c3e50, 0 6px 10px rgba(0,0,0,0.2);
+  border-color: #bdc3c7;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 .level-node-wrapper.locked .level-node-btn::after {
   content: '🔒';
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   position: absolute;
-  bottom: -2px; right: -2px;
-  background: rgba(0,0,0,0.6);
+  bottom: 0; right: 0;
+  background: rgba(0,0,0,0.5);
   border-radius: 50%;
   width: 18px;
   height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid white;
+  border: 1px solid white;
 }
 
 /* Aktif (Bir Sonraki Oynanacak) Seviye */
 .level-node-wrapper.active .level-node-btn {
-  background: radial-gradient(circle at 35% 35%, #ff8fa1 0%, #ff1744 65%, #c2185b 100%); /* Hot Pink 3D */
-  box-shadow: 
-    0 6px 0 #ad1457, 
-    0 0 18px rgba(255, 23, 68, 0.7),
-    inset 0 3px 5px rgba(255,255,255,0.6);
+  animation: pulseActiveNode 1.4s infinite alternate ease-in-out;
   border-color: #ffffff;
-  animation: pulseActiveNode 1.2s infinite alternate ease-in-out;
+  box-shadow: 0 6px 0 #005f73, 0 0 18px rgba(0, 245, 212, 0.9);
 }
 
 @keyframes pulseActiveNode {
@@ -2049,30 +1888,17 @@ body {
 }
 
 .chocolate-inner {
-  width: 94%;
-  height: 94%;
+  width: 92%;
+  height: 92%;
   position: relative;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #5c2f17 0%, #2b1207 100%);
-  border: 4.5px solid #3c1a0c;
-  box-shadow: 
-    0 5px 12px rgba(0,0,0,0.55),
-    inset 0 3px 5px rgba(255,255,255,0.22),
-    inset 0 -3px 5px rgba(0,0,0,0.7);
+  border-radius: 8px;
   overflow: hidden;
-}
-
-/* İç Bevel Bölmesi / Gerçek Çikolata Deseni */
-.chocolate-inner::before {
-  content: '';
-  position: absolute;
-  top: 4px; left: 4px; right: 4px; bottom: 4px;
-  background: linear-gradient(135deg, #6d3a1e 0%, #3e1b0d 100%);
-  border-radius: 6px;
-  box-shadow: 
-    inset 0 2px 2px rgba(255,255,255,0.3),
-    inset 0 -2px 2px rgba(0,0,0,0.6),
-    0 1.5px 3px rgba(0,0,0,0.45);
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.65),
+    0 1px 3px rgba(0,0,0,0.9),
+    inset 0 1px 2px rgba(255,200,80,0.15);
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #4d2b17 0%, #2b170c 100%);
 }
 
 .chocolate.cleared {

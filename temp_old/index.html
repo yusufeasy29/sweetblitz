@@ -293,96 +293,44 @@
     <!-- OYUN ALANI -->
     <div id="game-screen" class="screen">
 
-      <!-- Üst Gösterge Tablosu (HUD) - Premium Pink Panel -->
-      <header class="game-header-premium">
+      <!-- Üst Gösterge Tablosu (HUD) -->
+      <header class="game-header">
+        <!-- Canlar / Lives -->
+        <div class="hud-item lives-container" style="cursor: pointer;" onclick="showRefillLivesModal()">
+          <div class="hud-label">CAN</div>
+          <div id="header-lives-val" class="hud-value" style="color: #ff3366; display: flex; align-items: center; gap: 2px; line-height: 1; font-size: 1.25rem;">❤️ 5</div>
+          <span id="header-lives-timer" style="font-size: 0.55rem; color: #ff8f9c; margin-top: 2px; display: none; font-weight: bold;">00:00</span>
+        </div>
+
+        <div class="hud-item moves-container">
+          <div class="hud-label">HAMLE</div>
+          <div id="moves-left" class="hud-value" style="color: #ff3366; font-size: 1.35rem; font-weight: 900;">30</div>
+        </div>
         
-        <!-- Sol: Büyük Hamle Rozeti (Moves Badge) -->
-        <div class="hud-moves-badge">
-          <div class="hud-moves-label">HAMLE</div>
-          <div id="moves-left" class="hud-moves-number">30</div>
-        </div>
-
-        <!-- Orta: Yıldız İlerlemesi ve Bölüm Hedefleri -->
-        <div class="hud-center-panel">
-          <!-- Yıldız İlerleme Çubuğu -->
-          <div class="star-progress-wrapper">
-            <div id="star-bar-container">
-              <div id="star-bar-progress" style="width: 0%;"></div>
-              <div class="star-milestone star-1" id="star-milestone-1">⭐</div>
-              <div class="star-milestone star-2" id="star-milestone-2">⭐</div>
-              <div class="star-milestone star-3" id="star-milestone-3">⭐</div>
-            </div>
-          </div>
-          
-          <!-- Hedef Şeker Gösterim Kutusu -->
-          <div class="hud-targets-box">
-            <div id="targets-list" class="targets-list">
-              <!-- Dinamik hedef şeker kartları JS ile buraya eklenecek -->
-            </div>
+        <div class="score-container">
+          <div class="hud-label">SKOR</div>
+          <div id="score" class="hud-value text-glow">0</div>
+          <!-- Yıldız İlerleme Çubuğu (Star Progress Bar) -->
+          <div id="star-bar-container">
+            <div id="star-bar-progress" style="width: 0%;"></div>
+            <div class="star-milestone star-1" id="star-milestone-1" title="1 Yıldız">⭐</div>
+            <div class="star-milestone star-2" id="star-milestone-2" title="2 Yıldız">⭐</div>
+            <div class="star-milestone star-3" id="star-milestone-3" title="3 Yıldız">⭐</div>
           </div>
         </div>
 
-        <!-- Sağ: Altın Çerçeveli Karakter Avatarı -->
-        <div class="hud-avatar-container" onclick="showRefillLivesModal()" title="Canları yenile / Satın al">
-          <div class="hud-avatar-frame">
-            <svg viewBox="0 0 80 80">
-              <defs>
-                <linearGradient id="grad-gold-frame" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#ffe082" />
-                  <stop offset="50%" stop-color="#ffb300" />
-                  <stop offset="100%" stop-color="#ff8f00" />
-                </linearGradient>
-                <radialGradient id="grad-gold-frame-bg" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#fffde7" />
-                  <stop offset="70%" stop-color="#fff59d" />
-                  <stop offset="100%" stop-color="#ffe082" />
-                </radialGradient>
-              </defs>
-              <!-- Dış altın halka -->
-              <circle cx="40" cy="40" r="37" fill="url(#grad-gold-frame-bg)" stroke="url(#grad-gold-frame)" stroke-width="3" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.3))"/>
-              <circle cx="40" cy="40" r="31" fill="#fff9c4" stroke="#f57f17" stroke-width="1.5"/>
-              
-              <!-- Karakter: Şeker Prensesi -->
-              <circle cx="40" cy="44" r="21" fill="#ffe0b2"/>
-              <ellipse cx="40" cy="38" rx="18" ry="11" fill="#fff59d"/>
-              <!-- Saç & Kurdele -->
-              <path d="M 26 28 C 30 16, 50 16, 54 28 Z" fill="#ff4081"/>
-              <circle cx="40" cy="24" r="4.5" fill="#e91e63"/>
-              <!-- Gözler -->
-              <circle cx="34" cy="39" r="2.2" fill="#000000"/>
-              <circle cx="46" cy="39" r="2.2" fill="#000000"/>
-              <circle cx="35" cy="38" r="0.8" fill="#ffffff"/>
-              <circle cx="47" cy="38" r="0.8" fill="#ffffff"/>
-              <!-- Yanaklar -->
-              <circle cx="31" cy="44" r="3" fill="#ff8a80" opacity="0.6"/>
-              <circle cx="49" cy="44" r="3" fill="#ff8a80" opacity="0.6"/>
-              <!-- Ağız -->
-              <path d="M 37 46 Q 40 49 43 46" fill="none" stroke="#d84315" stroke-width="2" stroke-linecap="round"/>
-              <!-- Başındaki Yıldızlı Taç -->
-              <path d="M 40 12 L 42 16 L 46 16 L 43 19 L 45 23 L 40 20 L 35 23 L 37 19 L 34 16 L 38 16 Z" fill="#ffd54f" stroke="#ff8f00" stroke-width="0.8"/>
-            </svg>
-          </div>
-          <!-- Kalan Can Sayısı Küçük Rozet -->
-          <div class="hud-lives-badge">
-            <span id="header-lives-val">❤️ 5</span>
-            <span id="header-lives-timer" style="display: none;">00:00</span>
-          </div>
+        <div class="hud-item level-container">
+          <div class="hud-label">SEVİYE</div>
+          <div id="level" class="hud-value">1</div>
+          <div id="world-name" class="world-name">Şeker Ormanı</div>
         </div>
-
       </header>
 
-      <!-- Skor ve Bölüm Bilgisi (HUD Altı İkincil Gösterge) -->
-      <div class="game-secondary-hud">
-        <div class="hud-sec-item">
-          <span class="hud-sec-label">SEVİYE</span>
-          <span id="level" class="hud-sec-value">1</span>
-        </div>
-        <div class="hud-sec-item score-item">
-          <span class="hud-sec-label">SKOR</span>
-          <span id="score" class="hud-sec-value text-glow">0</span>
-        </div>
-        <div class="hud-sec-item">
-          <span id="world-name" class="hud-sec-value world-name-val">Şeker Ormanı</span>
+      <!-- Hedefler Paneli -->
+      <div class="targets-container">
+        <div class="hud-label">BÖLÜM HEDEFLERİ</div>
+        <div id="targets-list" class="targets-list">
+          <!-- Dinamik hedef şeker kartları JS ile buraya eklenecek -->
         </div>
       </div>
 
@@ -598,400 +546,403 @@
     </div>
   </div>
 
-  <!-- SVG Şeker Şablonları (Premium 3D Glossy Candy Crush Tasarımları) -->
+  <!-- SVG Şeker Şablonları (Candy Crush Klasik Tasarımları) -->
   <div style="position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none;">
     <svg xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <!-- 3D Gölgelendirme Filtresi -->
-        <filter id="shadow-candy" x="-30%" y="-30%" width="160%" height="160%">
-          <feDropShadow dx="0" dy="4" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.45"/>
+        <!-- Yumuşak Gölgelendirme -->
+        <filter id="shadow-candy" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2.5" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.3"/>
         </filter>
         
-        <!-- ==================== TEMEL ŞEKERLER ==================== -->
-
-        <!-- 1. Kırmızı Çilek/Jelly Bean (Classic Red Jelly Bean with 3D Specular Highlight) -->
+        <!-- 1. Kırmızı Çilek/Jelly Bean Şeker (Classic Candy Crush Glossy Red Jelly Bean) -->
         <g id="candy-red">
-          <radialGradient id="grad-red" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#ffccd5"/>
-            <stop offset="25%" stop-color="#ff4d6d"/>
-            <stop offset="75%" stop-color="#c9184a"/>
-            <stop offset="100%" stop-color="#590d22"/>
+          <radialGradient id="grad-red" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#ffb7b2"/>
+            <stop offset="60%" stop-color="#ff003c"/>
+            <stop offset="100%" stop-color="#6e0018"/>
           </radialGradient>
-          <!-- 3D Jellybean capsule, rotated like classic Candy Crush -->
+          <!-- Jelly bean capsule shape, rotated like classic Candy Crush -->
           <rect x="9" y="14" width="30" height="20" rx="10" ry="10" transform="rotate(-30 24 24)" fill="url(#grad-red)" filter="url(#shadow-candy)"/>
-          <!-- Parlak 3D Işık Yansıması (Glossy overlay) -->
-          <path d="M 12 17 C 16 11, 28 11, 31 16 Q 24 13 14 19 Z" fill="#ffffff" opacity="0.65" transform="rotate(-30 24 24)"/>
-          <!-- Ekstra küçük lens parlaması (Pinpoint glare) -->
-          <circle cx="16" cy="18" r="2" fill="#ffffff" opacity="0.85"/>
-          <circle cx="19" cy="15" r="0.8" fill="#ffffff" opacity="0.9"/>
+          <!-- Glossy reflection curve -->
+          <ellipse cx="20" cy="18" rx="8" ry="3" transform="rotate(-30 20 18)" fill="#ffffff" opacity="0.65"/>
+          <!-- Star sparkle highlight -->
+          <circle cx="16" cy="17" r="1.5" fill="#ffffff" opacity="0.85"/>
         </g>
 
-        <!-- 2. Turuncu Oval Şeker (Concentric 3D Orange Oval) -->
+        <!-- 2. Turuncu Oval Şeker (Classic Candy Crush Orange Oval) -->
         <g id="candy-orange">
           <radialGradient id="grad-orange" cx="35%" cy="35%" r="65%">
-            <stop offset="0%" stop-color="#ffe0b2"/>
-            <stop offset="35%" stop-color="#ffb74d"/>
-            <stop offset="80%" stop-color="#f57c00"/>
-            <stop offset="100%" stop-color="#802000"/>
+            <stop offset="0%" stop-color="#fff3e0"/>
+            <stop offset="50%" stop-color="#ff7043"/>
+            <stop offset="100%" stop-color="#d84315"/>
           </radialGradient>
+          <!-- Horizontal capsule/oval flat bottom/top -->
           <rect x="7" y="13" width="34" height="22" rx="11" ry="11" fill="url(#grad-orange)" filter="url(#shadow-candy)"/>
-          <!-- 3D Beyaz Hilal Hilali -->
-          <path d="M 11 17 C 15 14, 31 14, 36 17 Q 24 12 12 18 Z" fill="#ffffff" opacity="0.65"/>
-          <!-- Alt yumuşak turuncu ışık yansıması -->
-          <ellipse cx="24" cy="30" rx="11" ry="2.5" fill="#ffd54f" opacity="0.3"/>
-          <circle cx="13" cy="19" r="2.2" fill="#ffffff" opacity="0.85"/>
+          <!-- Top edge highlight -->
+          <ellipse cx="24" cy="18" rx="12" ry="4" fill="#ffffff" opacity="0.6"/>
+          <!-- Small lens gloss spot -->
+          <circle cx="14" cy="19" r="1.8" fill="#ffffff" opacity="0.85"/>
         </g>
 
-        <!-- 3. Sarı Limon Damlası (Pointed 3D Lemon Drop with Inner Shadow) -->
+        <!-- 3. Sarı Limon Damla Şeker (Classic Candy Crush Yellow Lemon Drop) -->
         <g id="candy-yellow">
-          <radialGradient id="grad-yellow" cx="30%" cy="35%" r="70%">
+          <radialGradient id="grad-yellow" cx="35%" cy="30%" r="65%">
             <stop offset="0%" stop-color="#fffde7"/>
-            <stop offset="30%" stop-color="#fff176"/>
-            <stop offset="75%" stop-color="#fbc02d"/>
+            <stop offset="55%" stop-color="#ffee58"/>
             <stop offset="100%" stop-color="#f57f17"/>
           </radialGradient>
+          <!-- Classic tear drop shape pointed at the top -->
           <path d="M24,5 C24,5 40,21 40,32 C40,40 33,42 24,42 C15,42 8,40 8,32 C8,21 24,5 24,5 Z" fill="url(#grad-yellow)" filter="url(#shadow-candy)"/>
-          <!-- İç 3D Kontur Işığı -->
-          <path d="M24,8 C24,8 37,21 37,32 C37,36 32,39 24,39" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-          <!-- Glossy reflection oval -->
-          <ellipse cx="18" cy="28" rx="5" ry="2.5" transform="rotate(-35 18 28)" fill="#ffffff" opacity="0.8"/>
-          <circle cx="19" cy="25" r="1" fill="#ffffff" opacity="0.9"/>
+          <!-- Inner highlight curve -->
+          <path d="M24,8 C24,8 37,21 37,32 C37,37 31,39 24,39" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.5"/>
+          <!-- Glossy reflection -->
+          <ellipse cx="17" cy="27" rx="4.5" ry="2.2" transform="rotate(-35 17 27)" fill="#ffffff" opacity="0.8"/>
         </g>
 
-        <!-- 4. Yeşil Kare Şeker (Rounded 3D Green Jelly Cube) -->
+        <!-- 4. Yeşil Kare Küp Şeker (Classic Candy Crush Green Square) -->
         <g id="candy-green">
-          <radialGradient id="grad-green" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#e8f5e9"/>
-            <stop offset="30%" stop-color="#81c784"/>
-            <stop offset="75%" stop-color="#388e3c"/>
-            <stop offset="100%" stop-color="#0b4614"/>
+          <radialGradient id="grad-green" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#f1f8e9"/>
+            <stop offset="55%" stop-color="#66bb6a"/>
+            <stop offset="100%" stop-color="#004d40"/>
           </radialGradient>
-          <rect x="8" y="8" width="32" height="32" rx="9" ry="9" fill="url(#grad-green)" filter="url(#shadow-candy)"/>
-          <!-- İç cam efekti çerçevesi -->
-          <rect x="10" y="10" width="28" height="28" rx="7" ry="7" fill="none" stroke="#ffffff" stroke-width="2.2" opacity="0.55"/>
-          <!-- Üst beyaz jel parlaması -->
-          <path d="M 12 13 Q 24 9 36 13" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
-          <circle cx="14" cy="15" r="1.5" fill="#ffffff" opacity="0.9"/>
+          <!-- Rounded square cube -->
+          <rect x="8" y="8" width="32" height="32" rx="7.5" ry="7.5" fill="url(#grad-green)" filter="url(#shadow-candy)"/>
+          <!-- Inner glossy border stroke -->
+          <rect x="10" y="10" width="28" height="28" rx="5.5" ry="5.5" fill="none" stroke="#ffffff" stroke-width="1.8" opacity="0.55"/>
+          <!-- Top curved highlight -->
+          <path d="M11,13 Q24,9 37,13" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
         </g>
 
-        <!-- 5. Mavi Küre Şeker (Glossy 3D Blue Sphere Lollipop) -->
+        <!-- 5. Mavi Küre Şeker (Classic Candy Crush Blue Lollipop Head) -->
         <g id="candy-blue">
-          <radialGradient id="grad-blue" cx="30%" cy="30%" r="70%">
+          <radialGradient id="grad-blue" cx="35%" cy="30%" r="70%">
             <stop offset="0%" stop-color="#e0f7fa"/>
-            <stop offset="30%" stop-color="#4fc3f7"/>
-            <stop offset="75%" stop-color="#0288d1"/>
+            <stop offset="50%" stop-color="#0288d1"/>
             <stop offset="100%" stop-color="#0d47a1"/>
           </radialGradient>
+          <!-- Perfect blue sphere circle -->
           <circle cx="24" cy="24" r="17" fill="url(#grad-blue)" filter="url(#shadow-candy)"/>
-          <!-- Üst küresel parlama bandı -->
-          <ellipse cx="20" cy="15" rx="8.5" ry="4" transform="rotate(-30 20 15)" fill="#ffffff" opacity="0.75"/>
-          <!-- Küçük yan parıldama -->
-          <circle cx="15" cy="14" r="1.8" fill="#ffffff" opacity="0.85"/>
-          <circle cx="31" cy="31" r="2" fill="#ffffff" opacity="0.25"/> <!-- Karşı yansıma -->
+          <!-- Top crescent sphere gloss -->
+          <ellipse cx="20" cy="15" rx="8" ry="3.5" transform="rotate(-30 20 15)" fill="#ffffff" opacity="0.8"/>
+          <circle cx="15" cy="14" r="1.5" fill="#ffffff" opacity="0.85"/>
         </g>
 
-        <!-- 6. Mor Çiçek/Üzüm (Glossy 3D Purple Grape Cluster) -->
+        <!-- 6. Mor Çiçek/Üzüm Şekeri (Classic Candy Crush Purple Cluster) -->
         <g id="candy-purple">
-          <radialGradient id="grad-purple" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#f3e5f5"/>
-            <stop offset="30%" stop-color="#ba68c8"/>
-            <stop offset="75%" stop-color="#7b1fa2"/>
-            <stop offset="100%" stop-color="#4a0072"/>
+          <radialGradient id="grad-purple" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#fce4ec"/>
+            <stop offset="60%" stop-color="#ec407a"/>
+            <stop offset="100%" stop-color="#880e4f"/>
           </radialGradient>
+          <!-- Grape cluster-like cloud/flower shape -->
           <path d="M24,7 C29,7 33,11 34,16 C38,16 41,19 41,23 C41,27 38,30 35,30 C33,35 29,38 24,38 C19,38 15,35 13,30 C10,30 7,27 7,23 C7,19 10,16 14,16 C15,11 19,7 24,7 Z" fill="url(#grad-purple)" filter="url(#shadow-candy)"/>
-          <!-- Küresel üst yansıma -->
-          <ellipse cx="24" cy="14" rx="8" ry="3.5" fill="#ffffff" opacity="0.75"/>
-          <circle cx="18" cy="13" r="1.6" fill="#ffffff" opacity="0.85"/>
+          <!-- Spherical top gloss overlay -->
+          <ellipse cx="24" cy="14" rx="7" ry="3" fill="#ffffff" opacity="0.75"/>
+          <circle cx="18" cy="14" r="1.5" fill="#ffffff" opacity="0.8"/>
         </g>
 
-        <!-- ==================== ÖZEL ŞEKERLER ==================== -->
 
-        <!-- Cam Dış Jel Paket (Wrapped Candy Base Wrapper) -->
+        <!-- Özel Bomba Şekeri Efekti (Glowing starburst outline wrapper) -->
+        <!-- Özel Paket Şeker Efekti (Wrapped Candy Crinkled Bag) -->
         <g id="special-wrapped">
-          <!-- Transparan jelatik poşet -->
+          <!-- Transparan crinkled dış plastik poşet paket -->
           <path d="M 8 8 L 12 5 L 16 8 L 20 5 L 24 8 L 28 5 L 32 8 L 36 5 L 40 8 L 43 12 L 40 16 L 43 20 L 40 24 L 43 28 L 40 32 L 43 36 L 40 40 L 36 43 L 32 40 L 28 43 L 24 40 L 20 43 L 16 40 L 12 43 L 8 40 L 5 36 L 8 32 L 5 28 L 8 24 L 5 20 L 8 16 L 5 12 Z" 
-                fill="rgba(255, 255, 255, 0.25)" 
-                stroke="rgba(255, 255, 255, 0.75)" 
-                stroke-width="2" 
+                fill="rgba(255, 255, 255, 0.22)" 
+                stroke="rgba(255, 255, 255, 0.65)" 
+                stroke-width="1.8" 
                 filter="url(#shadow-candy)" />
-          <path d="M 12 12 Q 24 15 36 12" fill="none" stroke="#ffffff" stroke-width="2.2" opacity="0.65" />
+          <!-- Parlama efekti -->
+          <path d="M 12 12 Q 24 15 36 12" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6" />
         </g>
 
-        <!-- 7. Çikolata Renk Bombası (Premium Chocolate Color Bomb) -->
+        <!-- 7. Çikolata Renk Bombası (Chocolate Color Bomb with Sprinkles) -->
         <g id="candy-bomb">
           <radialGradient id="grad-bomb-base" cx="35%" cy="30%" r="65%">
-            <stop offset="0%" stop-color="#a1887f" />
-            <stop offset="50%" stop-color="#4e342e" />
-            <stop offset="90%" stop-color="#2d1510" />
-            <stop offset="100%" stop-color="#140502" />
+            <stop offset="0%" stop-color="#8d6e63" />  <!-- Açık çikolata kahvesi -->
+            <stop offset="60%" stop-color="#4e342e" /> <!-- Koyu çikolata -->
+            <stop offset="100%" stop-color="#2d1510" /> <!-- Derin gölge kahvesi -->
           </radialGradient>
-          
-          <!-- Arkada parlayan neon yıldız patlaması -->
-          <path d="M24,2 L27,15 L40,12 L30,22 L45,26 L30,30 L40,40 L27,33 L24,46 L21,33 L8,40 L18,30 L3,26 L18,22 L8,12 L21,15 Z" fill="#ffd54f" opacity="0.3" filter="blur(2px)"/>
           
           <!-- Çikolata Gövde -->
           <circle cx="24" cy="24" r="18" fill="url(#grad-bomb-base)" filter="url(#shadow-candy)"/>
           
           <!-- Renkli Drajeler / Sprinkles -->
           <linearGradient id="sp-blue" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#e0f7fa"/><stop offset="50%" stop-color="#0288d1"/><stop offset="100%" stop-color="#012d52"/>
+            <stop offset="0%" stop-color="#e0f7fa"/><stop offset="40%" stop-color="#0288d1"/><stop offset="100%" stop-color="#01579b"/>
           </linearGradient>
           <linearGradient id="sp-yellow" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#fffde7"/><stop offset="50%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#f57f17"/>
+            <stop offset="0%" stop-color="#fffde7"/><stop offset="40%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#ff8f00"/>
           </linearGradient>
           <linearGradient id="sp-green" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#e8f5e9"/><stop offset="50%" stop-color="#4caf50"/><stop offset="100%" stop-color="#0a4614"/>
+            <stop offset="0%" stop-color="#e8f5e9"/><stop offset="40%" stop-color="#4caf50"/><stop offset="100%" stop-color="#1b5e20"/>
           </linearGradient>
           <linearGradient id="sp-pink" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#fce4ec"/><stop offset="50%" stop-color="#f06292"/><stop offset="100%" stop-color="#c2185b"/>
+            <stop offset="0%" stop-color="#fce4ec"/><stop offset="40%" stop-color="#ec407a"/><stop offset="100%" stop-color="#880e4f"/>
           </linearGradient>
           <linearGradient id="sp-red" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#ffebee"/><stop offset="50%" stop-color="#e53935"/><stop offset="100%" stop-color="#8e0000"/>
+            <stop offset="0%" stop-color="#ffebee"/><stop offset="40%" stop-color="#f44336"/><stop offset="100%" stop-color="#b71c1c"/>
           </linearGradient>
           <linearGradient id="sp-white" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#ffffff"/><stop offset="60%" stop-color="#eceff1"/><stop offset="100%" stop-color="#90a4ae"/>
+            <stop offset="0%" stop-color="#ffffff"/><stop offset="60%" stop-color="#cfd8dc"/><stop offset="100%" stop-color="#78909c"/>
           </linearGradient>
 
-          <!-- Yüzeydeki 3D Drajeler -->
+          <!-- Yüzeydeki Drajeler -->
           <circle cx="15" cy="18" r="2.8" fill="url(#sp-pink)"/>
-          <circle cx="14" cy="16.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <circle cx="15" cy="18" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="14.2" cy="16.5" r="0.8" fill="#ffffff" opacity="0.8"/>
 
-          <circle cx="22" cy="13" r="3.2" fill="url(#sp-yellow)"/>
-          <circle cx="21" cy="11.5" r="0.9" fill="#ffffff" opacity="0.8"/>
+          <circle cx="21" cy="13" r="3.2" fill="url(#sp-yellow)"/>
+          <circle cx="21" cy="13" r="3.2" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="20" cy="11.5" r="0.9" fill="#ffffff" opacity="0.8"/>
 
-          <circle cx="29" cy="15" r="2.8" fill="url(#sp-blue)"/>
-          <circle cx="28" cy="13.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <circle cx="28" cy="15" r="2.8" fill="url(#sp-blue)"/>
+          <circle cx="28" cy="15" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="27.2" cy="13.5" r="0.8" fill="#ffffff" opacity="0.8"/>
 
           <circle cx="34" cy="20" r="3" fill="url(#sp-green)"/>
+          <circle cx="34" cy="20" r="3" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
           <circle cx="33" cy="18.5" r="0.8" fill="#ffffff" opacity="0.8"/>
 
           <circle cx="33" cy="29" r="3.2" fill="url(#sp-pink)"/>
+          <circle cx="33" cy="29" r="3.2" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
           <circle cx="32" cy="27.5" r="0.9" fill="#ffffff" opacity="0.8"/>
 
           <circle cx="27" cy="35" r="2.8" fill="url(#sp-yellow)"/>
-          <circle cx="26" cy="33.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <circle cx="27" cy="35" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="26.2" cy="33.5" r="0.8" fill="#ffffff" opacity="0.8"/>
 
-          <circle cx="18" cy="34" r="3" fill="url(#sp-blue)"/>
-          <circle cx="17" cy="32.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <circle cx="19" cy="34" r="3" fill="url(#sp-blue)"/>
+          <circle cx="19" cy="34" r="3" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="18" cy="32.5" r="0.8" fill="#ffffff" opacity="0.8"/>
 
           <circle cx="13" cy="27" r="2.8" fill="url(#sp-green)"/>
-          <circle cx="12" cy="25.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <circle cx="13" cy="27" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="12.2" cy="25.5" r="0.8" fill="#ffffff" opacity="0.8"/>
 
           <circle cx="24" cy="24" r="3.2" fill="url(#sp-red)"/>
+          <circle cx="24" cy="24" r="3.2" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
           <circle cx="23" cy="22.5" r="0.9" fill="#ffffff" opacity="0.8"/>
 
-          <circle cx="19" cy="24" r="2.8" fill="url(#sp-white)"/>
-          <circle cx="18" cy="22.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <circle cx="20" cy="24" r="2.8" fill="url(#sp-white)"/>
+          <circle cx="20" cy="24" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="19.2" cy="22.5" r="0.8" fill="#ffffff" opacity="0.8"/>
 
           <circle cx="28" cy="23" r="2.8" fill="url(#sp-yellow)"/>
-          <circle cx="27" cy="21.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <circle cx="28" cy="23" r="2.8" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.5"/>
+          <circle cx="27.2" cy="21.5" r="0.8" fill="#ffffff" opacity="0.8"/>
+
+          <!-- Dışarı Taşan Küresel Drajeler (3D efekti verir) -->
+          <path d="M 6 20 A 3 3 0 0 1 7 26 Z" fill="url(#sp-white)" opacity="0.95"/>
+          <path d="M 41 18 A 3 3 0 0 1 42 24 Z" fill="url(#sp-red)" opacity="0.95"/>
+          <path d="M 22 5 A 3 3 0 0 1 27 6 Z" fill="url(#sp-blue)" opacity="0.95"/>
+          <path d="M 18 42 A 3 3 0 0 1 23 43 Z" fill="url(#sp-green)" opacity="0.95"/>
 
           <!-- 3D Küresel Parlama Overlay -->
-          <ellipse cx="20" cy="14" rx="8" ry="3.5" transform="rotate(-30 20 14)" fill="#ffffff" opacity="0.35"/>
-          <circle cx="15" cy="12" r="1.5" fill="#ffffff" opacity="0.75"/>
+          <ellipse cx="20" cy="14" rx="8" ry="3.5" transform="rotate(-30 20 14)" fill="#ffffff" opacity="0.3"/>
+          <circle cx="15" cy="12" r="1.5" fill="#ffffff" opacity="0.6"/>
         </g>
         
-        <!-- 8. Jöle Balığı (Glossy 3D Jelly Fish Candy) -->
+        <!-- 8. Jöle Balığı (Jelly Fish) Şeker Şablonu -->
         <g id="candy-fish-shape">
+          <!-- Body and Tail -->
           <path d="M38,24 C38,15 28,11 20,16 C13,12 8,9 8,16 C10,20 11,22 9,24 C11,26 10,28 8,32 C8,39 13,36 20,32 C28,37 38,33 38,24 Z" filter="url(#shadow-candy)"/>
-          <!-- Parlama konturu -->
-          <path d="M20,15 C26,13 32,15 34,20" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-          <!-- Göz ve Yanak -->
-          <circle cx="26" cy="23" r="2.5" fill="#ff7675" opacity="0.65"/>
-          <circle cx="28" cy="19.5" r="3.5" fill="#ffffff"/>
-          <circle cx="29" cy="19.5" r="1.4" fill="#000000"/>
+          <!-- Highlight curve -->
+          <path d="M22,15 C26,14 30,16 32,20" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+          <!-- Blush -->
+          <circle cx="26" cy="23" r="2" fill="#ff7675" opacity="0.6"/>
+          <!-- Eye white -->
+          <circle cx="28" cy="20" r="3" fill="#ffffff"/>
+          <!-- Pupil -->
+          <circle cx="29" cy="20" r="1.2" fill="#000000"/>
         </g>
-
-        <!-- ==================== ÇİZGİLİ ŞEKERLER (3D Striped) ==================== -->
-        
+        <!-- Çizgili Şeker Degradeleri (Alternating White and Base Colors) -->
         <linearGradient id="grad-red-striped-h" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#ff3366" /><stop offset="15%" stop-color="#ff3366" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#b3002d" /><stop offset="45%" stop-color="#b3002d" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#ff3366" /><stop offset="75%" stop-color="#ff3366" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#b3002d" /><stop offset="100%" stop-color="#b3002d" />
+          <stop offset="0%" stop-color="#ff3366" /><stop offset="14%" stop-color="#ff3366" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#b3002d" /><stop offset="42%" stop-color="#b3002d" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ff3366" /><stop offset="70%" stop-color="#ff3366" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#b3002d" /><stop offset="100%" stop-color="#b3002d" />
         </linearGradient>
         <linearGradient id="grad-red-striped-v" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#ff3366" /><stop offset="15%" stop-color="#ff3366" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#b3002d" /><stop offset="45%" stop-color="#b3002d" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#ff3366" /><stop offset="75%" stop-color="#ff3366" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#b3002d" /><stop offset="100%" stop-color="#b3002d" />
+          <stop offset="0%" stop-color="#ff3366" /><stop offset="14%" stop-color="#ff3366" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#b3002d" /><stop offset="42%" stop-color="#b3002d" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ff3366" /><stop offset="70%" stop-color="#ff3366" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#b3002d" /><stop offset="100%" stop-color="#b3002d" />
         </linearGradient>
 
         <linearGradient id="grad-orange-striped-h" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#ff8f00" /><stop offset="15%" stop-color="#ff8f00" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#e65100" /><stop offset="45%" stop-color="#e65100" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#ff8f00" /><stop offset="75%" stop-color="#ff8f00" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#e65100" /><stop offset="100%" stop-color="#e65100" />
+          <stop offset="0%" stop-color="#ff7f3f" /><stop offset="14%" stop-color="#ff7f3f" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#d32f2f" /><stop offset="42%" stop-color="#d32f2f" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ff7f3f" /><stop offset="70%" stop-color="#ff7f3f" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#d32f2f" /><stop offset="100%" stop-color="#d32f2f" />
         </linearGradient>
         <linearGradient id="grad-orange-striped-v" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#ff8f00" /><stop offset="15%" stop-color="#ff8f00" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#e65100" /><stop offset="45%" stop-color="#e65100" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#ff8f00" /><stop offset="75%" stop-color="#ff8f00" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#e65100" /><stop offset="100%" stop-color="#e65100" />
+          <stop offset="0%" stop-color="#ff7f3f" /><stop offset="14%" stop-color="#ff7f3f" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#d32f2f" /><stop offset="42%" stop-color="#d32f2f" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ff7f3f" /><stop offset="70%" stop-color="#ff7f3f" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#d32f2f" /><stop offset="100%" stop-color="#d32f2f" />
         </linearGradient>
 
         <linearGradient id="grad-yellow-striped-h" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#ffd54f" /><stop offset="15%" stop-color="#ffd54f" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#f57f17" /><stop offset="45%" stop-color="#f57f17" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#ffd54f" /><stop offset="75%" stop-color="#ffd54f" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#f57f17" /><stop offset="100%" stop-color="#f57f17" />
+          <stop offset="0%" stop-color="#ffea00" /><stop offset="14%" stop-color="#ffea00" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#e65100" /><stop offset="42%" stop-color="#e65100" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ffea00" /><stop offset="70%" stop-color="#ffea00" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#e65100" /><stop offset="100%" stop-color="#e65100" />
         </linearGradient>
         <linearGradient id="grad-yellow-striped-v" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#ffd54f" /><stop offset="15%" stop-color="#ffd54f" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#f57f17" /><stop offset="45%" stop-color="#f57f17" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#ffd54f" /><stop offset="75%" stop-color="#ffd54f" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#f57f17" /><stop offset="100%" stop-color="#f57f17" />
+          <stop offset="0%" stop-color="#ffea00" /><stop offset="14%" stop-color="#ffea00" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#e65100" /><stop offset="42%" stop-color="#e65100" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ffea00" /><stop offset="70%" stop-color="#ffea00" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#e65100" /><stop offset="100%" stop-color="#e65100" />
         </linearGradient>
 
         <linearGradient id="grad-green-striped-h" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#81c784" /><stop offset="15%" stop-color="#81c784" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#2e7d32" /><stop offset="45%" stop-color="#2e7d32" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#81c784" /><stop offset="75%" stop-color="#81c784" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#2e7d32" /><stop offset="100%" stop-color="#2e7d32" />
+          <stop offset="0%" stop-color="#4caf50" /><stop offset="14%" stop-color="#4caf50" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#1b5e20" /><stop offset="42%" stop-color="#1b5e20" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#4caf50" /><stop offset="70%" stop-color="#4caf50" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#1b5e20" /><stop offset="100%" stop-color="#1b5e20" />
         </linearGradient>
         <linearGradient id="grad-green-striped-v" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#81c784" /><stop offset="15%" stop-color="#81c784" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#2e7d32" /><stop offset="45%" stop-color="#2e7d32" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#81c784" /><stop offset="75%" stop-color="#81c784" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#2e7d32" /><stop offset="100%" stop-color="#2e7d32" />
+          <stop offset="0%" stop-color="#4caf50" /><stop offset="14%" stop-color="#4caf50" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#1b5e20" /><stop offset="42%" stop-color="#1b5e20" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#4caf50" /><stop offset="70%" stop-color="#4caf50" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#1b5e20" /><stop offset="100%" stop-color="#1b5e20" />
         </linearGradient>
 
         <linearGradient id="grad-blue-striped-h" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#4fc3f7" /><stop offset="15%" stop-color="#4fc3f7" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#0277bd" /><stop offset="45%" stop-color="#0277bd" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#4fc3f7" /><stop offset="75%" stop-color="#4fc3f7" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#0277bd" /><stop offset="100%" stop-color="#0277bd" />
+          <stop offset="0%" stop-color="#0288d1" /><stop offset="14%" stop-color="#0288d1" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#006064" /><stop offset="42%" stop-color="#006064" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#0288d1" /><stop offset="70%" stop-color="#0288d1" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#006064" /><stop offset="100%" stop-color="#006064" />
         </linearGradient>
         <linearGradient id="grad-blue-striped-v" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#4fc3f7" /><stop offset="15%" stop-color="#4fc3f7" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#0277bd" /><stop offset="45%" stop-color="#0277bd" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#4fc3f7" /><stop offset="75%" stop-color="#4fc3f7" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#0277bd" /><stop offset="100%" stop-color="#0277bd" />
+          <stop offset="0%" stop-color="#0288d1" /><stop offset="14%" stop-color="#0288d1" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#006064" /><stop offset="42%" stop-color="#006064" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#0288d1" /><stop offset="70%" stop-color="#0288d1" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#006064" /><stop offset="100%" stop-color="#006064" />
         </linearGradient>
 
         <linearGradient id="grad-purple-striped-h" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#ba68c8" /><stop offset="15%" stop-color="#ba68c8" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#6a1b9a" /><stop offset="45%" stop-color="#6a1b9a" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#ba68c8" /><stop offset="75%" stop-color="#ba68c8" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#6a1b9a" /><stop offset="100%" stop-color="#6a1b9a" />
+          <stop offset="0%" stop-color="#ec407a" /><stop offset="14%" stop-color="#ec407a" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#880e4f" /><stop offset="42%" stop-color="#880e4f" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ec407a" /><stop offset="70%" stop-color="#ec407a" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#880e4f" /><stop offset="100%" stop-color="#880e4f" />
         </linearGradient>
         <linearGradient id="grad-purple-striped-v" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#ba68c8" /><stop offset="15%" stop-color="#ba68c8" />
-          <stop offset="15%" stop-color="#ffffff" /><stop offset="30%" stop-color="#ffffff" />
-          <stop offset="30%" stop-color="#6a1b9a" /><stop offset="45%" stop-color="#6a1b9a" />
-          <stop offset="45%" stop-color="#ffffff" /><stop offset="60%" stop-color="#ffffff" />
-          <stop offset="60%" stop-color="#ba68c8" /><stop offset="75%" stop-color="#ba68c8" />
-          <stop offset="75%" stop-color="#ffffff" /><stop offset="90%" stop-color="#ffffff" />
-          <stop offset="90%" stop-color="#6a1b9a" /><stop offset="100%" stop-color="#6a1b9a" />
+          <stop offset="0%" stop-color="#ec407a" /><stop offset="14%" stop-color="#ec407a" />
+          <stop offset="14%" stop-color="#ffffff" /><stop offset="28%" stop-color="#ffffff" />
+          <stop offset="28%" stop-color="#880e4f" /><stop offset="42%" stop-color="#880e4f" />
+          <stop offset="42%" stop-color="#ffffff" /><stop offset="56%" stop-color="#ffffff" />
+          <stop offset="56%" stop-color="#ec407a" /><stop offset="70%" stop-color="#ec407a" />
+          <stop offset="70%" stop-color="#ffffff" /><stop offset="84%" stop-color="#ffffff" />
+          <stop offset="84%" stop-color="#880e4f" /><stop offset="100%" stop-color="#880e4f" />
         </linearGradient>
 
-        <!-- Kırmızı Çizgili Şekiller -->
+        <!-- Kırmızı Çizgili Şeker Şablonları -->
         <g id="candy-red-striped-h">
-          <rect x="9" y="14" width="30" height="20" rx="10" ry="10" transform="rotate(-30 24 24)" fill="url(#grad-red-striped-h)" filter="url(#shadow-candy)"/>
-          <path d="M 12 17 C 16 11, 28 11, 31 16 Q 24 13 14 19 Z" fill="#ffffff" opacity="0.65" transform="rotate(-30 24 24)"/>
-          <circle cx="16" cy="18" r="2" fill="#ffffff" opacity="0.85"/>
+          <path d="M24 6 C13 6, 8 16, 8 26 C8 38, 16 42, 24 42 C32 42, 40 38, 40 26 C40 16, 35 6, 24 6 Z" fill="url(#grad-red-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
+          <circle cx="18" cy="12" r="1.5" fill="#ffffff" opacity="0.6"/>
         </g>
         <g id="candy-red-striped-v">
-          <rect x="9" y="14" width="30" height="20" rx="10" ry="10" transform="rotate(-30 24 24)" fill="url(#grad-red-striped-v)" filter="url(#shadow-candy)"/>
-          <path d="M 12 17 C 16 11, 28 11, 31 16 Q 24 13 14 19 Z" fill="#ffffff" opacity="0.65" transform="rotate(-30 24 24)"/>
-          <circle cx="16" cy="18" r="2" fill="#ffffff" opacity="0.85"/>
+          <path d="M24 6 C13 6, 8 16, 8 26 C8 38, 16 42, 24 42 C32 42, 40 38, 40 26 C40 16, 35 6, 24 6 Z" fill="url(#grad-red-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
+          <circle cx="18" cy="12" r="1.5" fill="#ffffff" opacity="0.6"/>
         </g>
 
-        <!-- Turuncu Çizgili Şekiller -->
+        <!-- Turuncu Çizgili Şeker Şablonları -->
         <g id="candy-orange-striped-h">
-          <rect x="7" y="13" width="34" height="22" rx="11" ry="11" fill="url(#grad-orange-striped-h)" filter="url(#shadow-candy)"/>
-          <path d="M 11 17 C 15 14, 31 14, 36 17 Q 24 12 12 18 Z" fill="#ffffff" opacity="0.65"/>
-          <circle cx="13" cy="19" r="2.2" fill="#ffffff" opacity="0.85"/>
+          <path d="M24 6 L40 24 L24 42 L8 24 Z" fill="url(#grad-orange-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="15" rx="6" ry="2.5" fill="#ffffff" opacity="0.65"/>
+          <circle cx="20" cy="13" r="1.2" fill="#ffffff" opacity="0.6"/>
         </g>
         <g id="candy-orange-striped-v">
-          <rect x="7" y="13" width="34" height="22" rx="11" ry="11" fill="url(#grad-orange-striped-v)" filter="url(#shadow-candy)"/>
-          <path d="M 11 17 C 15 14, 31 14, 36 17 Q 24 12 12 18 Z" fill="#ffffff" opacity="0.65"/>
-          <circle cx="13" cy="19" r="2.2" fill="#ffffff" opacity="0.85"/>
+          <path d="M24 6 L40 24 L24 42 L8 24 Z" fill="url(#grad-orange-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="15" rx="6" ry="2.5" fill="#ffffff" opacity="0.65"/>
+          <circle cx="20" cy="13" r="1.2" fill="#ffffff" opacity="0.6"/>
         </g>
 
-        <!-- Sarı Çizgili Şekiller -->
+        <!-- Sarı Çizgili Şeker Şablonları -->
         <g id="candy-yellow-striped-h">
-          <path d="M24,5 C24,5 40,21 40,32 C40,40 33,42 24,42 C15,42 8,40 8,32 C8,21 24,5 24,5 Z" fill="url(#grad-yellow-striped-h)" filter="url(#shadow-candy)"/>
-          <path d="M24,8 C24,8 37,21 37,32 C37,36 32,39 24,39" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-          <ellipse cx="18" cy="28" rx="5" ry="2.5" transform="rotate(-35 18 28)" fill="#ffffff" opacity="0.8"/>
+          <path d="M24 6 C24 6, 38 22, 38 31 C38 38, 32 42, 24 42 C16 42, 10 38, 10 31 C10 22, 24 6, 24 6 Z" fill="url(#grad-yellow-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="15" rx="7" ry="2.5" fill="#ffffff" opacity="0.65"/>
+          <circle cx="19" cy="13" r="1.2" fill="#ffffff" opacity="0.6"/>
         </g>
         <g id="candy-yellow-striped-v">
-          <path d="M24,5 C24,5 40,21 40,32 C40,40 33,42 24,42 C15,42 8,40 8,32 C8,21 24,5 24,5 Z" fill="url(#grad-yellow-striped-v)" filter="url(#shadow-candy)"/>
-          <path d="M24,8 C24,8 37,21 37,32 C37,36 32,39 24,39" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-          <ellipse cx="18" cy="28" rx="5" ry="2.5" transform="rotate(-35 18 28)" fill="#ffffff" opacity="0.8"/>
+          <path d="M24 6 C24 6, 38 22, 38 31 C38 38, 32 42, 24 42 C16 42, 10 38, 10 31 C10 22, 24 6, 24 6 Z" fill="url(#grad-yellow-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="15" rx="7" ry="2.5" fill="#ffffff" opacity="0.65"/>
+          <circle cx="19" cy="13" r="1.2" fill="#ffffff" opacity="0.6"/>
         </g>
 
-        <!-- Yeşil Çizgili Şekiller -->
+        <!-- Yeşil Çizgili Şeker Şablonları -->
         <g id="candy-green-striped-h">
-          <rect x="8" y="8" width="32" height="32" rx="9" ry="9" fill="url(#grad-green-striped-h)" filter="url(#shadow-candy)"/>
-          <rect x="10" y="10" width="28" height="28" rx="7" ry="7" fill="none" stroke="#ffffff" stroke-width="2.2" opacity="0.55"/>
-          <path d="M 12 13 Q 24 9 36 13" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+          <rect x="8" y="8" width="32" height="32" rx="8" ry="8" fill="url(#grad-green-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
+          <circle cx="18" cy="12" r="1.5" fill="#ffffff" opacity="0.6"/>
         </g>
         <g id="candy-green-striped-v">
-          <rect x="8" y="8" width="32" height="32" rx="9" ry="9" fill="url(#grad-green-striped-v)" filter="url(#shadow-candy)"/>
-          <rect x="10" y="10" width="28" height="28" rx="7" ry="7" fill="none" stroke="#ffffff" stroke-width="2.2" opacity="0.55"/>
-          <path d="M 12 13 Q 24 9 36 13" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+          <rect x="8" y="8" width="32" height="32" rx="8" ry="8" fill="url(#grad-green-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
+          <circle cx="18" cy="12" r="1.5" fill="#ffffff" opacity="0.6"/>
         </g>
 
-        <!-- Mavi Çizgili Şekiller -->
+        <!-- Mavi Çizgili Şeker Şablonları -->
         <g id="candy-blue-striped-h">
-          <circle cx="24" cy="24" r="17" fill="url(#grad-blue-striped-h)" filter="url(#shadow-candy)"/>
-          <ellipse cx="20" cy="15" rx="8.5" ry="4" transform="rotate(-30 20 15)" fill="#ffffff" opacity="0.75"/>
-          <circle cx="15" cy="14" r="1.8" fill="#ffffff" opacity="0.85"/>
+          <rect x="7" y="11" width="34" height="26" rx="13" ry="13" fill="url(#grad-blue-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="18" rx="12" ry="4" fill="#ffffff" opacity="0.65"/>
         </g>
         <g id="candy-blue-striped-v">
-          <circle cx="24" cy="24" r="17" fill="url(#grad-blue-striped-v)" filter="url(#shadow-candy)"/>
-          <ellipse cx="20" cy="15" rx="8.5" ry="4" transform="rotate(-30 20 15)" fill="#ffffff" opacity="0.75"/>
-          <circle cx="15" cy="14" r="1.8" fill="#ffffff" opacity="0.85"/>
+          <rect x="7" y="11" width="34" height="26" rx="13" ry="13" fill="url(#grad-blue-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="18" rx="12" ry="4" fill="#ffffff" opacity="0.65"/>
         </g>
 
-        <!-- Mor Çizgili Şekiller -->
+        <!-- Mor Çizgili Şeker Şablonları -->
         <g id="candy-purple-striped-h">
-          <path d="M24,7 C29,7 33,11 34,16 C38,16 41,19 41,23 C41,27 38,30 35,30 C33,35 29,38 24,38 C19,38 15,35 13,30 C10,30 7,27 7,23 C7,19 10,16 14,16 C15,11 19,7 24,7 Z" fill="url(#grad-purple-striped-h)" filter="url(#shadow-candy)"/>
-          <ellipse cx="24" cy="14" rx="8" ry="3.5" fill="#ffffff" opacity="0.75"/>
+          <path d="M8 32 C8 20, 14 8, 24 8 C34 8, 40 20, 40 32 C40 39, 34 42, 24 42 C14 42, 8 39, 8 32 Z" fill="url(#grad-purple-striped-h)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
         </g>
         <g id="candy-purple-striped-v">
-          <path d="M24,7 C29,7 33,11 34,16 C38,16 41,19 41,23 C41,27 38,30 35,30 C33,35 29,38 24,38 C19,38 15,35 13,30 C10,30 7,27 7,23 C7,19 10,16 14,16 C15,11 19,7 24,7 Z" fill="url(#grad-purple-striped-v)" filter="url(#shadow-candy)"/>
-          <ellipse cx="24" cy="14" rx="8" ry="3.5" fill="#ffffff" opacity="0.75"/>
+          <path d="M8 32 C8 20, 14 8, 24 8 C34 8, 40 20, 40 32 C40 39, 34 42, 24 42 C14 42, 8 39, 8 32 Z" fill="url(#grad-purple-striped-v)" filter="url(#shadow-candy)"/>
+          <ellipse cx="24" cy="14" rx="8" ry="3" fill="#ffffff" opacity="0.65"/>
         </g>
       </defs>
     </svg>
   </div>
 
-  <script src="capacitor.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
