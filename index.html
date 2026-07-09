@@ -53,7 +53,7 @@
           <span class="sls sls3">⭐</span>
         </div>
         <h1 class="game-title">SWEET<br><span>BLITZ</span></h1>
-        <div class="splash-logo-tagline">Şekerleri patlat, galaksiye ulaş! 🚀</div>
+        <div class="splash-logo-tagline">Şekerleri patlat, bahçeyi canlandır! 🌸</div>
       </div>
 
       <!-- Karakter -->
@@ -666,161 +666,151 @@
         
         <!-- ==================== TEMEL ŞEKERLER ==================== -->
 
-        <!-- 1. Galaxy Swirl (Red/Pink Tones with Mini Galaxy Core) -->
+        <!-- 1. Çilek Spirali (Strawberry Swirl Red Lollipop) -->
         <g id="candy-red">
-          <radialGradient id="grad-galaxy-swirl" cx="35%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#fff0f3"/>
-            <stop offset="25%" stop-color="#ff758f"/>
-            <stop offset="65%" stop-color="#c9184a"/>
-            <stop offset="100%" stop-color="#590d22"/>
+          <radialGradient id="grad-strawberry-swirl" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#ffebed"/>
+            <stop offset="25%" stop-color="#ff5252"/>
+            <stop offset="70%" stop-color="#d50000"/>
+            <stop offset="100%" stop-color="#5f0000"/>
           </radialGradient>
           <!-- Base Sphere -->
-          <circle cx="24" cy="24" r="17" fill="url(#grad-galaxy-swirl)" filter="url(#shadow-candy)"/>
-          <!-- Inner Miniature Galaxy Arms -->
-          <path d="M24,24 Q28,19 32,23 Q35,28 30,32 Q23,35 18,30 Q13,24 18,17 Q24,11 31,14 Q37,18 36,25 Q34,31 27,33" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.55" filter="drop-shadow(0 0 2px rgba(255,255,255,0.8))"/>
-          <path d="M24,24 Q20,28 16,24 Q13,20 18,16 Q23,12 28,17" fill="none" stroke="#ff8da1" stroke-width="1.8" stroke-linecap="round" opacity="0.45"/>
-          <!-- Specular Highlight (Lens Flare) -->
+          <circle cx="24" cy="24" r="17" fill="url(#grad-strawberry-swirl)" filter="url(#shadow-candy)"/>
+          <!-- Strawberry Swirl Spiral -->
+          <path d="M24,24 A3,3 0 0,0 21,21 A6,6 0 0,0 27,27 A9,9 0 0,0 15,15 A12,12 0 0,0 33,33 A15,15 0 0,0 9,9" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.85" filter="drop-shadow(0 0 1.5px rgba(255,255,255,0.8))"/>
+          <!-- Specular Highlight -->
           <ellipse cx="19" cy="14" rx="7.5" ry="3.8" transform="rotate(-30 19 14)" fill="#ffffff" opacity="0.8"/>
           <circle cx="15" cy="13" r="1.8" fill="#ffffff" opacity="0.95"/>
         </g>
 
-        <!-- 2. Orange Jelly (Soft Squishy Gummy) -->
+        <!-- 2. Portakal Jeli (Orange Jelly Pillow) -->
         <g id="candy-orange">
-          <radialGradient id="grad-orange-jelly" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#fffbeb"/>
-            <stop offset="30%" stop-color="#ff9100"/>
-            <stop offset="70%" stop-color="#e65100"/>
-            <stop offset="100%" stop-color="#5d1000"/>
+          <radialGradient id="grad-orange-jelly" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#fff8e1"/>
+            <stop offset="30%" stop-color="#ffa726"/>
+            <stop offset="75%" stop-color="#f57c00"/>
+            <stop offset="100%" stop-color="#5d2500"/>
           </radialGradient>
-          <!-- Jelly bean shape -->
-          <path d="M14,16 C10,19 10,27 15,31 C20,35 30,33 34,29 C38,25 38,17 33,13 C28,9 18,12 14,16 Z" fill="url(#grad-orange-jelly)" filter="url(#shadow-candy)"/>
-          <!-- Semi-translucent inner core (squishy effect) -->
-          <path d="M16,18 C13,20 13,26 17,29 C21,32 28,30 31,27 C34,24 34,19 31,16 C28,13 20,15 16,18 Z" fill="#ffb74d" opacity="0.3"/>
-          <!-- Outer Rim Light -->
-          <path d="M14,16 C10,19 10,27 15,31" fill="none" stroke="#fff3e0" stroke-width="1.2" opacity="0.4"/>
+          <!-- Pillow Shape -->
+          <rect x="7" y="7" width="34" height="34" rx="13" ry="13" fill="url(#grad-orange-jelly)" filter="url(#shadow-candy)"/>
+          <!-- Inner bevel contour highlight -->
+          <rect x="10" y="10" width="28" height="28" rx="10" ry="10" fill="none" stroke="#ffe082" stroke-width="1.8" opacity="0.6"/>
           <!-- High Gloss Highlight -->
-          <path d="M16,15 C20,11 29,11 32,15" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-          <circle cx="17" cy="18" r="2.2" fill="#ffffff" opacity="0.95"/>
+          <ellipse cx="16" cy="15" rx="5" ry="2.2" transform="rotate(-30 16 15)" fill="#ffffff" opacity="0.85"/>
+          <circle cx="14" cy="13" r="1.5" fill="#ffffff" opacity="0.95"/>
         </g>
 
-        <!-- 3. Honey Drop (Thick Glass Golden Droplet) -->
+        <!-- 3. Bal Damlası (Golden Honey Drop) -->
         <g id="candy-yellow">
           <radialGradient id="grad-honey-drop" cx="35%" cy="40%" r="70%">
             <stop offset="0%" stop-color="#fffde7"/>
-            <stop offset="25%" stop-color="#ffca28"/>
-            <stop offset="65%" stop-color="#ff8f00"/>
-            <stop offset="100%" stop-color="#803e00"/>
+            <stop offset="25%" stop-color="#ffd54f"/>
+            <stop offset="65%" stop-color="#ffb300"/>
+            <stop offset="100%" stop-color="#ff6f00"/>
           </radialGradient>
           <!-- Droplet -->
           <path d="M24,5 C24,5 40,20 40,31 C40,39 33,42 24,42 C15,42 8,39 8,31 C8,20 24,5 24,5 Z" fill="url(#grad-honey-drop)" filter="url(#shadow-candy)"/>
-          <!-- Refraction crescent at the bottom (glass look) -->
-          <path d="M33,33 C33,36 29,39 24,39 C19,39 15,36 15,33" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.45" stroke-linecap="round"/>
+          <path d="M33,33 C33,36 29,39 24,39 C19,39 15,36 15,33" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.55" stroke-linecap="round"/>
           <!-- Specular Highlight -->
           <ellipse cx="19" cy="27" rx="5" ry="2.2" transform="rotate(-30 19 27)" fill="#ffffff" opacity="0.85"/>
           <circle cx="21" cy="24" r="1.2" fill="#ffffff" opacity="0.95"/>
-          <circle cx="30" cy="18" r="1" fill="#ffffff" opacity="0.3"/> <!-- Back glare -->
         </g>
 
-        <!-- 4. Mint Cube (Emerald Green Glass Cube) -->
+        <!-- 4. Elma Karesi (Apple Square with Leaf Imprint) -->
         <g id="candy-green">
-          <radialGradient id="grad-mint-cube" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#e8f8f5"/>
-            <stop offset="25%" stop-color="#2ecc71"/>
-            <stop offset="65%" stop-color="#27ae60"/>
-            <stop offset="100%" stop-color="#0e6251"/>
+          <radialGradient id="grad-apple-square" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#f1f8e9"/>
+            <stop offset="25%" stop-color="#8bc34a"/>
+            <stop offset="70%" stop-color="#558b2f"/>
+            <stop offset="100%" stop-color="#1b3a00"/>
           </radialGradient>
-          <!-- Rounded Cube -->
-          <rect x="7" y="7" width="34" height="34" rx="11" ry="11" fill="url(#grad-mint-cube)" filter="url(#shadow-candy)"/>
-          <!-- Inner reflections (emerald facets) -->
-          <rect x="10" y="10" width="28" height="28" rx="8" ry="8" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.55"/>
-          <path d="M7,18 L18,18 L18,7" fill="none" stroke="#a3e4d7" stroke-width="1.2" opacity="0.4"/>
+          <!-- Rounded Square -->
+          <rect x="7" y="7" width="34" height="34" rx="11" ry="11" fill="url(#grad-apple-square)" filter="url(#shadow-candy)"/>
+          <!-- Leaf imprint in center -->
+          <path d="M24,13 C18,17 18,27 24,31 C30,27 30,17 24,13 Z M24,13 L24,31" fill="none" stroke="#dcedc8" stroke-width="1.8" stroke-linecap="round" opacity="0.75"/>
+          <path d="M21,21 Q24,20 24,20 M27,24 Q24,23 24,23" fill="none" stroke="#dcedc8" stroke-width="1.2" opacity="0.6"/>
           <!-- Top edge highlight -->
           <path d="M11,11 L37,11" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
           <circle cx="13" cy="14" r="1.8" fill="#ffffff" opacity="0.95"/>
         </g>
 
-        <!-- 5. Crystal Hex (Blue Faceted Gem) -->
+        <!-- 5. Yaban Mersini (Blueberry Cluster) -->
         <g id="candy-blue">
-          <radialGradient id="grad-crystal-hex" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#e0f7fa"/>
-            <stop offset="30%" stop-color="#00b0ff"/>
-            <stop offset="70%" stop-color="#0d47a1"/>
-            <stop offset="100%" stop-color="#0a2240"/>
+          <radialGradient id="grad-blueberry-sphere" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#e3f2fd"/>
+            <stop offset="35%" stop-color="#2196f3"/>
+            <stop offset="75%" stop-color="#0d47a1"/>
+            <stop offset="100%" stop-color="#00154f"/>
           </radialGradient>
-          <!-- Faceted Hexagon -->
-          <polygon points="24,6 38,14 38,30 24,38 10,30 10,14" fill="url(#grad-crystal-hex)" filter="url(#shadow-candy)"/>
-          <!-- Crystal Cuts -->
-          <polygon points="24,12 32,18 32,26 24,31 16,26 16,18" fill="none" stroke="#e0f7fa" stroke-width="1.5" opacity="0.75"/>
-          <line x1="24" y1="6" x2="24" y2="12" stroke="#e0f7fa" stroke-width="1.5" opacity="0.75"/>
-          <line x1="38" y1="14" x2="32" y2="18" stroke="#e0f7fa" stroke-width="1.5" opacity="0.75"/>
-          <line x1="38" y1="30" x2="32" y2="26" stroke="#e0f7fa" stroke-width="1.5" opacity="0.75"/>
-          <line x1="24" y1="38" x2="24" y2="31" stroke="#e0f7fa" stroke-width="1.5" opacity="0.75"/>
-          <line x1="10" y1="30" x2="16" y2="26" stroke="#e0f7fa" stroke-width="1.5" opacity="0.75"/>
-          <line x1="10" y1="14" x2="16" y2="18" stroke="#e0f7fa" stroke-width="1.5" opacity="0.75"/>
-          <!-- specular gloss -->
-          <polygon points="24,6 38,14 32,18 24,12" fill="#ffffff" opacity="0.4"/>
-          <circle cx="16" cy="14" r="1.5" fill="#ffffff" opacity="0.95"/>
+          <!-- Overlapping cluster of blueberry segments -->
+          <circle cx="17" cy="18" r="6" fill="url(#grad-blueberry-sphere)"/>
+          <circle cx="31" cy="18" r="6" fill="url(#grad-blueberry-sphere)"/>
+          <circle cx="24" cy="14" r="6.5" fill="url(#grad-blueberry-sphere)"/>
+          <circle cx="17" cy="30" r="6" fill="url(#grad-blueberry-sphere)"/>
+          <circle cx="31" cy="30" r="6" fill="url(#grad-blueberry-sphere)"/>
+          <circle cx="24" cy="25" r="7.5" fill="url(#grad-blueberry-sphere)" filter="url(#shadow-candy)"/>
+          <circle cx="24" cy="34" r="6" fill="url(#grad-blueberry-sphere)"/>
+          <path d="M22,10 L26,10 L24,14 Z" fill="#00154f" opacity="0.8"/>
         </g>
 
-        <!-- 6. Cosmic Star (Purple rounded Star with Inner Sparkles) -->
+        <!-- 6. Çiçek Şekeri (Purple Flower Candy) -->
         <g id="candy-purple">
-          <radialGradient id="grad-cosmic-star" cx="35%" cy="35%" r="65%">
-            <stop offset="0%" stop-color="#fae8ff"/>
-            <stop offset="25%" stop-color="#df16ff"/>
-            <stop offset="65%" stop-color="#670099"/>
-            <stop offset="100%" stop-color="#2c004a"/>
+          <radialGradient id="grad-flower-petal" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#f3e5f5"/>
+            <stop offset="30%" stop-color="#ab47bc"/>
+            <stop offset="70%" stop-color="#6a1b9a"/>
+            <stop offset="100%" stop-color="#2a004f"/>
           </radialGradient>
-          <!-- Star shape -->
-          <path d="M24,5 L28.5,15.5 L39.5,16 L31,23.5 L33.5,34.5 L24,28.5 L14.5,34.5 L17,23.5 L8.5,16 L19.5,15.5 Z" fill="url(#grad-cosmic-star)" filter="url(#shadow-candy)"/>
-          <!-- Inner stars/sparkles -->
-          <path d="M24,18 L24,22 M22,20 L26,20" stroke="#ffffff" stroke-width="1.2" opacity="0.8" stroke-linecap="round"/>
-          <path d="M16,23 L16,25 M15,24 L17,24" stroke="#ffffff" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
-          <path d="M32,23 L32,25 M31,24 L33,24" stroke="#ffffff" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
-          <!-- Inner Glow -->
-          <path d="M24,7 L27.7,15.5 L36.7,16 L29.7,22 L31.7,31 L24,26.2 L16.3,31 L18.3,22 L11.3,16 L20.3,15.5 Z" fill="none" stroke="#f3e5f5" stroke-width="1" opacity="0.65"/>
-          <!-- Specular Highlights -->
-          <ellipse cx="18" cy="14" rx="4.5" ry="2.2" transform="rotate(-30 18 14)" fill="#ffffff" opacity="0.85"/>
+          <!-- Five-petaled flower shape -->
+          <path d="M24,14 A5.5,5.5 0 0,1 29,19 A5.5,5.5 0 0,1 24,24 A5.5,5.5 0 0,1 19,19 A5.5,5.5 0 0,1 24,14 M32,20 A5.5,5.5 0 0,1 37,25 A5.5,5.5 0 0,1 32,30 A5.5,5.5 0 0,1 27,25 A5.5,5.5 0 0,1 32,20 M16,20 A5.5,5.5 0 0,1 21,25 A5.5,5.5 0 0,1 16,30 A5.5,5.5 0 0,1 11,25 A5.5,5.5 0 0,1 16,20 M29,29 A5.5,5.5 0 0,1 34,34 A5.5,5.5 0 0,1 29,39 A5.5,5.5 0 0,1 24,34 A5.5,5.5 0 0,1 29,29 M19,29 A5.5,5.5 0 0,1 24,34 A5.5,5.5 0 0,1 19,39 A5.5,5.5 0 0,1 14,34 A5.5,5.5 0 0,1 19,29" fill="url(#grad-flower-petal)" filter="url(#shadow-candy)"/>
+          <!-- Yellow center core -->
+          <circle cx="24" cy="25" r="4.5" fill="#ffd54f" stroke="#ff8f00" stroke-width="1"/>
+          <circle cx="22.5" cy="23.5" r="1.2" fill="#ffffff" opacity="0.95"/>
         </g>
 
         <!-- ==================== ÖZEL ŞEKERLER ==================== -->
 
-        <!-- Cam Dış Jel Paket (Wrapped Candy Base Wrapper) -->
+        <!-- Şeker Paketi (Gold Gift Box with Purple Ribbon) -->
         <g id="special-wrapped">
-          <!-- Transparan jelatik poşet -->
-          <path d="M 8 8 L 12 5 L 16 8 L 20 5 L 24 8 L 28 5 L 32 8 L 36 5 L 40 8 L 43 12 L 40 16 L 43 20 L 40 24 L 43 28 L 40 32 L 43 36 L 40 40 L 36 43 L 32 40 L 28 43 L 24 40 L 20 43 L 16 40 L 12 43 L 8 40 L 5 36 L 8 32 L 5 28 L 8 24 L 5 20 L 8 16 L 5 12 Z" 
-                fill="rgba(255, 255, 255, 0.25)" 
-                stroke="rgba(255, 255, 255, 0.75)" 
-                stroke-width="2" 
-                filter="url(#shadow-candy)" />
-          <path d="M 12 12 Q 24 15 36 12" fill="none" stroke="#ffffff" stroke-width="2.2" opacity="0.65" />
+          <rect x="7" y="7" width="34" height="34" rx="5" fill="#ffd54f" stroke="#ff8f00" stroke-width="1.8" filter="url(#shadow-candy)"/>
+          <rect x="21" y="7" width="6" height="34" fill="#ab47bc"/>
+          <rect x="7" y="21" width="34" height="6" fill="#ab47bc"/>
+          <path d="M21,7 C17,3 21,1 24,6 C27,1 31,3 27,7 Z" fill="#ab47bc"/>
         </g>
 
-        <!-- 7. Galaxy Bomb (Premium Galactic Color Bomb) -->
+        <!-- 7. Kurabiye Bombası (Cookie Bomb) -->
         <g id="candy-bomb">
-          <radialGradient id="grad-galaxy-bomb" cx="35%" cy="30%" r="65%">
-            <stop offset="0%" stop-color="#ab47bc"/>
-            <stop offset="35%" stop-color="#311b92"/>
-            <stop offset="75%" stop-color="#1a0033"/>
-            <stop offset="100%" stop-color="#07000d"/>
+          <radialGradient id="grad-cookie-bomb" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#ffe0b2"/>
+            <stop offset="50%" stop-color="#d84315"/>
+            <stop offset="90%" stop-color="#8d6e63"/>
+            <stop offset="100%" stop-color="#4e342e"/>
           </radialGradient>
           
-          <!-- Arkada parlayan neon yıldız patlaması -->
-          <path d="M24,2 L27,15 L40,12 L30,22 L45,26 L30,30 L40,40 L27,33 L24,46 L21,33 L8,40 L18,30 L3,26 L18,22 L8,12 L21,15 Z" fill="#e040fb" opacity="0.25" filter="blur(2px)"/>
+          <!-- Arkada parlayan fırın parıltısı -->
+          <circle cx="24" cy="24" r="21" fill="#ffe082" opacity="0.25" filter="blur(1.5px)"/>
           
-          <!-- Golden Fuse Ring/Loop -->
-          <path d="M24,7 L24,2 A3.5,3.5 0 0,1 27.5,-1.5 A3.5,3.5 0 0,1 31,2 L31,7" fill="none" stroke="#ffd54f" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+          <!-- Cookie Body -->
+          <circle cx="24" cy="24" r="18" fill="url(#grad-cookie-bomb)" filter="url(#shadow-candy)"/>
           
-          <!-- Planetary Body -->
-          <circle cx="24" cy="24" r="18" fill="url(#grad-galaxy-bomb)" filter="url(#shadow-candy)"/>
+          <!-- Chocolate chips & colorful sprinkles -->
+          <!-- Red Chip -->
+          <circle cx="16" cy="18" r="3" fill="#ff1744" stroke="#880e4f" stroke-width="0.8"/>
+          <circle cx="15" cy="17" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <!-- Yellow Chip -->
+          <circle cx="24" cy="13" r="2.8" fill="#ffea00" stroke="#f57f17" stroke-width="0.8"/>
+          <circle cx="23" cy="12" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <!-- Blue Chip -->
+          <circle cx="31" cy="19" r="3.2" fill="#00e5ff" stroke="#006064" stroke-width="0.8"/>
+          <circle cx="30" cy="18" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <!-- Green Chip -->
+          <circle cx="20" cy="30" r="3" fill="#00e676" stroke="#1b5e20" stroke-width="0.8"/>
+          <circle cx="19" cy="29" r="0.8" fill="#ffffff" opacity="0.8"/>
+          <!-- Purple Chip -->
+          <circle cx="29" cy="28" r="2.8" fill="#d500f9" stroke="#4a148c" stroke-width="0.8"/>
+          <circle cx="28" cy="27" r="0.8" fill="#ffffff" opacity="0.8"/>
           
-          <!-- Planetary Ring -->
-          <ellipse cx="24" cy="24" rx="22" ry="5.5" transform="rotate(-15 24 24)" fill="none" stroke="#e040fb" stroke-width="2" opacity="0.6"/>
-
-          <!-- Glowing Spiral Nebula core -->
-          <path d="M24,24 Q28,19 32,23 Q35,28 30,32 Q23,35 18,30 Q13,24 18,17 Q24,11 31,14" fill="none" stroke="#ffd54f" stroke-width="1.8" stroke-linecap="round" opacity="0.75"/>
-          <circle cx="24" cy="24" r="3.5" fill="#ffffff" filter="blur(0.5px)" opacity="0.9"/>
-          
-          <!-- Specular Glare -->
+          <!-- Specular Highlight -->
           <ellipse cx="19" cy="14" rx="7" ry="3.2" transform="rotate(-30 19 14)" fill="#ffffff" opacity="0.45"/>
         </g>
         

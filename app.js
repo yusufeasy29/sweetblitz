@@ -1128,10 +1128,10 @@ const LEVELS = {
 };
 
 const THEMES = [
-  { minLvl: 1, maxLvl: 2, className: 'theme-forest', name: 'Şeker Ormanı' },
-  { minLvl: 3, maxLvl: 4, className: 'theme-chocolate', name: 'Çikolata Vadisi' },
-  { minLvl: 5, maxLvl: 6, className: 'theme-mint', name: 'Nane Tepeleri' },
-  { minLvl: 7, maxLvl: Infinity, className: 'theme-cosmic', name: 'Kozmik Galaksi' }
+  { minLvl: 1, maxLvl: 2, className: 'theme-forest', name: 'Çiçek Bahçesi' },
+  { minLvl: 3, maxLvl: 4, className: 'theme-chocolate', name: 'Çikolata Nehri' },
+  { minLvl: 5, maxLvl: 6, className: 'theme-mint', name: 'Şeker Çalıları' },
+  { minLvl: 7, maxLvl: Infinity, className: 'theme-cosmic', name: 'Gökkuşağı Vadisi' }
 ];
 
 function getThemeForLevel(lvl) {
@@ -1635,7 +1635,7 @@ function initializeBoard() {
       chocolateElements[idx] = chocolateDiv;
     }
 
-    // Blocker (Duvar / Meteor Rock) var mı?
+    // Blocker (Taş Blok) var mı?
     if (blockerBoard[idx] > 0) {
       const blockerDiv = document.createElement('div');
       blockerDiv.className = `blocker layer-${blockerBoard[idx]}`;
@@ -1644,36 +1644,29 @@ function initializeBoard() {
         <div class="blocker-inner">
           <svg viewBox="0 0 48 48" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <radialGradient id="meteor-grad" cx="30%" cy="30%" r="70%">
-                <stop offset="0%" stop-color="#a1887f"/>
-                <stop offset="35%" stop-color="#5d4037"/>
-                <stop offset="75%" stop-color="#3e2723"/>
-                <stop offset="100%" stop-color="#1b0c0a"/>
+              <radialGradient id="stone-grad" cx="30%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#e0e0e0"/>
+                <stop offset="45%" stop-color="#9e9e9e"/>
+                <stop offset="85%" stop-color="#424242"/>
+                <stop offset="100%" stop-color="#212121"/>
               </radialGradient>
-              <linearGradient id="crater-shadow" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#120605"/>
-                <stop offset="100%" stop-color="#3e2723"/>
-              </linearGradient>
             </defs>
 
-            <!-- Base Asteroid Shape -->
-            <path d="M24,4 C30,4 35,6 40,11 C45,16 46,22 44,28 C42,34 38,40 32,42 C26,44 20,44 14,40 C8,36 4,30 4,24 C4,18 8,10 14,6 C20,2 22,4 24,4 Z" fill="url(#meteor-grad)" filter="url(#shadow-candy)"/>
+            <!-- Stone base block -->
+            <rect x="4" y="4" width="40" height="40" rx="8" fill="url(#stone-grad)" stroke="#212121" stroke-width="1.8" filter="url(#shadow-candy)"/>
             
-            <!-- Craters -->
-            <ellipse cx="16" cy="16" rx="5" ry="3.8" fill="url(#crater-shadow)" stroke="#8d6e63" stroke-width="1"/>
-            <ellipse cx="14.5" cy="15" rx="3.5" ry="2.2" fill="#1b0c0a" opacity="0.8"/>
-            <ellipse cx="32" cy="22" rx="6" ry="4.5" fill="url(#crater-shadow)" stroke="#8d6e63" stroke-width="1.2"/>
-            <ellipse cx="30" cy="21" rx="4" ry="2.8" fill="#1b0c0a" opacity="0.8"/>
-            <ellipse cx="20" cy="32" rx="4" ry="3" fill="url(#crater-shadow)" stroke="#8d6e63" stroke-width="0.8"/>
+            <!-- Moss overlay at the top -->
+            <path d="M4,10 C10,6 18,12 28,6 C34,10 40,5 44,10 L44,4 L4,4 Z" fill="#4caf50" opacity="0.85"/>
+            <path d="M12,12 C16,10 20,14 24,11 C28,13 32,10 36,12" fill="none" stroke="#2e7d32" stroke-width="1.2" opacity="0.6"/>
 
             <!-- Highlights -->
-            <path d="M12,8 Q24,4 36,8" fill="none" stroke="#d7ccc8" stroke-width="1.8" opacity="0.45" stroke-linecap="round"/>
+            <path d="M6,6 L42,6" stroke="#ffffff" stroke-width="1.5" opacity="0.55" stroke-linecap="round"/>
+            <path d="M6,6 L6,42" stroke="#ffffff" stroke-width="1.5" opacity="0.55" stroke-linecap="round"/>
 
-            <!-- Cracks layer -->
+            <!-- Cracks layer (visible in Layer 1) -->
             <g class="blocker-cracks">
-              <polyline points="24,24 20,28 26,34 22,40" stroke="#120605" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="16,16 20,19 18,24" stroke="#120605" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="32,22 28,26 34,31" stroke="#120605" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="20,15 15,22 25,28 18,36" stroke="#1c1c1c" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="32,18 28,24 35,32" stroke="#1c1c1c" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </g>
           </svg>
         </div>
@@ -2090,7 +2083,7 @@ async function executeSwap(idx1, idx2) {
       for (let i = 0; i < board.length; i++) {
         if (board[i]) targetIndices.add(i);
       }
-      spawnFloatingText(cx, cy, "KOZMİK TEMİZLİK!", "#ffd23f");
+      spawnFloatingText(cx, cy, "BAHÇE TEMİZLİĞİ!", "#ffd23f");
     } 
     else if (s1 === 'bomb' || s2 === 'bomb') {
       // BOMB + STRIPE/WRAP/FISH: Diğer rengin tüm şekerlerini o özel şekere çevir ve patlat!
