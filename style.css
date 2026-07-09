@@ -2686,29 +2686,29 @@ body {
 }
 
 #btn-spin-wheel {
-  background: linear-gradient(180deg, #7ad312 0%, #4cb006 100%) !important;
-  border: 2.5px solid #ffffff !important;
-  color: white !important;
+  font-family: 'Fredoka', sans-serif !important;
+  font-size: 1.35rem !important;
   font-weight: 900 !important;
-  border-radius: 50px !important;
-  box-shadow: 
-    0 8px 20px rgba(76, 176, 60, 0.45), 
-    inset 0 3px 0 rgba(255, 255, 255, 0.4) !important;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important;
+  text-shadow: 0 2px 0 #2e7d32, 0 3px 6px rgba(0,0,0,0.3) !important;
+  border-radius: 28px !important;
+  border: 3px solid #ffffff !important;
+  color: white !important;
+  background: linear-gradient(135deg, #a5d6a7 0%, #4caf50 100%) !important;
+  box-shadow: 0 6px 0 #2e7d32, 0 10px 25px rgba(76, 175, 80, 0.45) !important;
+  padding: 14px 24px !important;
   transition: transform 0.1s ease, box-shadow 0.1s ease !important;
-  padding: 12px 24px !important;
-  font-size: 1.1rem !important;
-  box-shadow: 0 4px 10px rgba(15, 188, 249, 0.4) !important;
-  transition: transform 0.1s ease, box-shadow 0.2s ease !important;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+  max-width: 260px;
 }
-
 #btn-spin-wheel:hover {
-  transform: scale(1.04) !important;
-  box-shadow: 0 6px 15px rgba(15, 188, 249, 0.6) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  filter: brightness(1.05);
 }
-
 #btn-spin-wheel:active {
-  transform: scale(0.98) !important;
+  transform: translateY(3px) scale(0.98) !important;
+  box-shadow: 0 3px 0 #2e7d32, 0 5px 12px rgba(76, 175, 80, 0.35) !important;
 }
 
 /* Çarkıfelek Sidebar Item */
