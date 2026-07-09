@@ -593,10 +593,26 @@ function spawnBombLasers(bombX, bombY, targets) {
       x2: px2,
       y2: py2,
       color: color,
-      thickness: 8,
+      thickness: 6,
       alpha: 1,
-      decay: 0.08
+      decay: 0.07 // slightly faster decay for electric snap look
     });
+
+    // Çarpma noktasında kıvılcım saçılması (Flying sparks at impact points)
+    for (let s = 0; s < 6; s++) {
+      effects.push({
+        type: 'particle',
+        x: px2,
+        y: py2,
+        vx: (Math.random() - 0.5) * 7,
+        vy: (Math.random() - 0.5) * 7 - 2,
+        gravity: 0.15,
+        radius: Math.random() * 3 + 1.5,
+        color: color,
+        alpha: 1,
+        decay: 0.04
+      });
+    }
   });
 }
 
@@ -767,23 +783,81 @@ function updateAndDrawEffects() {
       ctx.stroke();
 
     } else if (eff.type === 'bomb-laser') {
-      // Neon parlaması
+      const x1 = eff.x1;
+      const y1 = eff.y1;
+      const x2 = eff.x2;
+      const y2 = eff.y2;
+
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      // Segment sayısı mesafeye göre hesaplanır
+      const segments = Math.max(6, Math.floor(distance / 18));
+
+      // Dik vektörler (Perpendicular unit vector)
+      const px = -dy / distance;
+      const py = dx / distance;
+
+      const points = [{ x: x1, y: y1 }];
+      for (let i = 1; i < segments; i++) {
+        const fraction = i / segments;
+        const cx = x1 + dx * fraction;
+        const cy = y1 + dy * fraction;
+
+        // Parabolik zarf: şimşek uçlarda sıfır, ortada maksimum kıvrılır
+        const envelope = Math.sin(fraction * Math.PI);
+        const displacement = (Math.random() - 0.5) * 18 * envelope;
+
+        points.push({
+          x: cx + px * displacement,
+          y: cy + py * displacement
+        });
+      }
+      points.push({ x: x2, y: y2 });
+
+      // 1. Neon elektrik parlaması (Glow path)
       ctx.beginPath();
       ctx.strokeStyle = eff.color;
       ctx.lineWidth = (eff.thickness + 12) * eff.alpha;
-      ctx.globalAlpha = eff.alpha * 0.4;
-      ctx.moveTo(eff.x1, eff.y1);
-      ctx.lineTo(eff.x2, eff.y2);
+      ctx.globalAlpha = eff.alpha * 0.45;
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+      }
       ctx.stroke();
 
-      // Beyaz lazer çizgisi
+      // 2. Beyaz sıcak elektrik çekirdeği (White core)
       ctx.beginPath();
       ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = eff.thickness * eff.alpha;
       ctx.globalAlpha = eff.alpha;
-      ctx.moveTo(eff.x1, eff.y1);
-      ctx.lineTo(eff.x2, eff.y2);
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+      }
       ctx.stroke();
+
+      // 3. Parlayan çarpma küreleri (Glowing energy flares at both ends)
+      ctx.save();
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = eff.color;
+
+      // Çıkış noktası parlaması (Color Bomb)
+      ctx.beginPath();
+      ctx.arc(x1, y1, 10 * eff.alpha, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.globalAlpha = eff.alpha * 0.8;
+      ctx.fill();
+
+      // Vuruş noktası parlaması (Target Candy)
+      ctx.beginPath();
+      ctx.arc(x2, y2, 12 * eff.alpha, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.globalAlpha = eff.alpha * 0.9;
+      ctx.fill();
+
+      ctx.restore();
 
     } else if (eff.type === 'fish') {
       eff.t += 0.045;
@@ -5249,17 +5323,19 @@ function triggerWheelSpin() {
   if (btnSpin) btnSpin.disabled = true;
   if (btnClose) btnClose.style.display = 'none';
   
-  // 6 Sektörlü çark, rastgele ödül seç
-  // 0: 250 Altın (Cyan)
-  // 1: Boş (Green)
-  // 2: 1 Çekiç (Yellow)
-  // 3: 500 Altın (Blue)
-  // 4: Boş (Green)
-  // 5: 1000 Altın (Purple)
-  const targetSector = Math.floor(Math.random() * 6);
+  // 8 Sektörlü çark, rastgele ödül seç
+  // 0: 1x Çekiç 🔨
+  // 1: 1x Sprey 🚀
+  // 2: 100 Altın 🪙
+  // 3: Süper Hediye (Her Jokere +1) 🍯
+  // 4: 3x Can ❤️
+  // 5: 1x Sprey 🚀
+  // 6: +5 Hamle ➕
+  // 7: 1x Renk Bombası 💣
+  const targetSector = Math.floor(Math.random() * 8);
   const wheelMain = document.getElementById('wheel-main');
   
-  const finalAngle = (5 * 360) + (360 - (targetSector * 60 + 30));
+  const finalAngle = (5 * 360) + (360 - (targetSector * 45 + 22.5));
   
   if (wheelMain) {
     wheelMain.style.transform = `rotate(${finalAngle}deg)`;
@@ -5271,21 +5347,33 @@ function triggerWheelSpin() {
     
     let prizeName = "";
     if (targetSector === 0) {
-      jokers.bomb++;
-      prizeName = "1 adet Renk Bombası 💣";
-    } else if (targetSector === 1) {
-      prizeName = "Maalesef Boş Çıktı! 🍃 Yeni şanslar!";
-    } else if (targetSector === 2) {
       jokers.hammer++;
       prizeName = "1 adet Çekiç 🔨";
+    } else if (targetSector === 1) {
+      jokers.spray++;
+      prizeName = "1 adet Sprey 🚀";
+    } else if (targetSector === 2) {
+      goldBars += 100;
+      prizeName = "100 Altın 🪙";
     } else if (targetSector === 3) {
+      jokers.hammer++;
+      jokers.spray++;
+      jokers.moves++;
+      jokers.bomb++;
       jokers.fish++;
-      prizeName = "1 adet Jelibon Balığı 🐠";
+      prizeName = "Süper Hediye! (Tüm Jokerlere +1) 🍯";
     } else if (targetSector === 4) {
-      prizeName = "Maalesef Boş Çıktı! 🍃 Yeni şanslar!";
+      lives = Math.min(5, lives + 3);
+      prizeName = "3 adet Can ❤️";
     } else if (targetSector === 5) {
       jokers.spray++;
       prizeName = "1 adet Sprey 🚀";
+    } else if (targetSector === 6) {
+      jokers.moves++;
+      prizeName = "1 adet +5 Hamle Joker ➕";
+    } else if (targetSector === 7) {
+      jokers.bomb++;
+      prizeName = "1 adet Renk Bombası 💣";
     }
     
     if (isFree) {
@@ -5298,13 +5386,8 @@ function triggerWheelSpin() {
     updateSidebarStats();
     checkDailySpinState();
     
-    if (targetSector === 1 || targetSector === 4) {
-      soundEngine.playPop(0);
-      alert(`Çark Sonucu:\n${prizeName}`);
-    } else {
-      soundEngine.playLevelUp();
-      alert(`Tebrikler! Çarkıfelekten şunu kazandınız:\n${prizeName}`);
-    }
+    soundEngine.playLevelUp();
+    alert(`Tebrikler! Çarkıfelekten şunu kazandınız:\n${prizeName}`);
     
     const modal = document.getElementById('spin-wheel-modal');
     if (modal) modal.classList.remove('active');
