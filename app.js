@@ -1609,44 +1609,33 @@ function initializeBoard() {
       chocolateDiv.innerHTML = `<div class="chocolate-inner">
         <svg viewBox="0 0 48 48" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="choc-grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#7b3f00"/>
-              <stop offset="40%" stop-color="#4e2204"/>
-              <stop offset="100%" stop-color="#2a0e00"/>
-            </linearGradient>
-            <linearGradient id="choc-sheen" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="rgba(255,220,160,0.35)"/>
-              <stop offset="100%" stop-color="rgba(255,220,160,0)"/>
-            </linearGradient>
+            <radialGradient id="choc-grad" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#8d6e63"/>
+              <stop offset="35%" stop-color="#4e342e"/>
+              <stop offset="85%" stop-color="#2d1510"/>
+              <stop offset="100%" stop-color="#140502"/>
+            </radialGradient>
           </defs>
           <!-- Base tile -->
-          <rect x="2" y="2" width="44" height="44" rx="7" fill="url(#choc-grad)" stroke="#1a0800" stroke-width="1.5"/>
-          <!-- Segment grid lines (chocolate bar look) -->
-          <line x1="17" y1="2" x2="17" y2="46" stroke="#1a0800" stroke-width="1.5"/>
-          <line x1="31" y1="2" x2="31" y2="46" stroke="#1a0800" stroke-width="1.5"/>
-          <line x1="2" y1="17" x2="46" y2="17" stroke="#1a0800" stroke-width="1.5"/>
-          <line x1="2" y1="31" x2="46" y2="31" stroke="#1a0800" stroke-width="1.5"/>
-          <!-- Segment inner glow per square -->
-          <rect x="3" y="3" width="13" height="13" rx="3" fill="rgba(255,180,60,0.07)"/>
-          <rect x="18" y="3" width="12" height="13" rx="3" fill="rgba(255,180,60,0.07)"/>
-          <rect x="32" y="3" width="13" height="13" rx="3" fill="rgba(255,180,60,0.07)"/>
-          <rect x="3" y="18" width="13" height="12" rx="3" fill="rgba(255,180,60,0.07)"/>
-          <rect x="18" y="18" width="12" height="12" rx="3" fill="rgba(255,180,60,0.07)"/>
-          <rect x="32" y="18" width="13" height="12" rx="3" fill="rgba(255,180,60,0.07)"/>
-          <rect x="3" y="32" width="13" height="13" rx="3" fill="rgba(255,180,60,0.07)"/>
-          <rect x="18" y="32" width="12" height="13" rx="3" fill="rgba(255,180,60,0.07)"/>
-          <rect x="32" y="32" width="13" height="13" rx="3" fill="rgba(255,180,60,0.07)"/>
-          <!-- Top gloss sheen -->
-          <rect x="3" y="3" width="42" height="18" rx="6" fill="url(#choc-sheen)"/>
-          <!-- Highlight sparkle -->
-          <ellipse cx="11" cy="8" rx="4" ry="2" transform="rotate(-20 11 8)" fill="rgba(255,255,255,0.18)"/>
+          <rect x="3" y="3" width="42" height="42" rx="8" fill="url(#choc-grad)" stroke="#140502" stroke-width="1.8" filter="url(#shadow-candy)"/>
+          <!-- Concentric Square 1 (Outer Emboss) -->
+          <rect x="8" y="8" width="32" height="32" rx="5" fill="none" stroke="#140502" stroke-width="1.8"/>
+          <rect x="9" y="9" width="30" height="30" rx="4" fill="none" stroke="#a1887f" stroke-width="1" opacity="0.3"/>
+          <!-- Concentric Square 2 (Inner Emboss) -->
+          <rect x="14" y="14" width="20" height="20" rx="3" fill="none" stroke="#140502" stroke-width="1.8"/>
+          <rect x="15" y="15" width="18" height="18" rx="2" fill="none" stroke="#a1887f" stroke-width="1" opacity="0.4"/>
+          <!-- Concentric Square 3 (Center button) -->
+          <rect x="20" y="20" width="8" height="8" rx="1.5" fill="#140502" opacity="0.4"/>
+          <!-- Spec gloss sheen -->
+          <path d="M 6 6 L 42 6" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+          <path d="M 6 6 L 6 42" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
         </svg>
       </div>`;
       boardContainer.appendChild(chocolateDiv);
       chocolateElements[idx] = chocolateDiv;
     }
 
-    // Blocker (Duvar) var mı?
+    // Blocker (Duvar / Meteor Rock) var mı?
     if (blockerBoard[idx] > 0) {
       const blockerDiv = document.createElement('div');
       blockerDiv.className = `blocker layer-${blockerBoard[idx]}`;
@@ -1655,83 +1644,37 @@ function initializeBoard() {
         <div class="blocker-inner">
           <svg viewBox="0 0 48 48" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <!-- Brick face gradient: Layer 2 (intact, dark red brick) -->
-              <linearGradient id="brick-face-2" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stop-color="#c0472a"/>
-                <stop offset="35%"  stop-color="#a53a22"/>
-                <stop offset="100%" stop-color="#7a2910"/>
+              <radialGradient id="meteor-grad" cx="30%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#a1887f"/>
+                <stop offset="35%" stop-color="#5d4037"/>
+                <stop offset="75%" stop-color="#3e2723"/>
+                <stop offset="100%" stop-color="#1b0c0a"/>
+              </radialGradient>
+              <linearGradient id="crater-shadow" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#120605"/>
+                <stop offset="100%" stop-color="#3e2723"/>
               </linearGradient>
-              <!-- Brick face gradient: Layer 1 (damaged, faded brick) -->
-              <linearGradient id="brick-face-1" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stop-color="#b0927a"/>
-                <stop offset="35%"  stop-color="#8c7060"/>
-                <stop offset="100%" stop-color="#604840"/>
-              </linearGradient>
-              <!-- Brick top-edge highlight (3D bevel illusion) -->
-              <linearGradient id="brick-top-2" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stop-color="#e86040"/>
-                <stop offset="100%" stop-color="#c0472a"/>
-              </linearGradient>
-              <linearGradient id="brick-top-1" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stop-color="#d0b098"/>
-                <stop offset="100%" stop-color="#9a7a68"/>
-              </linearGradient>
-              <!-- Mortar: recessed grey cement -->
-              <linearGradient id="mortar" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stop-color="#3a3028"/>
-                <stop offset="100%" stop-color="#251e18"/>
-              </linearGradient>
-              <!-- Overall drop shadow -->
-              <filter id="wall-drop-shadow">
-                <feDropShadow dx="0" dy="2.5" stdDeviation="1.5" flood-color="#000" flood-opacity="0.7"/>
-              </filter>
             </defs>
 
-            <!-- ── MORTAR BACKGROUND (fills entire tile) ── -->
-            <rect x="0" y="0" width="48" height="48" fill="url(#mortar)" rx="4"/>
+            <!-- Base Asteroid Shape -->
+            <path d="M24,4 C30,4 35,6 40,11 C45,16 46,22 44,28 C42,34 38,40 32,42 C26,44 20,44 14,40 C8,36 4,30 4,24 C4,18 8,10 14,6 C20,2 22,4 24,4 Z" fill="url(#meteor-grad)" filter="url(#shadow-candy)"/>
+            
+            <!-- Craters -->
+            <ellipse cx="16" cy="16" rx="5" ry="3.8" fill="url(#crater-shadow)" stroke="#8d6e63" stroke-width="1"/>
+            <ellipse cx="14.5" cy="15" rx="3.5" ry="2.2" fill="#1b0c0a" opacity="0.8"/>
+            <ellipse cx="32" cy="22" rx="6" ry="4.5" fill="url(#crater-shadow)" stroke="#8d6e63" stroke-width="1.2"/>
+            <ellipse cx="30" cy="21" rx="4" ry="2.8" fill="#1b0c0a" opacity="0.8"/>
+            <ellipse cx="20" cy="32" rx="4" ry="3" fill="url(#crater-shadow)" stroke="#8d6e63" stroke-width="0.8"/>
 
-            <!-- ════ ROW 1 (top): 2 full bricks, offset seam at centre ════ -->
-            <!-- Brick 1-A -->
-            <rect x="1"  y="1"  width="22" height="13" rx="1.5" class="brick-face"/>
-            <rect x="1"  y="1"  width="22" height="3"  rx="1.5" class="brick-top"/>
-            <!-- Brick 1-B -->
-            <rect x="25" y="1"  width="22" height="13" rx="1.5" class="brick-face"/>
-            <rect x="25" y="1"  width="22" height="3"  rx="1.5" class="brick-top"/>
+            <!-- Highlights -->
+            <path d="M12,8 Q24,4 36,8" fill="none" stroke="#d7ccc8" stroke-width="1.8" opacity="0.45" stroke-linecap="round"/>
 
-            <!-- ════ ROW 2 (middle): offset — 3 bricks, seams stagger ════ -->
-            <!-- Brick 2-A (half-brick left) -->
-            <rect x="1"  y="16" width="11" height="13" rx="1.5" class="brick-face"/>
-            <rect x="1"  y="16" width="11" height="3"  rx="1.5" class="brick-top"/>
-            <!-- Brick 2-B (full middle) -->
-            <rect x="14" y="16" width="20" height="13" rx="1.5" class="brick-face"/>
-            <rect x="14" y="16" width="20" height="3"  rx="1.5" class="brick-top"/>
-            <!-- Brick 2-C (half-brick right) -->
-            <rect x="36" y="16" width="11" height="13" rx="1.5" class="brick-face"/>
-            <rect x="36" y="16" width="11" height="3"  rx="1.5" class="brick-top"/>
-
-            <!-- ════ ROW 3 (bottom): 2 full bricks (same as row 1) ════ -->
-            <!-- Brick 3-A -->
-            <rect x="1"  y="31" width="22" height="16" rx="1.5" class="brick-face"/>
-            <rect x="1"  y="31" width="22" height="3"  rx="1.5" class="brick-top"/>
-            <!-- Brick 3-B -->
-            <rect x="25" y="31" width="22" height="16" rx="1.5" class="brick-face"/>
-            <rect x="25" y="31" width="22" height="3"  rx="1.5" class="brick-top"/>
-
-            <!-- ── CRACKS: hidden layer-2, shown layer-1 ── -->
+            <!-- Cracks layer -->
             <g class="blocker-cracks">
-              <!-- Crack on brick 1-A -->
-              <polyline points="9,4 11,8 8,12 10,14" stroke="#1a0c06" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="9,4 11,8 8,12 10,14" stroke="rgba(255,160,80,0.3)" stroke-width="0.6" fill="none"/>
-              <!-- Crack on brick 2-B -->
-              <polyline points="22,19 24,23 21,27 23,29" stroke="#1a0c06" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="22,19 24,23 21,27 23,29" stroke="rgba(255,160,80,0.25)" stroke-width="0.6" fill="none"/>
-              <!-- Crack on brick 3-B -->
-              <polyline points="34,33 32,38 35,41 33,45" stroke="#1a0c06" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="34,33 32,38 35,41 33,45" stroke="rgba(255,160,80,0.2)" stroke-width="0.5" fill="none"/>
+              <polyline points="24,24 20,28 26,34 22,40" stroke="#120605" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="16,16 20,19 18,24" stroke="#120605" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="32,22 28,26 34,31" stroke="#120605" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </g>
-
-            <!-- ── Global top-right gloss (subtle 3D light source) ── -->
-            <rect x="0" y="0" width="48" height="18" rx="4" fill="rgba(255,240,210,0.06)"/>
           </svg>
         </div>
       `;
@@ -2862,23 +2805,26 @@ async function spreadChocolate() {
   chocolateDiv.innerHTML = `<div class="chocolate-inner">
     <svg viewBox="0 0 48 48" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="choc-grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#7b3f00"/>
-          <stop offset="40%" stop-color="#4e2204"/>
-          <stop offset="100%" stop-color="#2a0e00"/>
-        </linearGradient>
-        <linearGradient id="choc-sheen" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="rgba(255,220,160,0.35)"/>
-          <stop offset="100%" stop-color="rgba(255,220,160,0)"/>
-        </linearGradient>
+        <radialGradient id="choc-grad" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#8d6e63"/>
+          <stop offset="35%" stop-color="#4e342e"/>
+          <stop offset="85%" stop-color="#2d1510"/>
+          <stop offset="100%" stop-color="#140502"/>
+        </radialGradient>
       </defs>
-      <rect x="2" y="2" width="44" height="44" rx="7" fill="url(#choc-grad)" stroke="#1a0800" stroke-width="1.5"/>
-      <line x1="17" y1="2" x2="17" y2="46" stroke="#1a0800" stroke-width="1.5"/>
-      <line x1="31" y1="2" x2="31" y2="46" stroke="#1a0800" stroke-width="1.5"/>
-      <line x1="2" y1="17" x2="46" y2="17" stroke="#1a0800" stroke-width="1.5"/>
-      <line x1="2" y1="31" x2="46" y2="31" stroke="#1a0800" stroke-width="1.5"/>
-      <rect x="3" y="3" width="42" height="18" rx="6" fill="url(#choc-sheen)"/>
-      <ellipse cx="11" cy="8" rx="4" ry="2" transform="rotate(-20 11 8)" fill="rgba(255,255,255,0.18)"/>
+      <!-- Base tile -->
+      <rect x="3" y="3" width="42" height="42" rx="8" fill="url(#choc-grad)" stroke="#140502" stroke-width="1.8" filter="url(#shadow-candy)"/>
+      <!-- Concentric Square 1 (Outer Emboss) -->
+      <rect x="8" y="8" width="32" height="32" rx="5" fill="none" stroke="#140502" stroke-width="1.8"/>
+      <rect x="9" y="9" width="30" height="30" rx="4" fill="none" stroke="#a1887f" stroke-width="1" opacity="0.3"/>
+      <!-- Concentric Square 2 (Inner Emboss) -->
+      <rect x="14" y="14" width="20" height="20" rx="3" fill="none" stroke="#140502" stroke-width="1.8"/>
+      <rect x="15" y="15" width="18" height="18" rx="2" fill="none" stroke="#a1887f" stroke-width="1" opacity="0.4"/>
+      <!-- Concentric Square 3 (Center button) -->
+      <rect x="20" y="20" width="8" height="8" rx="1.5" fill="#140502" opacity="0.4"/>
+      <!-- Spec gloss sheen -->
+      <path d="M 6 6 L 42 6" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+      <path d="M 6 6 L 6 42" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
     </svg>
   </div>`;
   
