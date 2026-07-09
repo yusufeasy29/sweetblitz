@@ -31,7 +31,7 @@ html, body {
 
 body {
   font-family: var(--font-main);
-  background: #12072b;
+  background: radial-gradient(circle at center, #27144d 0%, #0d031c 100%) !important;
   color: var(--text-primary);
   height: 100vh;
   height: 100dvh; /* Dynamic viewport height for mobile browsers */
@@ -372,16 +372,23 @@ body {
   width: 80%;
   padding: 16px 32px;
   font-size: 1.4rem;
-  background: linear-gradient(180deg, #ff4081 0%, #d81b60 100%);
+  background: linear-gradient(180deg, #7ad312 0%, #4cb006 100%) !important;
   color: white;
-  border-bottom: 6px solid #880e4f;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  border: 2.5px solid #ffffff;
+  border-radius: 50px;
+  box-shadow: 
+    0 8px 20px rgba(76, 176, 60, 0.45), 
+    inset 0 3px 0 rgba(255, 255, 255, 0.4);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  font-weight: 900;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .btn-primary:active {
-  transform: translateY(4px);
-  border-bottom-width: 2px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transform: translateY(3px) scale(0.97);
+  box-shadow: 
+    0 4px 10px rgba(76, 176, 60, 0.3), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* OYUN EKRANI VE HUD */
@@ -390,24 +397,24 @@ body {
   padding: 8px;
   gap: 8px;
   background: 
-    radial-gradient(circle at 20% 20%, rgba(255, 105, 180, 0.4) 0%, transparent 45%),
-    radial-gradient(circle at 80% 80%, rgba(0, 245, 212, 0.3) 0%, transparent 50%),
-    linear-gradient(135deg, #c026d3 0%, #7c3aed 60%, #1e1b4b 100%);
+    radial-gradient(circle at 20% 20%, rgba(138, 43, 226, 0.45) 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(124, 77, 255, 0.35) 0%, transparent 50%),
+    radial-gradient(circle at center, #251245 0%, #0c0218 100%) !important;
 }
 
 /* --- PREMIUM GAME HUD HEADER --- */
 .game-header-premium {
   width: 100%;
-  background: linear-gradient(180deg, #ff8fa1 0%, #ff527b 100%);
-  border: 3.5px solid #ffffff;
+  background: rgba(26, 10, 48, 0.85);
+  border: 2px solid #5c2c9d;
   border-radius: 24px;
   padding: 8px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 
-    0 10px 24px rgba(255, 82, 123, 0.45), 
-    inset 0 3px 0 rgba(255, 255, 255, 0.55);
+    0 8px 24px rgba(0, 0, 0, 0.5), 
+    inset 0 0 10px rgba(171, 71, 188, 0.35);
   margin-top: env(safe-area-inset-top, 4px);
   position: relative;
   z-index: 100;
@@ -415,25 +422,23 @@ body {
 
 /* Sol: Hamle Sayısı Rozeti */
 .hud-moves-badge {
-  background: linear-gradient(135deg, #ffffff 0%, #ffebee 100%);
-  border: 3px solid #ff4081;
-  border-radius: 50%;
+  background: rgba(43, 17, 82, 0.8);
+  border: 2px solid #7c4dff;
+  border-radius: 16px;
   width: 60px;
   height: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 
-    0 4px 10px rgba(0,0,0,0.18), 
-    inset 0 2px 4px rgba(255,255,255,0.8);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   flex-shrink: 0;
 }
 
 .hud-moves-label {
   font-size: 0.46rem;
   font-weight: 900;
-  color: #e91e63;
+  color: #ffffff;
   letter-spacing: 0.4px;
   line-height: 1;
 }
@@ -441,9 +446,9 @@ body {
 .hud-moves-number {
   font-size: 1.6rem;
   font-weight: 900;
-  color: #c2185b;
+  color: #00f5d4;
   line-height: 1;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  text-shadow: 0 1.5px 3px rgba(0,0,0,0.5);
   font-family: var(--font-main);
 }
 
@@ -575,14 +580,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  background: rgba(26, 10, 48, 0.85);
+  border: 2px solid #5c2c9d;
   border-radius: 14px;
   padding: 5px 12px;
   margin-top: 6px;
-  box-shadow: 
-    0 4px 10px rgba(0,0,0,0.1),
-    inset 0 1px 1px rgba(255,255,255,0.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .hud-sec-item {
@@ -627,21 +630,21 @@ body {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background-color: #1a162b;
+  background-color: #1b0a2e;
   background-image: 
-    linear-gradient(45deg, #241e3d 25%, transparent 25%), 
-    linear-gradient(-45deg, #241e3d 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #241e3d 75%), 
-    linear-gradient(-45deg, transparent 75%, #241e3d 75%);
+    linear-gradient(45deg, #2d134d 25%, transparent 25%), 
+    linear-gradient(-45deg, #2d134d 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #2d134d 75%), 
+    linear-gradient(-45deg, transparent 75%, #2d134d 75%);
   background-size: calc(200% / 8) calc(200% / 8); /* 8x8 checkerboard size */
   background-position: 0 0, 0 0, 0 0, 0 0;
-  border: 7px solid #ffffff;
+  border: 6px solid #4a1c8c;
   border-radius: 28px;
   overflow: hidden;
   box-shadow: 
-    0 16px 45px rgba(0,0,0,0.7),
-    0 0 30px rgba(255, 255, 255, 0.35),
-    inset 0 4px 10px rgba(0,0,0,0.8);
+    0 16px 45px rgba(0,0,0,0.8),
+    0 0 25px rgba(171, 71, 188, 0.5),
+    inset 0 4px 12px rgba(0,0,0,0.9);
   margin: auto 0;
   touch-action: none;
 }
@@ -1338,18 +1341,18 @@ body {
   flex-direction: row;
   padding: 0;
   gap: 0;
-  background: #396f1b; /* Yedek arka plan */
+  background: #0d031c; /* Yedek arka plan */
 }
 
 /* Sol Pembe Menü Çubuğu (Sidebar) */
 .map-sidebar {
   width: 75px;
   height: 100%;
-  background: linear-gradient(180deg, #ff8fa1 0%, #e02878 50%, #880e4f 100%);
-  border-right: 4px solid #ffffff;
+  background: linear-gradient(180deg, #3d1b7b 0%, #1e0933 50%, #0d0418 100%);
+  border-right: 3px solid #5c2c9d;
   box-shadow: 
-    5px 0 20px rgba(0, 0, 0, 0.4), 
-    inset -2px 0 0 rgba(0,0,0,0.15);
+    5px 0 20px rgba(0, 0, 0, 0.5), 
+    inset -1px 0 0 rgba(255,255,255,0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1520,17 +1523,17 @@ body {
   position: relative;
   /* Premium Candy Land Cartoon Background Landscape */
   background: 
-    radial-gradient(circle at 10% 15%, rgba(255,204,213,0.4) 0%, transparent 40%),
-    radial-gradient(circle at 85% 45%, rgba(224,247,250,0.5) 0%, transparent 35%),
-    radial-gradient(circle at 20% 75%, rgba(255,235,59,0.3) 0%, transparent 30%),
+    radial-gradient(circle at 10% 15%, rgba(138, 43, 226, 0.45) 0%, transparent 40%),
+    radial-gradient(circle at 85% 45%, rgba(0, 245, 212, 0.35) 0%, transparent 35%),
+    radial-gradient(circle at 20% 75%, rgba(124, 77, 255, 0.45) 0%, transparent 30%),
     linear-gradient(180deg, 
-      #a0c4ff 0%,    /* Sky Blue */
-      #c1f0c8 15%,   /* Green Candy Hills */
-      #a8e6cf 35%,
-      #ffd3b6 50%,   /* Peach Desert */
-      #ffaaa5 65%,
-      #e8aeec 80%,   /* Lilac Mountain Land */
-      #ffccd5 100%   /* Pink Bubblegum Valley */
+      #080214 0%,    /* Cosmic dark */
+      #1b0a33 15%,   /* Nebula violet */
+      #2c0c5e 35%,
+      #1a0438 50%,   /* Space purple */
+      #0f0224 65%,
+      #210940 80%,   /* Galactic nebulae */
+      #0a0118 100%
     );
   background-size: 100% 100%;
   overflow: hidden;
@@ -1677,12 +1680,12 @@ body {
 
 /* Kilitli Seviye Düğmesi */
 .level-node-wrapper.locked .level-node-btn {
-  background: radial-gradient(circle at 35% 35%, #cfd8dc 0%, #78909c 70%, #455a64 100%);
+  background: radial-gradient(circle at 35% 35%, #503d6d 0%, #31214a 70%, #1e1133 100%) !important;
   box-shadow: 
-    0 6px 0 #37474f, 
-    0 6px 10px rgba(0,0,0,0.2),
-    inset 0 2px 3px rgba(255,255,255,0.4);
-  border-color: #e2e8f0;
+    0 6px 0 #120921, 
+    0 6px 10px rgba(0,0,0,0.3),
+    inset 0 2px 3px rgba(255,255,255,0.2) !important;
+  border-color: #4a3666 !important;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -1704,12 +1707,12 @@ body {
 
 /* Aktif (Bir Sonraki Oynanacak) Seviye */
 .level-node-wrapper.active .level-node-btn {
-  background: radial-gradient(circle at 35% 35%, #ff8fa1 0%, #ff1744 65%, #c2185b 100%); /* Hot Pink 3D */
+  background: radial-gradient(circle at 35% 35%, #9bec00 0%, #7ad312 65%, #4cb006 100%) !important; /* Premium Glossy Green */
   box-shadow: 
-    0 6px 0 #ad1457, 
-    0 0 18px rgba(255, 23, 68, 0.7),
-    inset 0 3px 5px rgba(255,255,255,0.6);
-  border-color: #ffffff;
+    0 6px 0 #2e6b03, 
+    0 0 20px rgba(122, 211, 18, 0.8),
+    inset 0 3px 5px rgba(255,255,255,0.6) !important;
+  border-color: #ffffff !important;
   animation: pulseActiveNode 1.2s infinite alternate ease-in-out;
 }
 
@@ -1833,10 +1836,10 @@ body {
 .level-modal-content {
   width: 82%;
   max-width: 380px;
-  background: linear-gradient(135deg, #4b1b7b 0%, #1e0933 100%);
-  border: 3px solid rgba(255, 210, 63, 0.6);
+  background: radial-gradient(circle at center, #2d124d 0%, #15062b 100%) !important;
+  border: 3px solid #7c4dff !important;
   border-radius: 28px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.65);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.65), 0 0 20px rgba(124, 77, 255, 0.45);
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -2246,13 +2249,13 @@ body {
 .ad-modal-content {
   width: 82%;
   max-width: 380px;
-  background: linear-gradient(135deg, #1e0933 0%, #0d0418 100%);
-  border: 3px solid #00f5d4;
+  background: radial-gradient(circle at center, #2d124d 0%, #15062b 100%) !important;
+  border: 3px solid #7c4dff !important;
   border-radius: 28px;
   padding: 24px;
   text-align: center;
   position: relative;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.65);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.65), 0 0 20px rgba(124, 77, 255, 0.45);
   transform: scale(0.85);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   color: #ffffff;
@@ -2553,8 +2556,8 @@ body {
 .spin-wheel-modal-content {
   max-width: 400px !important;
   background: radial-gradient(circle at center, #2d124d 0%, #15062b 100%) !important;
-  border: 4px solid #7c4dff !important;
-  box-shadow: 0 0 30px rgba(124, 77, 255, 0.5) !important;
+  border: 3px solid #7c4dff !important;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.65), 0 0 20px rgba(124, 77, 255, 0.45) !important;
 }
 
 .wheel-outer-container {
@@ -2668,11 +2671,16 @@ body {
 }
 
 #btn-spin-wheel {
-  background: linear-gradient(180deg, #2bcbba 0%, #0fbcf9 100%) !important;
-  border: 2px solid #ffffff !important;
+  background: linear-gradient(180deg, #7ad312 0%, #4cb006 100%) !important;
+  border: 2.5px solid #ffffff !important;
   color: white !important;
-  font-weight: 800 !important;
-  border-radius: 20px !important;
+  font-weight: 900 !important;
+  border-radius: 50px !important;
+  box-shadow: 
+    0 8px 20px rgba(76, 176, 60, 0.45), 
+    inset 0 3px 0 rgba(255, 255, 255, 0.4) !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease !important;
   padding: 12px 24px !important;
   font-size: 1.1rem !important;
   box-shadow: 0 4px 10px rgba(15, 188, 249, 0.4) !important;
@@ -2809,10 +2817,10 @@ body {
 .lives-refill-modal-content {
   width: 82%;
   max-width: 380px;
-  background: linear-gradient(135deg, #7b1b3a 0%, #330919 100%) !important;
-  border: 3px solid #ff3366 !important;
+  background: radial-gradient(circle at center, #2d124d 0%, #15062b 100%) !important;
+  border: 3px solid #7c4dff !important;
   border-radius: 28px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.65), 0 0 20px rgba(124, 77, 255, 0.45);
   padding: 24px;
   display: flex;
   flex-direction: column;

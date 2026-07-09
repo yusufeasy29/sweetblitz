@@ -666,99 +666,113 @@
         
         <!-- ==================== TEMEL ŞEKERLER ==================== -->
 
-        <!-- 1. Kırmızı Çilek/Jelly Bean (Classic Red Jelly Bean with 3D Specular Highlight) -->
+        <!-- 1. Kırmızı Dönence (Red Swirly Sphere) -->
         <g id="candy-red">
           <radialGradient id="grad-red" cx="30%" cy="30%" r="70%">
             <stop offset="0%" stop-color="#ffccd5"/>
-            <stop offset="25%" stop-color="#ff4d6d"/>
-            <stop offset="75%" stop-color="#c9184a"/>
-            <stop offset="100%" stop-color="#590d22"/>
+            <stop offset="35%" stop-color="#ff1744"/>
+            <stop offset="75%" stop-color="#b71c1c"/>
+            <stop offset="100%" stop-color="#5f0909"/>
           </radialGradient>
-          <!-- 3D Jellybean capsule, rotated like classic Candy Crush -->
-          <rect x="9" y="14" width="30" height="20" rx="10" ry="10" transform="rotate(-30 24 24)" fill="url(#grad-red)" filter="url(#shadow-candy)"/>
-          <!-- Parlak 3D Işık Yansıması (Glossy overlay) -->
-          <path d="M 12 17 C 16 11, 28 11, 31 16 Q 24 13 14 19 Z" fill="#ffffff" opacity="0.65" transform="rotate(-30 24 24)"/>
-          <!-- Ekstra küçük lens parlaması (Pinpoint glare) -->
-          <circle cx="16" cy="18" r="2" fill="#ffffff" opacity="0.85"/>
-          <circle cx="19" cy="15" r="0.8" fill="#ffffff" opacity="0.9"/>
+          <circle cx="24" cy="24" r="17" fill="url(#grad-red)" filter="url(#shadow-candy)"/>
+          <!-- Spiral Swirl -->
+          <path d="M24,24 Q26,20 29,22 Q31,24 29,28 Q26,30 22,28 Q18,25 20,20 Q22,15 28,16 Q34,17 35,23 Q36,30 30,34 Q23,38 16,33" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" opacity="0.45"/>
+          <ellipse cx="19" cy="14" rx="7" ry="3.5" transform="rotate(-30 19 14)" fill="#ffffff" opacity="0.75"/>
+          <circle cx="15" cy="13" r="1.8" fill="#ffffff" opacity="0.9"/>
         </g>
 
-        <!-- 2. Turuncu Oval Şeker (Concentric 3D Orange Oval) -->
+        <!-- 2. Portakal Jeli (Orange Jelly Bean) -->
         <g id="candy-orange">
-          <radialGradient id="grad-orange" cx="35%" cy="35%" r="65%">
-            <stop offset="0%" stop-color="#ffe0b2"/>
-            <stop offset="35%" stop-color="#ffb74d"/>
-            <stop offset="80%" stop-color="#f57c00"/>
-            <stop offset="100%" stop-color="#802000"/>
+          <radialGradient id="grad-orange" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#ffebd5"/>
+            <stop offset="30%" stop-color="#ff9800"/>
+            <stop offset="75%" stop-color="#e65100"/>
+            <stop offset="100%" stop-color="#5d1a00"/>
           </radialGradient>
-          <rect x="7" y="13" width="34" height="22" rx="11" ry="11" fill="url(#grad-orange)" filter="url(#shadow-candy)"/>
-          <!-- 3D Beyaz Hilal Hilali -->
-          <path d="M 11 17 C 15 14, 31 14, 36 17 Q 24 12 12 18 Z" fill="#ffffff" opacity="0.65"/>
-          <!-- Alt yumuşak turuncu ışık yansıması -->
-          <ellipse cx="24" cy="30" rx="11" ry="2.5" fill="#ffd54f" opacity="0.3"/>
-          <circle cx="13" cy="19" r="2.2" fill="#ffffff" opacity="0.85"/>
+          <!-- Jelly bean path (horizontal-tilted capsule) -->
+          <path d="M14,15 C10,18 10,27 15,31 C20,35 30,33 34,29 C38,25 38,16 33,12 C28,8 18,12 14,15 Z" fill="url(#grad-orange)" filter="url(#shadow-candy)"/>
+          <!-- Inner glow/translucency -->
+          <path d="M16,17 C13,19 13,25 17,28 C21,31 29,29 32,26 C35,23 35,17 31,14 C27,11 19,14 16,17 Z" fill="none" stroke="#ffe082" stroke-width="1.5" opacity="0.45"/>
+          <!-- Glossy highlight reflection -->
+          <path d="M16,15 C20,11 29,11 32,15 C26,12 18,12 16,15 Z" fill="#ffffff" opacity="0.75"/>
+          <circle cx="17" cy="18" r="2" fill="#ffffff" opacity="0.9"/>
         </g>
 
-        <!-- 3. Sarı Limon Damlası (Pointed 3D Lemon Drop with Inner Shadow) -->
+        <!-- 3. Bal Damlası (Honey Drop) -->
         <g id="candy-yellow">
-          <radialGradient id="grad-yellow" cx="30%" cy="35%" r="70%">
+          <radialGradient id="grad-yellow" cx="30%" cy="40%" r="70%">
             <stop offset="0%" stop-color="#fffde7"/>
-            <stop offset="30%" stop-color="#fff176"/>
-            <stop offset="75%" stop-color="#fbc02d"/>
-            <stop offset="100%" stop-color="#f57f17"/>
+            <stop offset="35%" stop-color="#ffd54f"/>
+            <stop offset="75%" stop-color="#ff8f00"/>
+            <stop offset="100%" stop-color="#a35200"/>
           </radialGradient>
-          <path d="M24,5 C24,5 40,21 40,32 C40,40 33,42 24,42 C15,42 8,40 8,32 C8,21 24,5 24,5 Z" fill="url(#grad-yellow)" filter="url(#shadow-candy)"/>
-          <!-- İç 3D Kontur Işığı -->
-          <path d="M24,8 C24,8 37,21 37,32 C37,36 32,39 24,39" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-          <!-- Glossy reflection oval -->
-          <ellipse cx="18" cy="28" rx="5" ry="2.5" transform="rotate(-35 18 28)" fill="#ffffff" opacity="0.8"/>
-          <circle cx="19" cy="25" r="1" fill="#ffffff" opacity="0.9"/>
+          <!-- Teardrop shape -->
+          <path d="M24,5 C24,5 40,20 40,31 C40,39 33,42 24,42 C15,42 8,39 8,31 C8,20 24,5 24,5 Z" fill="url(#grad-yellow)" filter="url(#shadow-candy)"/>
+          <!-- Concentric internal light reflect -->
+          <path d="M24,9 C24,9 36,21 36,31 C36,36 31,39 24,39 C17,39 12,36 12,31" fill="none" stroke="#fff59d" stroke-width="1.8" opacity="0.55"/>
+          <!-- Glossy specular highlight -->
+          <ellipse cx="19" cy="27" rx="5" ry="2.2" transform="rotate(-30 19 27)" fill="#ffffff" opacity="0.8"/>
+          <circle cx="21" cy="24" r="1.2" fill="#ffffff" opacity="0.9"/>
         </g>
 
-        <!-- 4. Yeşil Kare Şeker (Rounded 3D Green Jelly Cube) -->
+        <!-- 4. Naneli Kare (Minty Square) -->
         <g id="candy-green">
           <radialGradient id="grad-green" cx="30%" cy="30%" r="70%">
             <stop offset="0%" stop-color="#e8f5e9"/>
-            <stop offset="30%" stop-color="#81c784"/>
-            <stop offset="75%" stop-color="#388e3c"/>
-            <stop offset="100%" stop-color="#0b4614"/>
+            <stop offset="35%" stop-color="#4caf50"/>
+            <stop offset="75%" stop-color="#1b5e20"/>
+            <stop offset="100%" stop-color="#002d08"/>
           </radialGradient>
-          <rect x="8" y="8" width="32" height="32" rx="9" ry="9" fill="url(#grad-green)" filter="url(#shadow-candy)"/>
-          <!-- İç cam efekti çerçevesi -->
-          <rect x="10" y="10" width="28" height="28" rx="7" ry="7" fill="none" stroke="#ffffff" stroke-width="2.2" opacity="0.55"/>
-          <!-- Üst beyaz jel parlaması -->
-          <path d="M 12 13 Q 24 9 36 13" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
-          <circle cx="14" cy="15" r="1.5" fill="#ffffff" opacity="0.9"/>
+          <!-- Rounded square -->
+          <rect x="7" y="7" width="34" height="34" rx="10" ry="10" fill="url(#grad-green)" filter="url(#shadow-candy)"/>
+          <!-- Embossed Leaf inside -->
+          <path d="M24,11 C29,15 31,21 29,27 C27,33 21,35 19,35 C17,32 17,26 19,20 C21,14 24,11 24,11 Z" fill="#81c784" opacity="0.85" stroke="#ffffff" stroke-width="1" stroke-linecap="round"/>
+          <line x1="24" y1="12" x2="20" y2="33" stroke="#1b5e20" stroke-width="1.5" opacity="0.6"/>
+          <!-- Glossy highlight -->
+          <path d="M11,12 Q24,8 37,12" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <circle cx="13" cy="15" r="1.5" fill="#ffffff" opacity="0.9"/>
         </g>
 
-        <!-- 5. Mavi Küre Şeker (Glossy 3D Blue Sphere Lollipop) -->
+        <!-- 5. Uzay Kristali (Space Crystal) -->
         <g id="candy-blue">
           <radialGradient id="grad-blue" cx="30%" cy="30%" r="70%">
             <stop offset="0%" stop-color="#e0f7fa"/>
-            <stop offset="30%" stop-color="#4fc3f7"/>
-            <stop offset="75%" stop-color="#0288d1"/>
-            <stop offset="100%" stop-color="#0d47a1"/>
+            <stop offset="35%" stop-color="#00b0ff"/>
+            <stop offset="75%" stop-color="#0a74da"/>
+            <stop offset="100%" stop-color="#012d6e"/>
           </radialGradient>
-          <circle cx="24" cy="24" r="17" fill="url(#grad-blue)" filter="url(#shadow-candy)"/>
-          <!-- Üst küresel parlama bandı -->
-          <ellipse cx="20" cy="15" rx="8.5" ry="4" transform="rotate(-30 20 15)" fill="#ffffff" opacity="0.75"/>
-          <!-- Küçük yan parıldama -->
-          <circle cx="15" cy="14" r="1.8" fill="#ffffff" opacity="0.85"/>
-          <circle cx="31" cy="31" r="2" fill="#ffffff" opacity="0.25"/> <!-- Karşı yansıma -->
+          <!-- Hexagon crystal -->
+          <polygon points="24,6 38,14 38,30 24,38 10,30 10,14" fill="url(#grad-blue)" filter="url(#shadow-candy)"/>
+          <!-- Inner facets for 3D look -->
+          <polygon points="24,12 32,17 32,27 24,32 16,27 16,17" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+          <!-- Vertices connection lines -->
+          <line x1="24" y1="6" x2="24" y2="12" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+          <line x1="38" y1="14" x2="32" y2="17" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+          <line x1="38" y1="30" x2="32" y2="27" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+          <line x1="24" y1="38" x2="24" y2="32" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+          <line x1="10" y1="30" x2="16" y2="27" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+          <line x1="10" y1="14" x2="16" y2="17" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+          <!-- Shiny highlight facet -->
+          <polygon points="24,6 38,14 32,17 24,12" fill="#ffffff" opacity="0.45"/>
+          <circle cx="16" cy="14" r="1.5" fill="#ffffff" opacity="0.85"/>
         </g>
 
-        <!-- 6. Mor Çiçek/Üzüm (Glossy 3D Purple Grape Cluster) -->
+        <!-- 6. Mor Yıldız (Purple Star) -->
         <g id="candy-purple">
           <radialGradient id="grad-purple" cx="30%" cy="30%" r="70%">
             <stop offset="0%" stop-color="#f3e5f5"/>
-            <stop offset="30%" stop-color="#ba68c8"/>
+            <stop offset="35%" stop-color="#d500f9"/>
             <stop offset="75%" stop-color="#7b1fa2"/>
-            <stop offset="100%" stop-color="#4a0072"/>
+            <stop offset="100%" stop-color="#30004a"/>
           </radialGradient>
-          <path d="M24,7 C29,7 33,11 34,16 C38,16 41,19 41,23 C41,27 38,30 35,30 C33,35 29,38 24,38 C19,38 15,35 13,30 C10,30 7,27 7,23 C7,19 10,16 14,16 C15,11 19,7 24,7 Z" fill="url(#grad-purple)" filter="url(#shadow-candy)"/>
-          <!-- Küresel üst yansıma -->
-          <ellipse cx="24" cy="14" rx="8" ry="3.5" fill="#ffffff" opacity="0.75"/>
-          <circle cx="18" cy="13" r="1.6" fill="#ffffff" opacity="0.85"/>
+          <!-- Star path -->
+          <path d="M24,5 L28.5,15.5 L39.5,16 L31,23.5 L33.5,34.5 L24,28.5 L14.5,34.5 L17,23.5 L8.5,16 L19.5,15.5 Z" fill="url(#grad-purple)" filter="url(#shadow-candy)"/>
+          <!-- Inner concentric star -->
+          <path d="M24,12 L26.2,17 L31.5,17.2 L27.5,20.8 L28.7,26 L24,23.2 L19.3,26 L20.5,20.8 L16.5,17.2 L21.8,17 Z" fill="none" stroke="#f1a7ff" stroke-width="1.5" opacity="0.65"/>
+          <!-- Star center dot/emboss -->
+          <circle cx="24" cy="20" r="3.2" fill="#f1a7ff" opacity="0.55"/>
+          <!-- Glossy highlight -->
+          <ellipse cx="18" cy="14" rx="4.5" ry="2.2" transform="rotate(-30 18 14)" fill="#ffffff" opacity="0.8"/>
         </g>
 
         <!-- ==================== ÖZEL ŞEKERLER ==================== -->
