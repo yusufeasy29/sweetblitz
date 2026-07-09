@@ -5348,10 +5348,10 @@ function triggerWheelSpin() {
     let prizeName = "";
     if (targetSector === 0) {
       jokers.hammer++;
-      prizeName = "1 adet Çekiç 🔨";
+      prizeName = "Çekiç 🔨";
     } else if (targetSector === 1) {
       jokers.spray++;
-      prizeName = "1 adet Sprey 🚀";
+      prizeName = "Jet 🚀";
     } else if (targetSector === 2) {
       goldBars += 100;
       prizeName = "100 Altın 🪙";
@@ -5361,19 +5361,19 @@ function triggerWheelSpin() {
       jokers.moves++;
       jokers.bomb++;
       jokers.fish++;
-      prizeName = "Süper Hediye! (Tüm Jokerlere +1) 🍯";
+      prizeName = "Süper Jet 🍯";
     } else if (targetSector === 4) {
       lives = Math.min(5, lives + 3);
-      prizeName = "3 adet Can ❤️";
+      prizeName = "3 Can ❤️";
     } else if (targetSector === 5) {
       jokers.spray++;
-      prizeName = "1 adet Sprey 🚀";
+      prizeName = "1 Sprey 🚀";
     } else if (targetSector === 6) {
       jokers.moves++;
-      prizeName = "1 adet +5 Hamle Joker ➕";
+      prizeName = "+5 Hamle ➕";
     } else if (targetSector === 7) {
       jokers.bomb++;
-      prizeName = "1 adet Renk Bombası 💣";
+      prizeName = "1 Bomba 💣";
     }
     
     if (isFree) {
