@@ -579,23 +579,30 @@
     </div>
   </div>
 
-  <!-- GÜNLÜK ÇARKIFELEK MODALI (Daily Spin Wheel Modal) - Premium Candy Style -->
+  <!-- GÜNLÜK ÇARKIFELEK MODALI (Daily Spin Wheel Modal) - Sweet Garden Style -->
   <div id="spin-wheel-modal" class="modal-overlay">
-    <div class="modal-content spin-wheel-modal-content" style="border: 3.5px solid #81c784 !important; background: linear-gradient(135deg, #fffdf0 0%, #fff8e1 45%, #e8f5e9 100%) !important; box-shadow: 0 0 35px rgba(76,175,80,0.35), 0 15px 40px rgba(0,0,0,0.15) !important;">
-      <button class="modal-close-btn" id="btn-close-spin-modal">&times;</button>
-      <h2 class="modal-title" style="color: #2e7d32; font-size: 1.8rem; font-weight: 900; margin-bottom: 4px; text-align: center; width: 100%; text-shadow: 0 1.5px 0 #ffffff;">🌸 Şanslı Bahçe Çarkı</h2>
+    <div class="modal-content spin-wheel-modal-content" style="border: 6px solid #8d6e63 !important; background: linear-gradient(135deg, #fffdf0 0%, #fff8e1 45%, #e8f5e9 100%) !important; box-shadow: 0 0 35px rgba(76,175,80,0.35), 0 15px 40px rgba(0,0,0,0.2) !important; position: relative; overflow: visible; max-width: 440px; padding: 24px 20px 20px;">
       
-      <!-- İstatistikler Row (Jeton ve Kalan Ücretsiz) -->
-      <div class="wheel-stats" style="display: flex; justify-content: space-between; margin: 10px 0 20px 0; font-weight: 900; font-size: 0.95rem; width: 100%; border-bottom: 1.5px solid #c8e6c9; padding-bottom: 10px;">
-        <span style="color: #5d4037; display: flex; align-items: center; gap: 4px;">Altın: <span id="wheel-gold-value" style="color: #e65100;">0</span> 🪙</span>
+      <!-- Close Button (Red Circle with X) -->
+      <button class="modal-close-btn" id="btn-close-spin-modal" style="background: #ff5252; color: white; border-radius: 50% !important; width: 34px !important; height: 34px !important; display: flex !important; align-items: center !important; justify-content: center !important; font-weight: 900 !important; border: 2.5px solid #ffffff !important; font-size: 1.15rem !important; top: -12px !important; right: -12px !important; position: absolute; cursor: pointer; padding: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.25); z-index: 100;">&times;</button>
+      
+      <!-- Pink Wood Board Title -->
+      <div class="wheel-title-container" style="background: linear-gradient(180deg, #ff8a80 0%, #e91e63 100%); border: 3px solid #ffeb3b; border-radius: 20px; padding: 8px 16px; margin: -36px auto 12px; width: 85%; box-shadow: 0 6px 12px rgba(233,30,99,0.25); text-align: center; position: relative; z-index: 10;">
+        <h2 class="modal-title" style="color: #ffffff; font-size: 1.65rem; font-weight: 900; margin: 0; text-shadow: 0 2px 0 #ad1457, 0 4px 10px rgba(0,0,0,0.3); letter-spacing: 0.5px; font-family: 'Fredoka', sans-serif;">ŞANSLI BAHÇE ÇARKI</h2>
+        <div style="font-size: 0.8rem; color: #fff9c4; font-weight: 800; margin-top: 2px;">Çevir, harika ödüller kazan! 🌸</div>
+      </div>
+      
+      <!-- İstatistikler Row -->
+      <div class="wheel-stats" style="display: flex; justify-content: space-between; margin: 10px 0 15px 0; font-weight: 900; font-size: 0.95rem; width: 100%; border-bottom: 2px solid #c8e6c9; padding-bottom: 8px;">
+        <span style="color: #5d4037; display: flex; align-items: center; gap: 4px;">Altın: <span id="wheel-gold-value" style="color: #e65100;">8268</span> 🪙</span>
         <span style="color: #5d4037;">Kalan Ücretsiz: <span id="wheel-free-spins" style="color: #2e7d32;">1</span></span>
       </div>
       
-      <!-- Çark ve İşaretçi (Wheel and Pointer) -->
-      <div class="wheel-outer-container" style="margin-top: 10px;">
+      <!-- Çark ve İşaretçi -->
+      <div class="wheel-outer-container" style="margin-top: 5px; position: relative; overflow: visible;">
         
         <!-- Honey Bee Pointer -->
-        <div class="wheel-pointer">
+        <div class="wheel-pointer" style="top: -24px; z-index: 40;">
           <svg viewBox="0 0 60 60" width="60" height="60">
             <!-- Wings -->
             <ellipse cx="20" cy="22" rx="8" ry="14" fill="#e0f7fa" stroke="#00acc1" stroke-width="1" opacity="0.8" transform="rotate(-30 20 22)"/>
@@ -615,7 +622,7 @@
           </svg>
         </div>
  
-        <div class="wheel-main" id="wheel-main">
+        <div class="wheel-main" id="wheel-main" style="border: 12px solid #8d6e63 !important; box-shadow: 0 8px 24px rgba(76,175,80,0.15), inset 0 0 0 3px #ffd54f !important;">
           <svg viewBox="0 0 260 260" width="100%" height="100%" style="display: block;">
             <defs>
               <linearGradient id="grad-gold-flower" x1="0" y1="0" x2="1" y2="1">
@@ -625,77 +632,153 @@
               </linearGradient>
             </defs>
             
-            <!-- 8 Sektör Dilimleri (Şeker Bahçesi Renkleri) -->
-            <path d="M 130 130 L 130 0 A 130 130 0 0 1 221.9 38.1 Z" fill="#fff9c4" />
-            <path d="M 130 130 L 221.9 38.1 A 130 130 0 0 1 260 130 Z" fill="#e8f5e9" />
-            <path d="M 130 130 L 260 130 A 130 130 0 0 1 221.9 221.9 Z" fill="#ffe082" />
-            <path d="M 130 130 L 221.9 221.9 A 130 130 0 0 1 130 260 Z" fill="#c8e6c9" />
-            <path d="M 130 130 L 130 260 A 130 130 0 0 1 38.1 221.9 Z" fill="#fff9c4" />
-            <path d="M 130 130 L 38.1 221.9 A 130 130 0 0 1 0 130 Z" fill="#e8f5e9" />
-            <path d="M 130 130 L 0 130 A 130 130 0 0 1 38.1 38.1 Z" fill="#ffe082" />
-            <path d="M 130 130 L 38.1 38.1 A 130 130 0 0 1 130 0 Z" fill="#c8e6c9" />
+            <!-- 8 Sektör Dilimleri (Şeker Bahçesi Concept Renkleri) -->
+            <path d="M 130 130 L 130 0 A 130 130 0 0 1 221.9 38.1 Z" fill="#ff4081" />
+            <path d="M 130 130 L 221.9 38.1 A 130 130 0 0 1 260 130 Z" fill="#ffd54f" />
+            <path d="M 130 130 L 260 130 A 130 130 0 0 1 221.9 221.9 Z" fill="#4caf50" />
+            <path d="M 130 130 L 221.9 221.9 A 130 130 0 0 1 130 260 Z" fill="#ab47bc" />
+            <path d="M 130 130 L 130 260 A 130 130 0 0 1 38.1 221.9 Z" fill="#29b6f6" />
+            <path d="M 130 130 L 38.1 221.9 A 130 130 0 0 1 0 130 Z" fill="#ff7043" />
+            <path d="M 130 130 L 0 130 A 130 130 0 0 1 38.1 38.1 Z" fill="#00acc1" />
+            <path d="M 130 130 L 38.1 38.1 A 130 130 0 0 1 130 0 Z" fill="#5c6bc0" />
             
             <!-- Bölüm Ayrım Çizgileri -->
-            <line x1="130" y1="130" x2="130" y2="0" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="221.9" y2="38.1" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="260" y2="130" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="221.9" y2="221.9" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="130" y2="260" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="38.1" y2="221.9" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="0" y2="130" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="38.1" y2="38.1" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="130" y2="0" stroke="#ffd54f" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="221.9" y2="38.1" stroke="#ffd54f" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="260" y2="130" stroke="#ffd54f" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="221.9" y2="221.9" stroke="#ffd54f" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="130" y2="260" stroke="#ffd54f" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="38.1" y2="221.9" stroke="#ffd54f" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="0" y2="130" stroke="#ffd54f" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="38.1" y2="38.1" stroke="#ffd54f" stroke-width="2.5" />
  
             <!-- Ödül Bölümleri (Çizgisiz, Yatay/Hafif Açılı, Dev Karikatür Stili, Kalın Beyaz Kontur ve Gölge) -->
             <!-- Sektör 0 (Çekiç, Açı: -15deg) -->
             <g>
-              <text x="162" y="52" fill="#d84315" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-15 162 52)" letter-spacing="0.5">Çekiç 🔨</text>
+              <text x="162" y="52" fill="#ffffff" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#880e4f" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-15 162 52)" letter-spacing="0.5">Çekiç 🔨</text>
             </g>
             <!-- Sektör 1 (Jet, Açı: -5deg) -->
             <g>
-              <text x="204" y="98" fill="#2e7d32" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-5 204 98)" letter-spacing="0.5">Jet 🚀</text>
+              <text x="204" y="98" fill="#ffffff" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#e65100" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-5 204 98)" letter-spacing="0.5">Jet 🚀</text>
             </g>
             <!-- Sektör 2 (Altın, Açı: 5deg) -->
             <g>
-              <text x="204" y="162" fill="#e65100" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(5 204 162)" letter-spacing="0.5">Altın 🪙</text>
+              <text x="204" y="162" fill="#ffffff" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#1b5e20" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(5 204 162)" letter-spacing="0.5">Altın 🪙</text>
             </g>
             <!-- Sektör 3 (Süper Hediye, Açı: 15deg) -->
             <g>
-              <text x="162" y="208" fill="#3e2723" font-size="16.5" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(15 162 208)" letter-spacing="0.3">Süper Jet 🍯</text>
+              <text x="162" y="208" fill="#ffffff" font-size="16.5" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#4a148c" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(15 162 208)" letter-spacing="0.3">Süper Jet 🍯</text>
             </g>
             <!-- Sektör 4 (Can, Açı: -15deg) -->
             <g>
-              <text x="98" y="208" fill="#c62828" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-15 98 208)" letter-spacing="0.5">Can ❤️</text>
+              <text x="98" y="208" fill="#ffffff" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#01579b" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-15 98 208)" letter-spacing="0.5">Can ❤️</text>
             </g>
             <!-- Sektör 5 (Sprey, Açı: -5deg) -->
             <g>
-              <text x="56" y="162" fill="#00838f" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-5 56 162)" letter-spacing="0.5">1 Sprey 🚀</text>
+              <text x="56" y="162" fill="#ffffff" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#bf360c" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-5 56 162)" letter-spacing="0.5">1 Sprey 🚀</text>
             </g>
             <!-- Sektör 6 (Moves, Açı: 5deg) -->
             <g>
-              <text x="56" y="98" fill="#2e7d32" font-size="16" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(5 56 98)" letter-spacing="0.3">+5 Hamle ➕</text>
+              <text x="56" y="98" fill="#ffffff" font-size="16" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#004d40" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(5 56 98)" letter-spacing="0.3">+5 Hamle ➕</text>
             </g>
             <!-- Sektör 7 (Bomba, Açı: 15deg) -->
             <g>
-              <text x="98" y="52" fill="#6a1b9a" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(15 98 52)" letter-spacing="0.5">Bomba 💣</text>
+              <text x="98" y="52" fill="#ffffff" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#1a237e" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(15 98 52)" letter-spacing="0.5">Bomba 💣</text>
             </g>
             
-            <!-- Golden Flower Center Hub -->
-            <circle cx="130" cy="130" r="26" fill="url(#grad-gold-flower)" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 3px 6px rgba(0,0,0,0.25))"/>
-            <!-- Flower Petals Design inside Center -->
-            <circle cx="130" cy="116" r="8" fill="#fff59d" opacity="0.9"/>
-            <circle cx="130" cy="144" r="8" fill="#fff59d" opacity="0.9"/>
-            <circle cx="116" cy="130" r="8" fill="#fff59d" opacity="0.9"/>
-            <circle cx="144" cy="130" r="8" fill="#fff59d" opacity="0.9"/>
-            <circle cx="130" cy="130" r="10" fill="#f57f17"/>
+            <!-- Golden Flower Center Hub with Candy center -->
+            <circle cx="130" cy="130" r="28" fill="url(#grad-gold-flower)" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 3px 6px rgba(0,0,0,0.25))"/>
+            <!-- Flower Petals -->
+            <circle cx="130" cy="114" r="8" fill="#ffca28" stroke="#ffd54f" stroke-width="1.2"/>
+            <circle cx="130" cy="146" r="8" fill="#ffca28" stroke="#ffd54f" stroke-width="1.2"/>
+            <circle cx="114" cy="130" r="8" fill="#ffca28" stroke="#ffd54f" stroke-width="1.2"/>
+            <circle cx="146" cy="130" r="8" fill="#ffca28" stroke="#ffd54f" stroke-width="1.2"/>
+            <circle cx="119" cy="119" r="6" fill="#ffca28"/>
+            <circle cx="141" cy="119" r="6" fill="#ffca28"/>
+            <circle cx="119" cy="141" r="6" fill="#ffca28"/>
+            <circle cx="141" cy="141" r="6" fill="#ffca28"/>
+            <!-- Candy Swirl in middle -->
+            <circle cx="130" cy="130" r="13" fill="#ff4081" stroke="#ffffff" stroke-width="1.5"/>
+            <path d="M130 130 A 5 5 0 0 0 130 122 A 9 9 0 0 0 130 138" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.8"/>
           </svg>
         </div>
       </div>
       
-      <button id="btn-spin-wheel" class="modal-btn confirm-btn text-glow" style="width: 100%; max-width: 250px; padding: 14px 20px; border-radius: 24px; font-weight: 900; font-size: 1.25rem; cursor: pointer; margin-top: 24px; background: linear-gradient(135deg, #81c784 0%, #4caf50 100%) !important; border: none; color: white; box-shadow: 0 5px 0 #2e7d32, 0 8px 24px rgba(76, 175, 80, 0.45) !important;">DÖNDÜR</button>
-      <p id="spin-wheel-timer-msg" class="modal-subtitle" style="font-size: 0.85rem; color: #d84315; margin-top: 12px; display: none; font-weight: 700;">Gelecek ücretsiz dönüşe kalan: <span id="spin-wheel-time-left"></span></p>
-    </div>
-  </div> confirm-btn text-glow" style="width: 100%; max-width: 250px; padding: 14px 20px; border-radius: 20px; font-weight: 800; font-size: 1.15rem; cursor: pointer; margin-top: 24px;">DÖNDÜR</button>
-      <p id="spin-wheel-timer-msg" class="modal-subtitle" style="font-size: 0.85rem; color: #ff5252; margin-top: 12px; display: none; font-weight: 700;">Gelecek ücretsiz dönüşe kalan: <span id="spin-wheel-time-left"></span></p>
+      <!-- Gardener Mascot & Speech Bubble Layout (Left Aligned on Desktop/Mobile overlay) -->
+      <div class="wheel-gardener-wrap" style="position: absolute; left: -85px; bottom: 0; width: 110px; height: 145px; pointer-events: none; z-index: 15;">
+        <!-- Speech Bubble -->
+        <div style="position: absolute; top: -50px; left: -25px; width: 140px; background: #ffffff; border: 3px solid #ffb74d; border-radius: 16px; padding: 6px 10px; font-size: 0.72rem; font-weight: 800; color: #5d4037; line-height: 1.2; box-shadow: 0 4px 8px rgba(0,0,0,0.12); text-align: center;">
+          Hadi bakalım, bugün bahçene hangi sürpriz gelecek? 🌸
+          <div style="position: absolute; bottom: -8px; left: 45px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid #ffb74d;"></div>
+        </div>
+        <!-- Mascot character SVG (Straw hat boy with lollipop) -->
+        <svg viewBox="0 0 120 160" width="100%" height="100%">
+          <!-- Shadow -->
+          <ellipse cx="60" cy="154" rx="28" ry="6" fill="rgba(0,0,0,0.15)"/>
+          <!-- Body -->
+          <circle cx="60" cy="105" r="30" fill="url(#gardenerBodyGrad)"/>
+          <circle cx="60" cy="105" r="30" fill="none" stroke="#2e7d32" stroke-width="1.5"/>
+          <!-- Dungarees straps -->
+          <path d="M42 85 L42 110 M78 85 L78 110" stroke="#1b5e20" stroke-width="3.5" stroke-linecap="round"/>
+          <!-- Red bowtie -->
+          <path d="M54 85 L66 91 L66 79 Z M66 85 L54 91 L54 79 Z" fill="#d32f2f"/>
+          <!-- Arms -->
+          <ellipse cx="28" cy="100" rx="9" ry="13" fill="#81c784" stroke="#2e7d32" stroke-width="1.2" transform="rotate(-20 28 100)"/>
+          <ellipse cx="92" cy="100" rx="9" ry="13" fill="#81c784" stroke="#2e7d32" stroke-width="1.2" transform="rotate(20 92 100)"/>
+          <!-- Left hand holding lollipop -->
+          <circle cx="18" cy="95" r="7" fill="#ffb3cc" stroke="#ff3366" stroke-width="1"/>
+          <line x1="11" y1="88" x2="6" y2="80" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+          <!-- Pink Swirl Lollipop -->
+          <circle cx="6" cy="77" r="7.5" fill="url(#lolliGrad)" stroke="#ff3366" stroke-width="1.2"/>
+          <path d="M6 77 A 4 4 0 0 0 6 73 A 8 8 0 0 0 6 81" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+          <!-- Right Hand -->
+          <circle cx="102" cy="95" r="7" fill="#ffb3cc"/>
+          <!-- Legs (Dungarees legs) -->
+          <rect x="44" y="132" width="13" height="20" rx="4" fill="#388e3c" stroke="#1b5e20" stroke-width="1.2"/>
+          <rect x="63" y="132" width="13" height="20" rx="4" fill="#388e3c" stroke="#1b5e20" stroke-width="1.2"/>
+          <!-- Shoes -->
+          <ellipse cx="50" cy="153" rx="9" ry="5.5" fill="#8d6e63" stroke="#5d4037" stroke-width="1"/>
+          <ellipse cx="70" cy="153" rx="9" ry="5.5" fill="#8d6e63" stroke="#5d4037" stroke-width="1"/>
+          <!-- Head -->
+          <circle cx="60" cy="65" r="28" fill="#ffccbc"/>
+          <!-- Hair (Brown/Cute) -->
+          <path d="M35 55 C35 45 85 45 85 55 C90 60 90 70 85 75 C80 80 40 80 35 75 Z" fill="#5d4037"/>
+          <!-- Straw Hat -->
+          <ellipse cx="60" cy="45" rx="34" ry="10" fill="#ffe082" stroke="#ffb300" stroke-width="1.8"/>
+          <path d="M38 42 C38 18, 82 18, 82 42 Z" fill="#ffd54f" stroke="#ffb300" stroke-width="1.8"/>
+          <!-- Hat Ribbon -->
+          <path d="M38 40 Q60 45 82 40 L82 43 Q60 48 38 43 Z" fill="#388e3c"/>
+          <text x="60" y="32" text-anchor="middle" font-size="10" fill="#ffd23f">🌸</text>
+          <!-- Eyes -->
+          <g class="mascot-eyes" style="transform-origin: 60px 65px;">
+            <circle cx="51" cy="63" r="6.5" fill="white"/>
+            <circle cx="69" cy="63" r="6.5" fill="white"/>
+            <circle cx="52" cy="64" r="4.2" fill="#388e3c"/>
+            <circle cx="68" cy="64" r="4.2" fill="#388e3c"/>
+            <circle cx="53" cy="62" r="1.8" fill="white"/>
+            <circle cx="69" cy="62" r="1.8" fill="white"/>
+          </g>
+          <!-- Smile -->
+          <path d="M50 75 Q60 84 70 75" fill="none" stroke="#d32f2f" stroke-width="2.2" stroke-linecap="round"/>
+          <ellipse cx="44" cy="71" rx="5" ry="3" fill="rgba(244,67,54,0.3)"/>
+          <ellipse cx="76" cy="71" rx="5" ry="3" fill="rgba(244,67,54,0.3)"/>
+          <defs>
+            <linearGradient id="gardenerBodyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4caf50"/>
+              <stop offset="100%" stop-color="#2e7d32"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      
+      <!-- Spin Button Container with wood signs decoration -->
+      <div class="wheel-btn-wrap" style="width: 100%; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; margin-top: 15px;">
+        <button id="btn-spin-wheel" class="modal-btn confirm-btn text-glow" style="width: 100%; max-width: 260px; padding: 12px 10px; border-radius: 28px; cursor: pointer; background: linear-gradient(135deg, #a5d6a7 0%, #4caf50 100%) !important; border: 3px solid #ffffff !important; color: white !important; box-shadow: 0 6px 0 #2e7d32, 0 10px 25px rgba(76, 175, 80, 0.45) !important; outline: none; transition: transform 0.1s;">
+          <div style="font-size: 1.35rem; font-weight: 900; text-shadow: 0 2px 4px rgba(0,0,0,0.35); font-family: 'Fredoka', sans-serif;">ŞİMDİ ÇEVİR!</div>
+          <div style="font-size: 0.75rem; opacity: 0.95; font-weight: 800; margin-top: 2px;">ÜCRETSİZ ÇEVİR</div>
+        </button>
+      </div>
+      <p id="spin-wheel-timer-msg" class="modal-subtitle" style="font-size: 0.85rem; color: #d84315; margin-top: 12px; display: none; font-weight: 700; text-align: center; width: 100%;">Gelecek ücretsiz dönüşe kalan: <span id="spin-wheel-time-left"></span></p>
     </div>
   </div>
 
