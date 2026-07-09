@@ -319,12 +319,13 @@ body {
 
 .splash-play-btn {
   width: 100%;
-  font-size: 1.5rem !important;
-  letter-spacing: 3px !important;
-  padding: 18px 0 !important;
-  border-radius: 50px !important;
-  background: linear-gradient(135deg, #ff3366, #ff8c00) !important;
-  box-shadow: 0 6px 0 #b8000c, 0 10px 30px rgba(255,51,102,0.55), 0 0 40px rgba(255,140,0,0.3) !important;
+  max-width: 220px !important;
+  font-size: 1.4rem !important;
+  letter-spacing: 2px !important;
+  padding: 14px 0 !important;
+  border-radius: 24px !important;
+  background: linear-gradient(135deg, #ffb74d 0%, #ff5722 100%) !important;
+  box-shadow: 0 5px 0 #d84315, 0 8px 24px rgba(255, 87, 34, 0.45), 0 0 15px rgba(255, 183, 77, 0.3) !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -333,12 +334,12 @@ body {
   transition: transform 0.1s, box-shadow 0.1s !important;
 }
 .splash-play-btn:active {
-  transform: translateY(4px) !important;
-  box-shadow: 0 2px 0 #b8000c, 0 4px 16px rgba(255,51,102,0.4) !important;
+  transform: translateY(3px) !important;
+  box-shadow: 0 2px 0 #d84315, 0 4px 12px rgba(255, 87, 34, 0.35) !important;
 }
 @keyframes playBtnPulse {
-  0%, 100% { box-shadow: 0 6px 0 #b8000c, 0 10px 30px rgba(255,51,102,0.55), 0 0 40px rgba(255,140,0,0.3); }
-  50%       { box-shadow: 0 6px 0 #b8000c, 0 12px 40px rgba(255,51,102,0.7), 0 0 60px rgba(255,140,0,0.5); }
+  0%, 100% { box-shadow: 0 5px 0 #d84315, 0 8px 24px rgba(255, 87, 34, 0.45), 0 0 15px rgba(255, 183, 77, 0.3); }
+  50%       { box-shadow: 0 5px 0 #d84315, 0 10px 30px rgba(255, 87, 34, 0.65), 0 0 25px rgba(255, 183, 77, 0.5); }
 }
 
 .play-btn-icon {
@@ -2842,4 +2843,89 @@ body {
 
 .modal-overlay.active .inbox-modal-content {
   transform: scale(1);
+}
+
+/* --- GARDEN BACKDROP ANIMATIONS & STYLES --- */
+.garden-bg-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#start-screen {
+  background: linear-gradient(180deg, #e3f2fd 0%, #fff3e0 60%, #e8f5e9 100%) !important;
+}
+
+/* Blinking mascot eyes */
+.mascot-eyes {
+  animation: mascotEyeBlink 4s infinite ease-in-out;
+}
+@keyframes mascotEyeBlink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+/* Swaying trees */
+.garden-tree-sway-1 {
+  transform-origin: 74px 530px;
+  animation: swayTree 6s infinite ease-in-out alternate;
+}
+.garden-tree-sway-2 {
+  transform-origin: 313px 540px;
+  animation: swayTree 5s infinite ease-in-out alternate-reverse;
+}
+@keyframes swayTree {
+  0% { transform: rotate(-2.5deg); }
+  100% { transform: rotate(2.5deg); }
+}
+
+/* Swaying flowers */
+.garden-flower-1 {
+  transform-origin: 40px 650px;
+  animation: swayFlower 4s infinite ease-in-out alternate;
+}
+.garden-flower-2 {
+  transform-origin: 330px 670px;
+  animation: swayFlower 3.5s infinite ease-in-out alternate-reverse;
+}
+@keyframes swayFlower {
+  0% { transform: rotate(-5deg); }
+  100% { transform: rotate(5deg); }
+}
+
+/* Floating clouds */
+.garden-cloud-1 {
+  animation: floatCloudLeft 25s infinite linear;
+}
+.garden-cloud-2 {
+  animation: floatCloudRight 30s infinite linear;
+}
+@keyframes floatCloudLeft {
+  0% { transform: translateX(-150px); }
+  100% { transform: translateX(450px); }
+}
+@keyframes floatCloudRight {
+  0% { transform: translateX(150px); }
+  100% { transform: translateX(-450px); }
+}
+
+/* Floating butterflies */
+.garden-butterfly-1 {
+  animation: hoverButterfly1 8s infinite ease-in-out alternate;
+}
+.garden-butterfly-2 {
+  animation: hoverButterfly2 9s infinite ease-in-out alternate;
+}
+@keyframes hoverButterfly1 {
+  0% { transform: translate(0px, 0px) rotate(0deg); }
+  50% { transform: translate(15px, -20px) rotate(10deg); }
+  100% { transform: translate(-10px, -40px) rotate(-15deg); }
+}
+@keyframes hoverButterfly2 {
+  0% { transform: translate(0px, 0px) rotate(0deg); }
+  50% { transform: translate(-20px, -15px) rotate(-8deg); }
+  100% { transform: translate(15px, -35px) rotate(12deg); }
 }

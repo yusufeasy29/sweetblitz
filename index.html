@@ -29,102 +29,185 @@
   </div>
 
   <div class="game-container">
-    
-    <!-- BAŞLANGIÇ EKRANI (SPLASH) -->
+     <!-- BAŞLANGIÇ EKRANI (SPLASH) -->
     <div id="start-screen" class="screen active">
 
-      <!-- Arka plan yüzen şekerler -->
+      <!-- Candy Garden Background SVG -->
+      <svg class="garden-bg-svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMin slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a0c4ff"/>
+            <stop offset="40%" stop-color="#ffd6a5"/>
+            <stop offset="100%" stop-color="#ffadad"/>
+          </linearGradient>
+          <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c9e4de"/>
+            <stop offset="40%" stop-color="#dbcdf0"/>
+            <stop offset="100%" stop-color="#f2c6de"/>
+          </linearGradient>
+          <radialGradient id="lolliTree1" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#ffebef"/>
+            <stop offset="35%" stop-color="#ff85a1"/>
+            <stop offset="100%" stop-color="#f72585"/>
+          </radialGradient>
+          <radialGradient id="lolliTree2" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#e3f2fd"/>
+            <stop offset="35%" stop-color="#4ea8de"/>
+            <stop offset="100%" stop-color="#560bad"/>
+          </radialGradient>
+          <linearGradient id="cloudGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#ffeef2"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Sky Backdrop -->
+        <rect x="0" y="0" width="400" height="800" fill="url(#skyGrad)"/>
+
+        <!-- Rainbow -->
+        <path d="M-50,450 Q200,100 450,450" fill="none" stroke="#ffadad" stroke-width="15" opacity="0.6"/>
+        <path d="M-50,450 Q200,120 450,450" fill="none" stroke="#ffd6a5" stroke-width="15" opacity="0.6"/>
+        <path d="M-50,450 Q200,140 450,450" fill="none" stroke="#fdffb6" stroke-width="15" opacity="0.6"/>
+        <path d="M-50,450 Q200,160 450,450" fill="none" stroke="#caf0f8" stroke-width="15" opacity="0.6"/>
+
+        <!-- Soft Clouds -->
+        <g class="garden-cloud-1" opacity="0.85">
+          <path d="M30,120 C40,100 70,100 80,120 C90,110 110,110 120,120 C130,120 130,140 120,150 L30,150 Z" fill="url(#cloudGrad)"/>
+        </g>
+        <g class="garden-cloud-2" opacity="0.8">
+          <path d="M250,80 C260,65 290,65 300,80 C310,70 330,70 340,80 C350,80 350,95 340,105 L250,105 Z" fill="url(#cloudGrad)"/>
+        </g>
+
+        <!-- Hills -->
+        <path d="M-50,550 Q100,480 250,530 T550,510 L550,800 L-50,800 Z" fill="#b9fbc0" opacity="0.9"/>
+        <path d="M-50,600 Q150,530 300,580 T550,560 L550,800 L-50,800 Z" fill="#98f5e1"/>
+
+        <!-- Lollipop Trees -->
+        <g class="garden-tree-sway-1">
+          <rect x="70" y="440" width="8" height="90" fill="#a06cd5" rx="3"/>
+          <circle cx="74" cy="440" r="28" fill="url(#lolliTree1)"/>
+          <path d="M74,440 A6,6 0 0,0 70,436 A12,12 0 0,0 78,446 A18,18 0 0,0 66,428" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.6"/>
+        </g>
+        <g class="garden-tree-sway-2">
+          <rect x="310" y="470" width="6" height="70" fill="#a06cd5" rx="3"/>
+          <circle cx="313" cy="470" r="22" fill="url(#lolliTree2)"/>
+          <path d="M313,470 A4,4 0 0,0 310,467 A9,9 0 0,0 316,474" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
+        </g>
+
+        <!-- Candy Bushes & Flowers -->
+        <path d="M-10,640 C15,620 40,620 60,645 C80,625 110,625 130,645 L130,800 L-10,800 Z" fill="#80ed99" opacity="0.95"/>
+        <path d="M280,660 C300,640 330,640 350,665 C370,645 400,645 420,665 L420,800 L280,800 Z" fill="#57cc99" opacity="0.95"/>
+
+        <!-- Swaying Flowers -->
+        <g class="garden-flower-1">
+          <line x1="40" y1="650" x2="40" y2="620" stroke="#2d6a4f" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="40" cy="615" r="7" fill="#ff4d6d"/>
+          <circle cx="33" cy="615" r="5" fill="#ff758f"/>
+          <circle cx="47" cy="615" r="5" fill="#ff758f"/>
+          <circle cx="40" cy="608" r="5" fill="#ff758f"/>
+          <circle cx="40" cy="622" r="5" fill="#ff758f"/>
+          <circle cx="40" cy="615" r="3" fill="#ffeb3b"/>
+        </g>
+        <g class="garden-flower-2">
+          <line x1="330" y1="670" x2="330" y2="645" stroke="#2d6a4f" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="330" cy="640" r="6" fill="#7209b7"/>
+          <circle cx="330" cy="640" r="2.5" fill="#ffeb3b"/>
+        </g>
+
+        <!-- Butterflies -->
+        <g class="garden-butterfly-1">
+          <ellipse cx="145" cy="300" rx="4" ry="7" fill="#ff4d6d" transform="rotate(-30 145 300)"/>
+          <ellipse cx="153" cy="300" rx="4" ry="7" fill="#ff4d6d" transform="rotate(30 153 300)"/>
+          <ellipse cx="149" cy="302" rx="1.2" ry="5.5" fill="#1b0c0a"/>
+        </g>
+        <g class="garden-butterfly-2">
+          <ellipse cx="225" cy="240" rx="4" ry="7" fill="#4ea8de" transform="rotate(-30 225 240)"/>
+          <ellipse cx="233" cy="240" rx="4" ry="7" fill="#4ea8de" transform="rotate(30 233 240)"/>
+          <ellipse cx="229" cy="242" rx="1.2" ry="5.5" fill="#1b0c0a"/>
+        </g>
+      </svg>
+
+      <!-- Arka plan yüzen şekerler (Şeker Bahçesi Temalı) -->
       <div class="splash-candies" aria-hidden="true">
-        <div class="splash-candy sc1">🍬</div>
-        <div class="splash-candy sc2">🍭</div>
-        <div class="splash-candy sc3">🍫</div>
-        <div class="splash-candy sc4">⭐</div>
-        <div class="splash-candy sc5">🍬</div>
-        <div class="splash-candy sc6">✨</div>
-        <div class="splash-candy sc7">🍭</div>
-        <div class="splash-candy sc8">💎</div>
+        <div class="splash-candy sc1">🍓</div>
+        <div class="splash-candy sc2">🍊</div>
+        <div class="splash-candy sc3">🍯</div>
+        <div class="splash-candy sc4">🍏</div>
+        <div class="splash-candy sc5">🍇</div>
+        <div class="splash-candy sc6">🌸</div>
+        <div class="splash-candy sc7">🍪</div>
+        <div class="splash-candy sc8">🎁</div>
       </div>
 
       <!-- Logo -->
       <div class="splash-logo-wrap">
         <div class="splash-logo-stars">
-          <span class="sls sls1">⭐</span>
+          <span class="sls sls1">🌸</span>
           <span class="sls sls2">✨</span>
-          <span class="sls sls3">⭐</span>
+          <span class="sls sls3">🌸</span>
         </div>
-        <h1 class="game-title">SWEET<br><span>BLITZ</span></h1>
-        <div class="splash-logo-tagline">Şekerleri patlat, bahçeyi canlandır! 🌸</div>
+        <h1 class="game-title" style="text-shadow: 0 4px 12px rgba(230,81,0,0.3);">SWEET<br><span style="background: linear-gradient(135deg, #ffd54f 0%, #ff8f00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">BLITZ</span></h1>
+        <div class="splash-logo-tagline" style="color: #4e342e; font-weight: 800; text-shadow: 0 1px 2px rgba(255,255,255,0.8);">Şekerleri patlat, bahçeyi canlandır! 🌸</div>
       </div>
 
       <!-- Karakter -->
       <div class="splash-character" aria-hidden="true">
-        <!-- Şeker Prens SVG karakteri -->
         <svg class="char-svg" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
-          <!-- Gölge -->
-          <ellipse cx="60" cy="154" rx="28" ry="6" fill="rgba(0,0,0,0.25)"/>
+          <!-- Shadow -->
+          <ellipse cx="60" cy="154" rx="28" ry="6" fill="rgba(0,0,0,0.2)"/>
 
-          <!-- Vücut (şeker sarısı top) -->
+          <!-- Body -->
           <circle cx="60" cy="105" r="30" fill="url(#bodyGrad)"/>
           <circle cx="60" cy="105" r="30" fill="none" stroke="#d4860a" stroke-width="1.5"/>
-          <!-- Göbek çizgisi (şeker çizgisi) -->
           <path d="M35 105 Q60 118 85 105" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
           <path d="M38 115 Q60 125 82 115" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
 
-          <!-- Kollar -->
-          <ellipse cx="28" cy="100" rx="10" ry="14" fill="url(#bodyGrad)" stroke="#d4860a" stroke-width="1.2" transform="rotate(-20 28 100)"/>
-          <ellipse cx="92" cy="100" rx="10" ry="14" fill="url(#bodyGrad)" stroke="#d4860a" stroke-width="1.2" transform="rotate(20 92 100)"/>
-          <!-- El (sol, şeker tutuyor) -->
-          <circle cx="18" cy="95" r="8" fill="#ff6b9d" stroke="#c44080" stroke-width="1.2"/>
-          <!-- Şeker elinde -->
-          <line x1="11" y1="88" x2="6" y2="80" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
-          <circle cx="6" cy="77" r="6" fill="url(#lolliGrad)" stroke="#ff3366" stroke-width="1.5"/>
-          <path d="M3 77 Q6 74 9 77 Q6 80 3 77Z" fill="rgba(255,255,255,0.4)"/>
+          <!-- Arms -->
+          <g class="mascot-left-arm">
+            <ellipse cx="28" cy="100" rx="10" ry="14" fill="url(#bodyGrad)" stroke="#d4860a" stroke-width="1.2" transform="rotate(-20 28 100)"/>
+            <circle cx="18" cy="95" r="8" fill="#ff6b9d" stroke="#c44080" stroke-width="1.2"/>
+            <line x1="11" y1="88" x2="6" y2="80" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="6" cy="77" r="6" fill="url(#lolliGrad)" stroke="#ff3366" stroke-width="1.5"/>
+            <path d="M3 77 Q6 74 9 77 Q6 80 3 77Z" fill="rgba(255,255,255,0.4)"/>
+          </g>
+          <g class="mascot-right-arm">
+            <ellipse cx="92" cy="100" rx="10" ry="14" fill="url(#bodyGrad)" stroke="#d4860a" stroke-width="1.2" transform="rotate(20 92 100)"/>
+            <circle cx="102" cy="95" r="8" fill="#ff6b9d" stroke="#c44080" stroke-width="1.2"/>
+          </g>
 
-          <!-- Sağ el -->
-          <circle cx="102" cy="95" r="8" fill="#ff6b9d" stroke="#c44080" stroke-width="1.2"/>
-
-          <!-- Bacaklar -->
+          <!-- Legs -->
           <rect x="44" y="132" width="14" height="22" rx="7" fill="url(#bodyGrad)" stroke="#d4860a" stroke-width="1.2"/>
           <rect x="62" y="132" width="14" height="22" rx="7" fill="url(#bodyGrad)" stroke="#d4860a" stroke-width="1.2"/>
-          <!-- Ayakkabılar -->
           <ellipse cx="51" cy="154" rx="10" ry="6" fill="#6c3fc5" stroke="#4a2a9a" stroke-width="1"/>
           <ellipse cx="69" cy="154" rx="10" ry="6" fill="#6c3fc5" stroke="#4a2a9a" stroke-width="1"/>
 
-          <!-- Baş -->
+          <!-- Head -->
           <circle cx="60" cy="65" r="30" fill="url(#headGrad)"/>
           <circle cx="60" cy="65" r="30" fill="none" stroke="#c44080" stroke-width="1.5"/>
 
-          <!-- Şapka -->
+          <!-- Hat -->
           <ellipse cx="60" cy="37" rx="22" ry="6" fill="#6c3fc5" stroke="#4a2a9a" stroke-width="1.5"/>
           <rect x="48" y="10" width="24" height="28" rx="5" fill="url(#hatGrad)" stroke="#4a2a9a" stroke-width="1.5"/>
-          <!-- Şapka bant -->
           <rect x="48" y="33" width="24" height="5" rx="2" fill="#ffd23f"/>
-          <!-- Şapka yıldız -->
           <text x="60" y="28" text-anchor="middle" font-size="12" fill="#ffd23f">⭐</text>
 
-          <!-- Yüz -->
-          <!-- Gözler (büyük neşeli) -->
-          <circle cx="50" cy="62" r="8" fill="white"/>
-          <circle cx="70" cy="62" r="8" fill="white"/>
-          <circle cx="52" cy="63" r="5" fill="#2d1b6e"/>
-          <circle cx="72" cy="63" r="5" fill="#2d1b6e"/>
-          <!-- Göz parıltısı -->
-          <circle cx="54" cy="61" r="2" fill="white"/>
-          <circle cx="74" cy="61" r="2" fill="white"/>
+          <!-- Blinking Eyes -->
+          <g class="mascot-eyes" style="transform-origin: 60px 62px;">
+            <circle cx="50" cy="62" r="8" fill="white"/>
+            <circle cx="70" cy="62" r="8" fill="white"/>
+            <circle cx="52" cy="63" r="5" fill="#2d1b6e"/>
+            <circle cx="72" cy="63" r="5" fill="#2d1b6e"/>
+            <circle cx="54" cy="61" r="2" fill="white"/>
+            <circle cx="74" cy="61" r="2" fill="white"/>
+          </g>
 
-          <!-- Yanaklar -->
+          <!-- Face Details -->
           <ellipse cx="43" cy="72" rx="7" ry="5" fill="rgba(255,100,150,0.4)"/>
           <ellipse cx="77" cy="72" rx="7" ry="5" fill="rgba(255,100,150,0.4)"/>
-
-          <!-- Ağız (gülümseme) -->
           <path d="M48 76 Q60 88 72 76" fill="none" stroke="#c44080" stroke-width="2.5" stroke-linecap="round"/>
-          <!-- Dişler -->
           <path d="M51 77 Q60 86 69 77 Q60 80 51 77Z" fill="white"/>
-
-          <!-- Burun -->
           <ellipse cx="60" cy="71" rx="4" ry="3" fill="rgba(200,80,120,0.4)"/>
 
-          <!-- Defs -->
           <defs>
             <linearGradient id="headGrad" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stop-color="#ffb3cc"/>
@@ -146,10 +229,6 @@
           </defs>
         </svg>
 
-        <!-- Karakter konuşma balonu -->
-        <div class="char-bubble">
-          Hazır mısın? 🍭
-        </div>
       </div>
 
       <!-- Butonlar -->
