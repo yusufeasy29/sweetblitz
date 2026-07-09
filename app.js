@@ -5368,51 +5368,52 @@ function updateInboxUI() {
   
   inboxMessages.forEach(msg => {
     const card = document.createElement('div');
-    card.style.background = 'rgba(255, 255, 255, 0.05)';
-    card.style.border = '1px solid rgba(255, 255, 255, 0.08)';
-    card.style.borderRadius = '12px';
-    card.style.padding = '12px';
+    card.style.background = '#ffffff';
+    card.style.border = '2px solid #c8e6c9';
+    card.style.borderRadius = '16px';
+    card.style.padding = '12px 14px';
     card.style.display = 'flex';
     card.style.flexDirection = 'column';
     card.style.gap = '6px';
     card.style.textAlign = 'left';
+    card.style.boxShadow = '0 4px 10px rgba(76,175,80,0.06)';
     
     const timeStr = new Date(msg.date).toLocaleDateString('tr-TR', { hour: '2-digit', minute: '2-digit' });
     
     let rewardBadgeHtml = '';
     if (msg.reward) {
       let rewardText = '';
-      if (msg.reward.type === 'gold') rewardText = `+${msg.reward.amount} Altın 🪙`;
-      else if (msg.reward.type === 'lives') rewardText = `+${msg.reward.amount} Can ❤️`;
+      if (msg.reward.type === 'gold') rewardText = `🪙 +${msg.reward.amount} Altın`;
+      else if (msg.reward.type === 'lives') rewardText = `❤️ +${msg.reward.amount} Can`;
       else if (msg.reward.type === 'joker') {
-        const jokerNames = { hammer: 'Çekiç 🔨', spray: 'Sprey 🚀', bomb: 'Bomba 💣', fish: 'Balık 🐠' };
+        const jokerNames = { hammer: '🔨 Çekiç', spray: '🚀 Sprey', bomb: '💣 Bomba', fish: '🐠 Balık' };
         rewardText = `+${msg.reward.amount} ${jokerNames[msg.reward.jokerType] || 'Joker'}`;
       }
       
-      rewardBadgeHtml = `<span style="background: rgba(254, 211, 48, 0.15); color: #ffd23f; padding: 2px 8px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; width: fit-content; margin-top: 4px;">${rewardText}</span>`;
+      rewardBadgeHtml = `<span style="background: linear-gradient(135deg, #fffde7 0%, #fff59d 100%); color: #e65100; border: 1.2px solid #ffd54f; padding: 4px 12px; border-radius: 12px; font-size: 0.82rem; font-weight: 900; width: fit-content; margin-top: 4px; box-shadow: inset 0 1px 2px rgba(255,255,255,0.9);">${rewardText}</span>`;
     }
     
     let btnHtml = '';
     if (msg.reward) {
       if (msg.claimed) {
-        btnHtml = `<button disabled style="background: rgba(255,255,255,0.08); color: #777; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85rem; cursor: not-allowed; align-self: flex-end;">Alındı</button>`;
+        btnHtml = `<span style="background: #e8f5e9; color: #2e7d32; border: 1.5px solid #81c784; padding: 4px 12px; border-radius: 12px; font-weight: 800; font-size: 0.8rem; align-self: flex-end; display: inline-flex; align-items: center; gap: 4px;">🌿 Bahçene Eklendi</span>`;
       } else {
-        btnHtml = `<button onclick="claimInboxReward('${msg.id}')" style="background: #2ed573; color: white; border: none; padding: 6px 14px; border-radius: 8px; font-weight: 900; font-size: 0.85rem; cursor: pointer; align-self: flex-end; box-shadow: 0 2px 6px rgba(46, 213, 115, 0.3); transition: transform 0.1s ease;">Al</button>`;
+        btnHtml = `<button onclick="claimInboxReward('${msg.id}')" style="background: linear-gradient(135deg, #81c784 0%, #4caf50 100%); color: white; border: none; padding: 6px 16px; border-radius: 12px; font-weight: 900; font-size: 0.85rem; cursor: pointer; align-self: flex-end; box-shadow: 0 3px 0 #2e7d32; transition: transform 0.1s ease; outline: none;">Al</button>`;
       }
     } else {
       if (msg.claimed) {
-        btnHtml = `<span style="color: #666; font-size: 0.8rem; align-self: flex-end; font-weight: 700; margin-top: 4px;">Okundu</span>`;
+        btnHtml = `<span style="background: #f5f5f5; color: #616161; border: 1.5px solid #e0e0e0; padding: 4px 12px; border-radius: 12px; font-weight: 800; font-size: 0.8rem; align-self: flex-end;">✓ Okundu</span>`;
       } else {
-        btnHtml = `<button onclick="readInboxMessage('${msg.id}')" style="background: #7c4dff; color: white; border: none; padding: 6px 14px; border-radius: 8px; font-weight: bold; font-size: 0.85rem; cursor: pointer; align-self: flex-end;">Tamam</button>`;
+        btnHtml = `<button onclick="readInboxMessage('${msg.id}')" style="background: linear-gradient(135deg, #b39ddb 0%, #7e57c2 100%); color: white; border: none; padding: 6px 16px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; cursor: pointer; align-self: flex-end; box-shadow: 0 3px 0 #4527a0;">Tamam</button>`;
       }
     }
     
     card.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
-        <strong style="color: #ffd23f; font-size: 0.95rem;">${msg.title}</strong>
-        <span style="color: #777; font-size: 0.75rem; white-space: nowrap;">${timeStr}</span>
+        <strong style="color: #2e7d32; font-size: 0.95rem; font-weight: 900;">${msg.title}</strong>
+        <span style="color: #8d6e63; font-size: 0.75rem; font-weight: 700; white-space: nowrap;">${timeStr}</span>
       </div>
-      <p style="color: #ddd; font-size: 0.85rem; margin: 0; line-height: 1.35;">${msg.desc}</p>
+      <p style="color: #5d4037; font-size: 0.85rem; font-weight: 700; margin: 0; line-height: 1.35;">${msg.desc}</p>
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
         ${rewardBadgeHtml}
         ${btnHtml}
