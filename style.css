@@ -2943,3 +2943,38 @@ body {
   50% { transform: translate(-20px, -15px) rotate(-8deg); }
   100% { transform: translate(15px, -35px) rotate(12deg); }
 }
+
+/* --- INBOX DECORATOR ANIMATIONS --- */
+.inbox-deco-petal.idp1 {
+  left: 10px;
+  top: -20px;
+  animation: inboxPetalFall 10s infinite linear;
+}
+.inbox-deco-petal.idp2 {
+  right: 20px;
+  top: -20px;
+  animation: inboxPetalFall 12s infinite linear 2s;
+}
+.inbox-deco-petal.idp3 {
+  left: 50%;
+  top: -20px;
+  animation: inboxPetalFall 14s infinite linear 4s;
+}
+.inbox-deco-butterfly.idb1 {
+  bottom: 15px;
+  right: 15px;
+  animation: inboxButterflyHover 6s infinite ease-in-out alternate;
+}
+
+@keyframes inboxPetalFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% { transform: translateY(500px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes inboxButterflyHover {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(-15px, -10px) scale(1.1) rotate(8deg); }
+  100% { transform: translate(5px, -25px) scale(1) rotate(-8deg); }
+}
