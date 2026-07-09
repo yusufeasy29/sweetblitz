@@ -2569,9 +2569,10 @@ body {
 /* Günlük Çarkıfelek Modalı */
 .spin-wheel-modal-content {
   max-width: 400px !important;
-  background: radial-gradient(circle at center, #2d124d 0%, #15062b 100%) !important;
-  border: 3px solid #7c4dff !important;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.65), 0 0 20px rgba(124, 77, 255, 0.45) !important;
+  background: linear-gradient(135deg, #fffdf0 0%, #fff8e1 45%, #e8f5e9 100%) !important;
+  border: 3.5px solid #81c784 !important;
+  box-shadow: 0 0 35px rgba(76,175,80,0.35), 0 15px 40px rgba(0,0,0,0.15) !important;
+  border-radius: 28px !important;
 }
 
 .wheel-outer-container {
@@ -2601,11 +2602,11 @@ body {
   width: 260px;
   height: 260px;
   border-radius: 50%;
-  border: 10px solid #29b6f6; /* Cyan border */
+  border: 10px solid #ffca28; /* Gold honey border */
   box-shadow: 
-    0 10px 24px rgba(0,0,0,0.55), 
-    inset 0 0 0 3px #ffffff, /* Inner white frame ring */
-    inset 0 0 15px rgba(0,0,0,0.6);
+    0 10px 24px rgba(76,175,80,0.15), 
+    inset 0 0 0 3px #ffffff,
+    inset 0 0 15px rgba(0,0,0,0.15);
   overflow: hidden;
   transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
   transform: rotate(0deg);

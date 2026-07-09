@@ -581,119 +581,120 @@
 
   <!-- GÜNLÜK ÇARKIFELEK MODALI (Daily Spin Wheel Modal) - Premium Candy Style -->
   <div id="spin-wheel-modal" class="modal-overlay">
-    <div class="modal-content spin-wheel-modal-content" style="border: 4px solid #4fc3f7 !important; background: radial-gradient(circle at center, #2d124d 0%, #15062b 100%) !important; box-shadow: 0 0 30px rgba(79, 195, 247, 0.5) !important;">
+    <div class="modal-content spin-wheel-modal-content" style="border: 3.5px solid #81c784 !important; background: linear-gradient(135deg, #fffdf0 0%, #fff8e1 45%, #e8f5e9 100%) !important; box-shadow: 0 0 35px rgba(76,175,80,0.35), 0 15px 40px rgba(0,0,0,0.15) !important;">
       <button class="modal-close-btn" id="btn-close-spin-modal">&times;</button>
-      <h2 class="modal-title" style="color: #4fc3f7; font-size: 1.8rem; font-weight: 900; margin-bottom: 4px; text-align: center; width: 100%; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">ŞANSLI ÇARK</h2>
+      <h2 class="modal-title" style="color: #2e7d32; font-size: 1.8rem; font-weight: 900; margin-bottom: 4px; text-align: center; width: 100%; text-shadow: 0 1.5px 0 #ffffff;">🌸 Şanslı Bahçe Çarkı</h2>
       
       <!-- İstatistikler Row (Jeton ve Kalan Ücretsiz) -->
-      <div class="wheel-stats" style="display: flex; justify-content: space-between; margin: 10px 0 20px 0; font-weight: 800; font-size: 0.95rem; width: 100%; border-bottom: 1.5px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-        <span style="color: #ffffff; display: flex; align-items: center; gap: 4px;">Altın: <span id="wheel-gold-value" style="color: #ffd23f;">0</span> 🪙</span>
-        <span style="color: #ffffff;">Kalan Ücretsiz: <span id="wheel-free-spins" style="color: #4caf50;">1</span></span>
+      <div class="wheel-stats" style="display: flex; justify-content: space-between; margin: 10px 0 20px 0; font-weight: 900; font-size: 0.95rem; width: 100%; border-bottom: 1.5px solid #c8e6c9; padding-bottom: 10px;">
+        <span style="color: #5d4037; display: flex; align-items: center; gap: 4px;">Altın: <span id="wheel-gold-value" style="color: #e65100;">0</span> 🪙</span>
+        <span style="color: #5d4037;">Kalan Ücretsiz: <span id="wheel-free-spins" style="color: #2e7d32;">1</span></span>
       </div>
       
       <!-- Çark ve İşaretçi (Wheel and Pointer) -->
       <div class="wheel-outer-container" style="margin-top: 10px;">
         
-        <!-- Üst Şeker Tokmağı İşaretçisi (Lollipop Mallet Pointer) -->
+        <!-- Honey Bee Pointer -->
         <div class="wheel-pointer">
           <svg viewBox="0 0 60 60" width="60" height="60">
-            <defs>
-              <radialGradient id="grad-mallet" cx="30%" cy="30%" r="70%">
-                <stop offset="0%" stop-color="#f5d0fe" />
-                <stop offset="40%" stop-color="#d946ef" />
-                <stop offset="100%" stop-color="#701a75" />
-              </radialGradient>
-              <linearGradient id="grad-handle" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="#e5e7eb" />
-                <stop offset="50%" stop-color="#fbbf24" />
-                <stop offset="100%" stop-color="#b45309" />
-              </linearGradient>
-            </defs>
-            <!-- Tutacak (Handle) -->
-            <rect x="27" y="22" width="6" height="36" rx="3" fill="url(#grad-handle)" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.3))"/>
-            <!-- Mor Tokmak Kafası (Purple Mallet Head) -->
-            <rect x="12" y="2" width="36" height="22" rx="9" ry="9" fill="url(#grad-mallet)" filter="drop-shadow(0 3px 5px rgba(0,0,0,0.4))" stroke="#ffffff" stroke-width="1.8"/>
-            <ellipse cx="23" cy="9" rx="8" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-15 23 9)"/>
-            <circle cx="28" cy="13" r="1.2" fill="#ffffff" opacity="0.8"/>
+            <!-- Wings -->
+            <ellipse cx="20" cy="22" rx="8" ry="14" fill="#e0f7fa" stroke="#00acc1" stroke-width="1" opacity="0.8" transform="rotate(-30 20 22)"/>
+            <ellipse cx="40" cy="22" rx="8" ry="14" fill="#e0f7fa" stroke="#00acc1" stroke-width="1" opacity="0.8" transform="rotate(30 40 22)"/>
+            <!-- Body (Yellow and Black Stripes) -->
+            <ellipse cx="30" cy="25" rx="12" ry="16" fill="#ffca28" stroke="#e65100" stroke-width="1.5"/>
+            <!-- Stripes -->
+            <path d="M20,20 Q30,24 40,20" fill="none" stroke="#212121" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M18,27 Q30,31 42,27" fill="none" stroke="#212121" stroke-width="3.5" stroke-linecap="round"/>
+            <!-- Head & Antenna -->
+            <circle cx="30" cy="42" r="8" fill="#ffca28" stroke="#e65100" stroke-width="1.2"/>
+            <!-- Eyes -->
+            <circle cx="27" cy="44" r="1.5" fill="#212121"/>
+            <circle cx="33" cy="44" r="1.5" fill="#212121"/>
+            <!-- Stinger (Pointer Tip!) -->
+            <path d="M30,55 L26,48 L34,48 Z" fill="#212121" stroke="#212121" stroke-width="1" stroke-linejoin="round"/>
           </svg>
         </div>
-
+ 
         <div class="wheel-main" id="wheel-main">
           <svg viewBox="0 0 260 260" width="100%" height="100%" style="display: block;">
             <defs>
-              <!-- Merkez Kırmızı Buton Gradiyenti -->
-              <radialGradient id="grad-red-btn" cx="30%" cy="30%" r="70%">
-                <stop offset="0%" stop-color="#ff8a80"/>
-                <stop offset="55%" stop-color="#ff1744"/>
-                <stop offset="100%" stop-color="#b71c1c"/>
-              </radialGradient>
+              <linearGradient id="grad-gold-flower" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#fff9c4"/>
+                <stop offset="50%" stop-color="#fbc02d"/>
+                <stop offset="100%" stop-color="#f57f17"/>
+              </linearGradient>
             </defs>
             
-            <!-- 8 Sektör Dilimleri -->
-            <!-- Her dilim tam 45 derecedir (Açı sırasıyla: -90, -45, 0, 45, 90, 135, 180, 225, 270) -->
-            <path d="M 130 130 L 130 0 A 130 130 0 0 1 221.9 38.1 Z" fill="#5b21b6" />
-            <path d="M 130 130 L 221.9 38.1 A 130 130 0 0 1 260 130 Z" fill="#7c3aed" />
-            <path d="M 130 130 L 260 130 A 130 130 0 0 1 221.9 221.9 Z" fill="#5b21b6" />
-            <path d="M 130 130 L 221.9 221.9 A 130 130 0 0 1 130 260 Z" fill="#7c3aed" />
-            <path d="M 130 130 L 130 260 A 130 130 0 0 1 38.1 221.9 Z" fill="#5b21b6" />
-            <path d="M 130 130 L 38.1 221.9 A 130 130 0 0 1 0 130 Z" fill="#7c3aed" />
-            <path d="M 130 130 L 0 130 A 130 130 0 0 1 38.1 38.1 Z" fill="#5b21b6" />
-            <path d="M 130 130 L 38.1 38.1 A 130 130 0 0 1 130 0 Z" fill="#7c3aed" />
+            <!-- 8 Sektör Dilimleri (Şeker Bahçesi Renkleri) -->
+            <path d="M 130 130 L 130 0 A 130 130 0 0 1 221.9 38.1 Z" fill="#fff9c4" />
+            <path d="M 130 130 L 221.9 38.1 A 130 130 0 0 1 260 130 Z" fill="#e8f5e9" />
+            <path d="M 130 130 L 260 130 A 130 130 0 0 1 221.9 221.9 Z" fill="#ffe082" />
+            <path d="M 130 130 L 221.9 221.9 A 130 130 0 0 1 130 260 Z" fill="#c8e6c9" />
+            <path d="M 130 130 L 130 260 A 130 130 0 0 1 38.1 221.9 Z" fill="#fff9c4" />
+            <path d="M 130 130 L 38.1 221.9 A 130 130 0 0 1 0 130 Z" fill="#e8f5e9" />
+            <path d="M 130 130 L 0 130 A 130 130 0 0 1 38.1 38.1 Z" fill="#ffe082" />
+            <path d="M 130 130 L 38.1 38.1 A 130 130 0 0 1 130 0 Z" fill="#c8e6c9" />
             
             <!-- Bölüm Ayrım Çizgileri -->
-            <line x1="130" y1="130" x2="130" y2="0" stroke="rgba(255,255,255,0.25)" stroke-width="2" />
-            <line x1="130" y1="130" x2="221.9" y2="38.1" stroke="rgba(255,255,255,0.25)" stroke-width="2" />
-            <line x1="130" y1="130" x2="260" y2="130" stroke="rgba(255,255,255,0.25)" stroke-width="2" />
-            <line x1="130" y1="130" x2="221.9" y2="221.9" stroke="rgba(255,255,255,0.25)" stroke-width="2" />
-            <line x1="130" y1="130" x2="130" y2="260" stroke="rgba(255,255,255,0.25)" stroke-width="2" />
-            <line x1="130" y1="130" x2="38.1" y2="221.9" stroke="rgba(255,255,255,0.25)" stroke-width="2" />
-            <line x1="130" y1="130" x2="0" y2="130" stroke="rgba(255,255,255,0.25)" stroke-width="2" />
-            <line x1="130" y1="130" x2="38.1" y2="38.1" stroke="rgba(255,255,255,0.25)" stroke-width="2" />
-
+            <line x1="130" y1="130" x2="130" y2="0" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="221.9" y2="38.1" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="260" y2="130" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="221.9" y2="221.9" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="130" y2="260" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="38.1" y2="221.9" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="0" y2="130" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
+            <line x1="130" y1="130" x2="38.1" y2="38.1" stroke="rgba(76,175,80,0.18)" stroke-width="2.5" />
+ 
             <!-- Ödül Bölümleri (Çizgisiz, Yatay/Hafif Açılı, Dev Karikatür Stili, Kalın Beyaz Kontur ve Gölge) -->
             <!-- Sektör 0 (Çekiç, Açı: -15deg) -->
             <g>
-              <text x="162" y="52" fill="#e11d48" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.65))" transform="rotate(-15 162 52)" letter-spacing="0.5">Çekiç 🔨</text>
+              <text x="162" y="52" fill="#d84315" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-15 162 52)" letter-spacing="0.5">Çekiç 🔨</text>
             </g>
             <!-- Sektör 1 (Jet, Açı: -5deg) -->
             <g>
-              <text x="204" y="98" fill="#c026d3" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.65))" transform="rotate(-5 204 98)" letter-spacing="0.5">Jet 🚀</text>
+              <text x="204" y="98" fill="#2e7d32" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-5 204 98)" letter-spacing="0.5">Jet 🚀</text>
             </g>
             <!-- Sektör 2 (Altın, Açı: 5deg) -->
             <g>
-              <text x="204" y="162" fill="#d97706" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.65))" transform="rotate(5 204 162)" letter-spacing="0.5">Altın 🪙</text>
+              <text x="204" y="162" fill="#e65100" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(5 204 162)" letter-spacing="0.5">Altın 🪙</text>
             </g>
             <!-- Sektör 3 (Süper Hediye, Açı: 15deg) -->
             <g>
-              <text x="162" y="208" fill="#ea580c" font-size="16.5" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.65))" transform="rotate(15 162 208)" letter-spacing="0.3">Süper Jet 🍯</text>
+              <text x="162" y="208" fill="#3e2723" font-size="16.5" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(15 162 208)" letter-spacing="0.3">Süper Jet 🍯</text>
             </g>
             <!-- Sektör 4 (Can, Açı: -15deg) -->
             <g>
-              <text x="98" y="208" fill="#dc2626" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.65))" transform="rotate(-15 98 208)" letter-spacing="0.5">Can ❤️</text>
+              <text x="98" y="208" fill="#c62828" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-15 98 208)" letter-spacing="0.5">Can ❤️</text>
             </g>
             <!-- Sektör 5 (Sprey, Açı: -5deg) -->
             <g>
-              <text x="56" y="162" fill="#0891b2" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.65))" transform="rotate(-5 56 162)" letter-spacing="0.5">1 Sprey 🚀</text>
+              <text x="56" y="162" fill="#00838f" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(-5 56 162)" letter-spacing="0.5">1 Sprey 🚀</text>
             </g>
             <!-- Sektör 6 (Moves, Açı: 5deg) -->
             <g>
-              <text x="56" y="98" fill="#16a34a" font-size="16" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.65))" transform="rotate(5 56 98)" letter-spacing="0.3">+5 Hamle ➕</text>
+              <text x="56" y="98" fill="#2e7d32" font-size="16" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(5 56 98)" letter-spacing="0.3">+5 Hamle ➕</text>
             </g>
             <!-- Sektör 7 (Bomba, Açı: 15deg) -->
             <g>
-              <text x="98" y="52" fill="#7c3aed" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.65))" transform="rotate(15 98 52)" letter-spacing="0.5">Bomba 💣</text>
+              <text x="98" y="52" fill="#6a1b9a" font-size="20" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#ffffff" stroke-width="5.5" paint-order="stroke fill" filter="drop-shadow(0 2.5px 3px rgba(0,0,0,0.3))" transform="rotate(15 98 52)" letter-spacing="0.5">Bomba 💣</text>
             </g>
             
-            <!-- Merkez Göbek: Yukarı Bakan Beyaz Damla Pointer -->
-            <path d="M 130 80 C 154 112, 170 132, 170 147 A 40 40 0 0 1 90 147 C 90 132, 106 112, 130 80 Z" fill="#ffffff" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.35))" stroke="#ffe082" stroke-width="1.2"/>
-            <!-- Merkez Kırmızı Döndür Butonu -->
-            <circle cx="130" cy="138" r="18" fill="url(#grad-red-btn)" stroke="#ffffff" stroke-width="2" filter="drop-shadow(0 2.5px 5px rgba(0,0,0,0.3))"/>
-            <ellipse cx="125" cy="133" rx="7" ry="3" fill="#ffffff" opacity="0.65" transform="rotate(-30 125 133)"/>
+            <!-- Golden Flower Center Hub -->
+            <circle cx="130" cy="130" r="26" fill="url(#grad-gold-flower)" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 3px 6px rgba(0,0,0,0.25))"/>
+            <!-- Flower Petals Design inside Center -->
+            <circle cx="130" cy="116" r="8" fill="#fff59d" opacity="0.9"/>
+            <circle cx="130" cy="144" r="8" fill="#fff59d" opacity="0.9"/>
+            <circle cx="116" cy="130" r="8" fill="#fff59d" opacity="0.9"/>
+            <circle cx="144" cy="130" r="8" fill="#fff59d" opacity="0.9"/>
+            <circle cx="130" cy="130" r="10" fill="#f57f17"/>
           </svg>
         </div>
       </div>
       
-      <button id="btn-spin-wheel" class="modal-btn confirm-btn text-glow" style="width: 100%; max-width: 250px; padding: 14px 20px; border-radius: 20px; font-weight: 800; font-size: 1.15rem; cursor: pointer; margin-top: 24px;">DÖNDÜR</button>
+      <button id="btn-spin-wheel" class="modal-btn confirm-btn text-glow" style="width: 100%; max-width: 250px; padding: 14px 20px; border-radius: 24px; font-weight: 900; font-size: 1.25rem; cursor: pointer; margin-top: 24px; background: linear-gradient(135deg, #81c784 0%, #4caf50 100%) !important; border: none; color: white; box-shadow: 0 5px 0 #2e7d32, 0 8px 24px rgba(76, 175, 80, 0.45) !important;">DÖNDÜR</button>
+      <p id="spin-wheel-timer-msg" class="modal-subtitle" style="font-size: 0.85rem; color: #d84315; margin-top: 12px; display: none; font-weight: 700;">Gelecek ücretsiz dönüşe kalan: <span id="spin-wheel-time-left"></span></p>
+    </div>
+  </div> confirm-btn text-glow" style="width: 100%; max-width: 250px; padding: 14px 20px; border-radius: 20px; font-weight: 800; font-size: 1.15rem; cursor: pointer; margin-top: 24px;">DÖNDÜR</button>
       <p id="spin-wheel-timer-msg" class="modal-subtitle" style="font-size: 0.85rem; color: #ff5252; margin-top: 12px; display: none; font-weight: 700;">Gelecek ücretsiz dönüşe kalan: <span id="spin-wheel-time-left"></span></p>
     </div>
   </div>
