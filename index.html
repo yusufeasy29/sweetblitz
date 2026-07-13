@@ -12,6 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- Google Sign-In SDK -->
+  <meta name="google-signin-client_id" content="804041541426-6c0vd2u7gm058a31hjetf2b9bh5b04s1.apps.googleusercontent.com">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
@@ -300,7 +301,6 @@
       <!-- Harita Ana Alanı -->
       <div class="map-viewport" id="map-viewport">
         <div class="map-scroll-container" id="map-scroll-container">
-          <!-- Harita Görsel Katmanı (Arka Plan Gökyüzü / Deniz / Çimen SVG) -->
           <svg class="map-svg-layer" id="map-svg-layer">
             <defs>
               <linearGradient id="map-grass-grad" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -308,6 +308,17 @@
                 <stop offset="100%" stop-color="#429321" />
               </linearGradient>
             </defs>
+            <!-- River Bed Shadow (Depth) -->
+            <path d="M 150 0 C 150 300, 850 400, 850 700 C 850 1000, 200 1200, 200 1500 C 200 1800, 800 2000, 800 2300 C 800 2400, 500 2450, 500 2500" fill="none" stroke="#2a4d1e" stroke-width="58" opacity="0.3" stroke-linecap="round" />
+            <!-- River Bank (Soil) -->
+            <path d="M 150 0 C 150 300, 850 400, 850 700 C 850 1000, 200 1200, 200 1500 C 200 1800, 800 2000, 800 2300 C 800 2400, 500 2450, 500 2500" fill="none" stroke="#8d6e63" stroke-width="52" opacity="0.6" stroke-linecap="round" />
+            <!-- Winding flowing river -->
+            <path id="map-river-line" d="M 150 0 C 150 300, 850 400, 850 700 C 850 1000, 200 1200, 200 1500 C 200 1800, 800 2000, 800 2300 C 800 2400, 500 2450, 500 2500" fill="none" stroke="#80deea" stroke-width="44" opacity="0.9" stroke-linecap="round" />
+            <!-- River Ripples/Water Shimmer -->
+            <path id="map-river-ripples" d="M 150 0 C 150 300, 850 400, 850 700 C 850 1000, 200 1200, 200 1500 C 200 1800, 800 2000, 800 2300 C 800 2400, 500 2450, 500 2500" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+            
+            <!-- Path Shadow (Depth) -->
+            <path id="map-path-line-shadow" d="" fill="none" stroke="rgba(0,0,0,0)" stroke-width="32" stroke-linecap="round" />
             <!-- Kesikli yol çizgisi dinamik olarak çizilecek -->
             <path id="map-path-line" d="" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="8" stroke-dasharray="14,14" stroke-linecap="round" />
           </svg>
@@ -581,21 +592,54 @@
 
   <!-- GÜNLÜK ÇARKIFELEK MODALI (Daily Spin Wheel Modal) - Sweet Garden Style -->
   <div id="spin-wheel-modal" class="modal-overlay">
-    <div class="modal-content spin-wheel-modal-content" style="border: 6px solid #8d6e63 !important; background: linear-gradient(135deg, #fffdf0 0%, #fff8e1 45%, #e8f5e9 100%) !important; box-shadow: 0 0 35px rgba(76,175,80,0.35), 0 15px 40px rgba(0,0,0,0.2) !important; position: relative; overflow: visible; max-width: 440px; padding: 24px 20px 20px;">
+    <div class="modal-content spin-wheel-modal-content" style="position: relative; overflow: visible; max-width: 440px;">
       
       <!-- Close Button (Red Circle with X) -->
       <button class="modal-close-btn" id="btn-close-spin-modal" style="background: #ff5252; color: white; border-radius: 50% !important; width: 34px !important; height: 34px !important; display: flex !important; align-items: center !important; justify-content: center !important; font-weight: 900 !important; border: 2.5px solid #ffffff !important; font-size: 1.15rem !important; top: -12px !important; right: -12px !important; position: absolute; cursor: pointer; padding: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.25); z-index: 100;">&times;</button>
       
-      <!-- Pink Wood Board Title -->
-      <div class="wheel-title-container" style="background: linear-gradient(180deg, #ff8a80 0%, #e91e63 100%); border: 3px solid #ffeb3b; border-radius: 20px; padding: 8px 16px; margin: -36px auto 12px; width: 85%; box-shadow: 0 6px 12px rgba(233,30,99,0.25); text-align: center; position: relative; z-index: 10;">
-        <h2 class="modal-title" style="color: #ffffff; font-size: 1.65rem; font-weight: 900; margin: 0; text-shadow: 0 2px 0 #ad1457, 0 4px 10px rgba(0,0,0,0.3); letter-spacing: 0.5px; font-family: 'Fredoka', sans-serif;">ŞANSLI BAHÇE ÇARKI</h2>
-        <div style="font-size: 0.8rem; color: #fff9c4; font-weight: 800; margin-top: 2px;">Çevir, harika ödüller kazan! 🌸</div>
+      <!-- Pink Wooden Board Title Sign -->
+      <div class="wheel-title-container" style="
+        background: linear-gradient(180deg, #ff9eb5 0%, #e91e63 60%, #c2185b 100%);
+        border: 4px solid #ffeb3b;
+        border-radius: 22px;
+        padding: 10px 20px;
+        margin: -44px auto 14px;
+        width: 90%;
+        box-shadow: 0 8px 0 #a0144a, 0 12px 20px rgba(0,0,0,0.35);
+        text-align: center;
+        position: relative;
+        z-index: 10;
+        min-height: 56px;
+      ">
+        <!-- Flowers on title corners -->
+        <span style="position:absolute;left:-10px;top:-12px;font-size:1.6rem;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.3));">🌸</span>
+        <span style="position:absolute;right:-10px;top:-12px;font-size:1.6rem;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.3));">🌸</span>
+        <h2 class="modal-title" style="color: #ffffff; font-size: 1.55rem; font-weight: 900; margin: 0; text-shadow: 0 2px 0 #880e4f, 0 4px 10px rgba(0,0,0,0.4); letter-spacing: 0.5px; font-family: 'Fredoka', sans-serif; line-height: 1.1;"></h2>
+        <div style="font-size: 0.82rem; color: #fff9c4; font-weight: 800; margin-top: 3px;"></div>
       </div>
       
-      <!-- İstatistikler Row -->
-      <div class="wheel-stats" style="display: flex; justify-content: space-between; margin: 10px 0 15px 0; font-weight: 900; font-size: 0.95rem; width: 100%; border-bottom: 2px solid #c8e6c9; padding-bottom: 8px;">
-        <span style="color: #5d4037; display: flex; align-items: center; gap: 4px;">Altın: <span id="wheel-gold-value" style="color: #e65100;">8268</span> 🪙</span>
-        <span style="color: #5d4037;">Kalan Ücretsiz: <span id="wheel-free-spins" style="color: #2e7d32;">1</span></span>
+      <!-- Stats Row -->
+      <div class="wheel-stats" style="
+        display: flex;
+        justify-content: space-between;
+        margin: 8px 0 12px 0;
+        font-weight: 900;
+        font-size: 1rem;
+        width: 100%;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.5);
+        border: 2px solid rgba(198,138,58,0.3);
+        padding: 8px 14px;
+        box-sizing: border-box;
+      ">
+        <span style="color: #5d4037; display: flex; align-items: center; gap: 6px;">
+          <span style="font-size:1.3rem;">🪙</span>
+          <span id="wheel-gold-value" style="color: #c84b00; font-size: 1.1rem;"></span>
+        </span>
+        <span style="color: #2e7d32; display: flex; align-items: center; gap: 6px;">
+          <span style="font-size:1.2rem;">🎟️</span>
+          <span id="wheel-free-spins" style="color: #1b5e20; font-size: 1.1rem;"></span>
+        </span>
       </div>
       
       <!-- Çark ve İşaretçi -->
@@ -622,7 +666,7 @@
           </svg>
         </div>
  
-        <div class="wheel-main" id="wheel-main" style="border: 12px solid #8d6e63 !important; box-shadow: 0 8px 24px rgba(76,175,80,0.15), inset 0 0 0 3px #ffd54f !important;">
+        <div class="wheel-main" id="wheel-main">
           <svg viewBox="0 0 260 260" width="100%" height="100%" style="display: block;">
             <defs>
               <linearGradient id="grad-gold-flower" x1="0" y1="0" x2="1" y2="1">
@@ -632,91 +676,85 @@
               </linearGradient>
             </defs>
             
-            <!-- 8 Sektör Dilimleri (Şeker Bahçesi Concept Renkleri) -->
-            <path d="M 130 130 L 130 0 A 130 130 0 0 1 221.9 38.1 Z" fill="#ff4081" />
-            <path d="M 130 130 L 221.9 38.1 A 130 130 0 0 1 260 130 Z" fill="#ffd54f" />
-            <path d="M 130 130 L 260 130 A 130 130 0 0 1 221.9 221.9 Z" fill="#4caf50" />
-            <path d="M 130 130 L 221.9 221.9 A 130 130 0 0 1 130 260 Z" fill="#ab47bc" />
-            <path d="M 130 130 L 130 260 A 130 130 0 0 1 38.1 221.9 Z" fill="#29b6f6" />
-            <path d="M 130 130 L 38.1 221.9 A 130 130 0 0 1 0 130 Z" fill="#ff7043" />
-            <path d="M 130 130 L 0 130 A 130 130 0 0 1 38.1 38.1 Z" fill="#00acc1" />
-            <path d="M 130 130 L 38.1 38.1 A 130 130 0 0 1 130 0 Z" fill="#5c6bc0" />
+            <!-- 8 Sektör - Görseldeki renkler: pembe, turuncu-sarı, yeşil, mor, camgöbeği, turuncu, teal, indigo -->
+            <path d="M 130 130 L 130 0 A 130 130 0 0 1 221.9 38.1 Z" fill="#e91e63" />  <!-- Hamle - Pembe -->
+            <path d="M 130 130 L 221.9 38.1 A 130 130 0 0 1 260 130 Z" fill="#ff9800" /> <!-- Altın - Turuncu -->
+            <path d="M 130 130 L 260 130 A 130 130 0 0 1 221.9 221.9 Z" fill="#4caf50" /> <!-- Can - Yeşil -->
+            <path d="M 130 130 L 221.9 221.9 A 130 130 0 0 1 130 260 Z" fill="#7e57c2" /> <!-- Sürpriz - Mor -->
+            <path d="M 130 130 L 130 260 A 130 130 0 0 1 38.1 221.9 Z" fill="#26c6da" /> <!-- Arı - Camgöbeği -->
+            <path d="M 130 130 L 38.1 221.9 A 130 130 0 0 1 0 130 Z" fill="#ef6c00" />  <!-- Çilek - Koy turuncu -->
+            <path d="M 130 130 L 0 130 A 130 130 0 0 1 38.1 38.1 Z" fill="#29b6f6" />  <!-- Bal - Açık mavi -->
+            <path d="M 130 130 L 38.1 38.1 A 130 130 0 0 1 130 0 Z" fill="#66bb6a" />  <!-- Ekstra - Açık yeşil -->
             
-            <!-- Bölüm Ayrım Çizgileri -->
-            <line x1="130" y1="130" x2="130" y2="0" stroke="#ffd54f" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="221.9" y2="38.1" stroke="#ffd54f" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="260" y2="130" stroke="#ffd54f" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="221.9" y2="221.9" stroke="#ffd54f" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="130" y2="260" stroke="#ffd54f" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="38.1" y2="221.9" stroke="#ffd54f" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="0" y2="130" stroke="#ffd54f" stroke-width="2.5" />
-            <line x1="130" y1="130" x2="38.1" y2="38.1" stroke="#ffd54f" stroke-width="2.5" />
+            <!-- Bölüm Ayrım Çizgileri - Altın rengi, daha kalın -->
+            <line x1="130" y1="130" x2="130" y2="0" stroke="#a0714f" stroke-width="3" />
+            <line x1="130" y1="130" x2="221.9" y2="38.1" stroke="#a0714f" stroke-width="3" />
+            <line x1="130" y1="130" x2="260" y2="130" stroke="#a0714f" stroke-width="3" />
+            <line x1="130" y1="130" x2="221.9" y2="221.9" stroke="#a0714f" stroke-width="3" />
+            <line x1="130" y1="130" x2="130" y2="260" stroke="#a0714f" stroke-width="3" />
+            <line x1="130" y1="130" x2="38.1" y2="221.9" stroke="#a0714f" stroke-width="3" />
+            <line x1="130" y1="130" x2="0" y2="130" stroke="#a0714f" stroke-width="3" />
+            <line x1="130" y1="130" x2="38.1" y2="38.1" stroke="#a0714f" stroke-width="3" />
  
-            <!-- Ödül Bölümleri (Çizgisiz, Yatay/Hafif Açılı, Dev Karikatür Stili, Kalın Beyaz Kontur ve Gölge) -->
-            <!-- Sektör 0 (Çekiç) -->
+            <!-- Ödül İkonları -->
+            <!-- Sektör 0 (Hamle - Lightning) -->
             <g>
-              <text x="164" y="52" font-size="26" text-anchor="middle" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.15))">🔨</text>
-              <text x="150" y="80" fill="#ffffff" font-size="13" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#880e4f" stroke-width="4" paint-order="stroke fill" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.25))" transform="rotate(-15 150 80)">Çekiç</text>
+              <text x="169" y="68" font-size="28" text-anchor="middle" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.3))">⚡</text>
             </g>
-            <!-- Sektör 1 (Jet) -->
+            <!-- Sektör 1 (Altın - Coins) -->
             <g>
-              <text x="211" y="96" font-size="26" text-anchor="middle" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.15))">🚀</text>
-              <text x="178" y="108" fill="#ffffff" font-size="13" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#e65100" stroke-width="4" paint-order="stroke fill" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.25))" transform="rotate(-5 178 108)">Jet</text>
+              <text x="205" y="110" font-size="28" text-anchor="middle" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.3))">🪙</text>
             </g>
-            <!-- Sektör 2 (Altın) -->
+            <!-- Sektör 2 (Can - Heart) -->
             <g>
-              <text x="211" y="164" font-size="26" text-anchor="middle" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.15))">🪙</text>
-              <text x="178" y="148" fill="#ffffff" font-size="13" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#1b5e20" stroke-width="4" paint-order="stroke fill" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.25))" transform="rotate(5 178 148)">Altın</text>
+              <text x="205" y="168" font-size="28" text-anchor="middle" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.3))">❤️</text>
             </g>
-            <!-- Sektör 3 (Süper Jet) -->
+            <!-- Sektör 3 (Sürpriz Hediye) -->
             <g>
-              <text x="164" y="211" font-size="26" text-anchor="middle" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.15))">🍯</text>
-              <text x="150" y="180" fill="#ffffff" font-size="12" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#4a148c" stroke-width="4" paint-order="stroke fill" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.25))" transform="rotate(15 150 180)">Süper Jet</text>
+              <text x="169" y="210" font-size="28" text-anchor="middle" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.3))">🎁</text>
             </g>
-            <!-- Sektör 4 (Can) -->
+            <!-- Sektör 4 (Arı Yardımı) -->
             <g>
-              <text x="96" y="211" font-size="26" text-anchor="middle" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.15))">❤️</text>
-              <text x="110" y="180" fill="#ffffff" font-size="13" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#01579b" stroke-width="4" paint-order="stroke fill" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.25))" transform="rotate(-15 110 180)">Can</text>
+              <text x="91" y="210" font-size="28" text-anchor="middle" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.3))">🐝</text>
             </g>
-            <!-- Sektör 5 (Sprey) -->
+            <!-- Sektör 5 (Çilek Patlatıcı) -->
             <g>
-              <text x="49" y="164" font-size="26" text-anchor="middle" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.15))">🚀</text>
-              <text x="82" y="148" fill="#ffffff" font-size="13" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#bf360c" stroke-width="4" paint-order="stroke fill" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.25))" transform="rotate(-5 82 148)">Sprey</text>
+              <text x="55" y="168" font-size="28" text-anchor="middle" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.3))">🍓</text>
             </g>
-            <!-- Sektör 6 (+5 Hamle) -->
+            <!-- Sektör 6 (Bal Güçlendirici) -->
             <g>
-              <text x="49" y="96" font-size="26" text-anchor="middle" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.15))">➕</text>
-              <text x="82" y="108" fill="#ffffff" font-size="12" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#004d40" stroke-width="4" paint-order="stroke fill" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.25))" transform="rotate(5 82 108)">+5 Hamle</text>
+              <text x="55" y="110" font-size="28" text-anchor="middle" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.3))">🍯</text>
             </g>
-            <!-- Sektör 7 (Bomba) -->
+            <!-- Sektör 7 (Ekstra Hamle) -->
             <g>
-              <text x="96" y="49" font-size="26" text-anchor="middle" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.15))">💣</text>
-              <text x="110" y="80" fill="#ffffff" font-size="13" font-weight="900" text-anchor="middle" font-family="Fredoka, sans-serif" stroke="#1a237e" stroke-width="4" paint-order="stroke fill" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.25))" transform="rotate(15 110 80)">Bomba</text>
+              <text x="91" y="68" font-size="28" text-anchor="middle" filter="drop-shadow(0 2px 5px rgba(0,0,0,0.3))">💣</text>
             </g>
-            
-            <!-- Golden Flower Center Hub with Candy center -->
-            <circle cx="130" cy="130" r="28" fill="url(#grad-gold-flower)" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 3px 6px rgba(0,0,0,0.25))"/>
-            <!-- Flower Petals -->
-            <circle cx="130" cy="114" r="8" fill="#ffca28" stroke="#ffd54f" stroke-width="1.2"/>
-            <circle cx="130" cy="146" r="8" fill="#ffca28" stroke="#ffd54f" stroke-width="1.2"/>
-            <circle cx="114" cy="130" r="8" fill="#ffca28" stroke="#ffd54f" stroke-width="1.2"/>
-            <circle cx="146" cy="130" r="8" fill="#ffca28" stroke="#ffd54f" stroke-width="1.2"/>
-            <circle cx="119" cy="119" r="6" fill="#ffca28"/>
-            <circle cx="141" cy="119" r="6" fill="#ffca28"/>
-            <circle cx="119" cy="141" r="6" fill="#ffca28"/>
-            <circle cx="141" cy="141" r="6" fill="#ffca28"/>
-            <!-- Candy Swirl in middle -->
-            <circle cx="130" cy="130" r="13" fill="#ff4081" stroke="#ffffff" stroke-width="1.5"/>
-            <path d="M130 130 A 5 5 0 0 0 130 122 A 9 9 0 0 0 130 138" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.8"/>
+
+            <!-- Merkez Hub - Temiz altın halka + pembe gül -->
+            <circle cx="130" cy="130" r="30" fill="#a0714f" />
+            <circle cx="130" cy="130" r="27" fill="#d4a96a" />
+            <!-- Yeşil yapraklar -->
+            <ellipse cx="130" cy="109" rx="7" ry="11" fill="#43a047" transform="rotate(0 130 130)"/>
+            <ellipse cx="130" cy="109" rx="7" ry="11" fill="#43a047" transform="rotate(72 130 130)"/>
+            <ellipse cx="130" cy="109" rx="7" ry="11" fill="#43a047" transform="rotate(144 130 130)"/>
+            <ellipse cx="130" cy="109" rx="7" ry="11" fill="#43a047" transform="rotate(216 130 130)"/>
+            <ellipse cx="130" cy="109" rx="7" ry="11" fill="#43a047" transform="rotate(288 130 130)"/>
+            <!-- Pembe gül -->
+            <circle cx="130" cy="130" r="18" fill="#e91e63" />
+            <circle cx="130" cy="130" r="14" fill="#f06292" />
+            <!-- Gül spiral detay -->
+            <path d="M130 120 Q138 124 135 130 Q138 136 130 140 Q122 136 125 130 Q122 124 130 120" fill="#ff80ab" stroke="#c2185b" stroke-width="0.8"/>
+            <circle cx="130" cy="130" r="5" fill="#fff176" stroke="#f9a825" stroke-width="1.2"/>
+            <!-- (old hub elements removed - now using new hub above) -->
           </svg>
         </div>
       </div>
       
-      <!-- Gardener Mascot & Speech Bubble Layout (Left Aligned on Desktop/Mobile overlay) -->
+      <!-- Gardener Mascot & Speech Bubble Layout (Left Aligned, Text Empty) -->
       <div class="wheel-gardener-wrap" style="position: absolute; left: -85px; bottom: 0; width: 110px; height: 145px; pointer-events: none; z-index: 15;">
         <!-- Speech Bubble -->
-        <div style="position: absolute; top: -50px; left: -25px; width: 140px; background: #ffffff; border: 3px solid #ffb74d; border-radius: 16px; padding: 6px 10px; font-size: 0.72rem; font-weight: 800; color: #5d4037; line-height: 1.2; box-shadow: 0 4px 8px rgba(0,0,0,0.12); text-align: center;">
-          Hadi bakalım, bugün bahçene hangi sürpriz gelecek?
+        <div style="position: absolute; top: -50px; left: -25px; width: 140px; background: #ffffff; border: 3px solid #ffb74d; border-radius: 16px; padding: 6px 10px; font-size: 0.72rem; font-weight: 800; color: #5d4037; line-height: 1.2; box-shadow: 0 4px 8px rgba(0,0,0,0.12); text-align: center; min-height: 40px; display: flex; align-items: center; justify-content: center;">
+          <div class="wheel-mascot-speech-bubble">Merhaba! Çarkı çevir, harika ödüller kazan!</div>
           <div style="position: absolute; bottom: -8px; left: 45px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid #ffb74d;"></div>
         </div>
         <!-- Mascot character SVG (Straw hat boy with lollipop) -->
@@ -733,12 +771,16 @@
           <!-- Arms -->
           <ellipse cx="28" cy="100" rx="9" ry="13" fill="#81c784" stroke="#2e7d32" stroke-width="1.2" transform="rotate(-20 28 100)"/>
           <ellipse cx="92" cy="100" rx="9" ry="13" fill="#81c784" stroke="#2e7d32" stroke-width="1.2" transform="rotate(20 92 100)"/>
-          <!-- Left hand holding lollipop -->
-          <circle cx="18" cy="95" r="7" fill="#ffb3cc" stroke="#ff3366" stroke-width="1"/>
-          <line x1="11" y1="88" x2="6" y2="80" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-          <!-- Pink Swirl Lollipop -->
-          <circle cx="6" cy="77" r="7.5" fill="url(#lolliGrad)" stroke="#ff3366" stroke-width="1.2"/>
-          <path d="M6 77 A 4 4 0 0 0 6 73 A 8 8 0 0 0 6 81" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+          <!-- Left hand holding watering can -->
+          <circle cx="18" cy="95" r="7" fill="#ffccbc" stroke="#5d4037" stroke-width="1"/>
+          <!-- Watering Can (Blue) -->
+          <!-- Can Spout -->
+          <path d="M 12 90 L 2 96 L 2 100" fill="none" stroke="#0288d1" stroke-width="3" stroke-linecap="round" />
+          <path d="M 2 95 Q 0 98 2 101" fill="none" stroke="#00acc1" stroke-width="1.5" />
+          <!-- Can Body -->
+          <rect x="5" y="82" width="16" height="12" rx="3" fill="#0288d1" stroke="#01579b" stroke-width="1" />
+          <!-- Can Handle -->
+          <path d="M 17 82 C 22 82, 22 94, 17 94" fill="none" stroke="#0288d1" stroke-width="2.5" />
           <!-- Right Hand -->
           <circle cx="102" cy="95" r="7" fill="#ffb3cc"/>
           <!-- Legs (Dungarees legs) -->
@@ -779,14 +821,26 @@
         </svg>
       </div>
       
-      <!-- Spin Button Container with wood signs decoration -->
-      <div class="wheel-btn-wrap" style="width: 100%; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; margin-top: 15px;">
-        <button id="btn-spin-wheel" class="modal-btn confirm-btn text-glow" style="width: 100%; max-width: 260px; padding: 12px 10px; border-radius: 28px; cursor: pointer; background: linear-gradient(135deg, #a5d6a7 0%, #4caf50 100%) !important; border: 3px solid #ffffff !important; color: white !important; box-shadow: 0 6px 0 #2e7d32, 0 10px 25px rgba(76, 175, 80, 0.45) !important; outline: none; transition: transform 0.1s;">
-          <div style="font-size: 1.35rem; font-weight: 900; text-shadow: 0 2px 4px rgba(0,0,0,0.35); font-family: 'Fredoka', sans-serif;">ŞİMDİ ÇEVİR!</div>
-          <div style="font-size: 0.75rem; opacity: 0.95; font-weight: 800; margin-top: 2px;">ÜCRETSİZ ÇEVİR</div>
-        </button>
+      <!-- Spin Button -->
+      <div class="wheel-btn-wrap" style="width: 100%; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; margin-top: 12px;">
+        <button id="btn-spin-wheel" class="modal-btn confirm-btn text-glow" style="
+          width: 100%;
+          max-width: 290px;
+          padding: 18px 10px;
+          border-radius: 40px;
+          cursor: pointer;
+          background: linear-gradient(180deg, #8bc34a 0%, #4caf50 50%, #2e7d32 100%) !important;
+          border: 4px solid #dcedc8 !important;
+          color: white !important;
+          box-shadow: 0 8px 0 #1b5e20, 0 14px 30px rgba(27, 94, 32, 0.5) !important;
+          outline: none;
+          transition: transform 0.1s, box-shadow 0.1s;
+          min-height: 58px;
+          position: relative;
+          overflow: hidden;
+        "></button>
       </div>
-      <p id="spin-wheel-timer-msg" class="modal-subtitle" style="font-size: 0.85rem; color: #d84315; margin-top: 12px; display: none; font-weight: 700; text-align: center; width: 100%;">Gelecek ücretsiz dönüşe kalan: <span id="spin-wheel-time-left"></span></p>
+      <p id="spin-wheel-timer-msg" class="modal-subtitle" style="font-size: 0.9rem; color: #bf360c; margin-top: 10px; display: none; font-weight: 800; text-align: center; width: 100%; text-shadow: 0 1px 2px rgba(0,0,0,0.15);"><span id="spin-wheel-time-left"></span></p>
     </div>
   </div>
 
@@ -841,165 +895,361 @@
           <feDropShadow dx="0" dy="4" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.45"/>
         </filter>
         
-        <!-- ==================== TEMEL ŞEKERLER ==================== -->
+        <!-- Fallback Gradients for app.js Compatibility -->
+        <radialGradient id="grad-red" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#ff8a80"/><stop offset="45%" stop-color="#e53935"/><stop offset="100%" stop-color="#b71c1c"/>
+        </radialGradient>
+        <radialGradient id="grad-orange" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#ffe082"/><stop offset="45%" stop-color="#ff9800"/><stop offset="100%" stop-color="#e65100"/>
+        </radialGradient>
+        <radialGradient id="grad-yellow" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#fffde7"/><stop offset="45%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#f57f17"/>
+        </radialGradient>
+        <radialGradient id="grad-green" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#f1f8e9"/><stop offset="45%" stop-color="#7cb342"/><stop offset="100%" stop-color="#33691e"/>
+        </radialGradient>
+        <radialGradient id="grad-blue" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#e3f2fd"/><stop offset="45%" stop-color="#1e88e5"/><stop offset="100%" stop-color="#0d47a1"/>
+        </radialGradient>
+        <radialGradient id="grad-purple" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#f3e5f5"/><stop offset="45%" stop-color="#8e24aa"/><stop offset="100%" stop-color="#4a148c"/>
+        </radialGradient>
+        <radialGradient id="grad-pink" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#f8bbd0"/><stop offset="45%" stop-color="#ec407a"/><stop offset="100%" stop-color="#ad1457"/>
+        </radialGradient>
 
-        <!-- 1. Çilek Spirali (Strawberry Swirl Red Lollipop) -->
+        <!-- Candy Crush Style Candy Gradients -->
+        <radialGradient id="grad-cc-red" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#ff8a80"/><stop offset="45%" stop-color="#e53935"/><stop offset="100%" stop-color="#b71c1c"/>
+        </radialGradient>
+        <radialGradient id="grad-cc-orange" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#ffe082"/><stop offset="45%" stop-color="#ff9800"/><stop offset="100%" stop-color="#e65100"/>
+        </radialGradient>
+        <radialGradient id="grad-cc-orange-center" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#ffffff"/><stop offset="60%" stop-color="#ff5722"/><stop offset="100%" stop-color="#d84315"/>
+        </radialGradient>
+        <radialGradient id="grad-cc-yellow" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#fffde7"/><stop offset="45%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#f57f17"/>
+        </radialGradient>
+        <radialGradient id="grad-cc-green" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#f1f8e9"/><stop offset="45%" stop-color="#7cb342"/><stop offset="100%" stop-color="#33691e"/>
+        </radialGradient>
+        <radialGradient id="grad-cc-blue" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#e3f2fd"/><stop offset="45%" stop-color="#1e88e5"/><stop offset="100%" stop-color="#0d47a1"/>
+        </radialGradient>
+        <radialGradient id="grad-cc-purple" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#f3e5f5"/><stop offset="45%" stop-color="#8e24aa"/><stop offset="100%" stop-color="#4a148c"/>
+        </radialGradient>
+        <radialGradient id="grad-cc-pink" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#f8bbd0"/><stop offset="45%" stop-color="#ec407a"/><stop offset="100%" stop-color="#ad1457"/>
+        </radialGradient>
+        <linearGradient id="grad-fish-tail-overlay" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop offset="0%" stop-color="#ffd54f" stop-opacity="0.1"/>
+          <stop offset="60%" stop-color="#ffb74d" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#ff3d00" stop-opacity="0.85"/>
+        </linearGradient>
+
+        <!-- Clip Paths for 3D Masked Striped Candies -->
+        <clipPath id="clip-candy-striped-egg">
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19"/>
+        </clipPath>
+        <clipPath id="clip-candy-red">
+          <path d="M24,40 C10,30 6,22 6,15 C6,9 11,5 17,5 C21,5 24,8 24,8 C24,8 27,5 31,5 C37,5 42,9 42,15 C42,22 38,30 24,40 Z"/>
+        </clipPath>
+        <clipPath id="clip-candy-orange">
+          <circle cx="24" cy="24" r="17"/>
+        </clipPath>
+        <clipPath id="clip-candy-yellow">
+          <path d="M24,5 C24,5 40,20 40,31 C40,39 33,42 24,42 C15,42 8,39 8,31 C8,20 24,5 24,5 Z"/>
+        </clipPath>
+        <clipPath id="clip-candy-green">
+          <path d="M 24,7 L 36,15 L 36,33 L 24,41 L 12,33 L 12,15 Z"/>
+        </clipPath>
+        <clipPath id="clip-candy-blue">
+          <circle cx="24" cy="24" r="17"/>
+        </clipPath>
+        <clipPath id="clip-candy-purple">
+          <ellipse cx="24" cy="24" rx="17" ry="12.5" transform="rotate(-30 24 24)"/>
+        </clipPath>
+
+        <!-- 1. Kırmızı Kalp Şeker (Red Heart Candy) -->
         <g id="candy-red">
-          <radialGradient id="grad-strawberry-swirl" cx="35%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#ffebed"/>
-            <stop offset="25%" stop-color="#ff5252"/>
-            <stop offset="70%" stop-color="#d50000"/>
-            <stop offset="100%" stop-color="#5f0000"/>
-          </radialGradient>
-          <!-- Base Sphere -->
-          <circle cx="24" cy="24" r="17" fill="url(#grad-strawberry-swirl)" filter="url(#shadow-candy)"/>
-          <!-- Strawberry Swirl Spiral -->
-          <path d="M24,24 A3,3 0 0,0 21,21 A6,6 0 0,0 27,27 A9,9 0 0,0 15,15 A12,12 0 0,0 33,33 A15,15 0 0,0 9,9" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.85" filter="drop-shadow(0 0 1.5px rgba(255,255,255,0.8))"/>
-          <!-- Specular Highlight -->
-          <ellipse cx="19" cy="14" rx="7.5" ry="3.8" transform="rotate(-30 19 14)" fill="#ffffff" opacity="0.8"/>
-          <circle cx="15" cy="13" r="1.8" fill="#ffffff" opacity="0.95"/>
+          <!-- Main 3D Heart Base with Drop Shadow -->
+          <path d="M 24,39 C 12,29 6,21 6,14.5 C 6,8.5 10.5,4.5 16.5,4.5 C 20.5,4.5 22.8,7 24,8.5 C 25.2,7 27.5,4.5 33.5,4.5 C 39.5,4.5 44,8.5 44,14.5 C 44,21 38,29 24,39 Z" fill="url(#grad-cc-red)" filter="url(#shadow-candy)"/>
+          
+          <!-- Outer 3D Rim Light (Top and sides glow) -->
+          <path d="M 6.5,14.5 C 6.5,9.2 10.8,5.7 16.5,5.7 C 20,5.7 22.2,7.8 23.5,9.2 C 23.8,9.5 24.2,9.5 24.5,9.2 C 25.8,7.8 28,5.7 31.5,5.7 C 37.2,5.7 41.5,9.2 41.5,14.5" fill="none" stroke="#ff8a80" stroke-width="1.8" opacity="0.45" stroke-linecap="round"/>
+          
+          <!-- Subsurface Scattering Glow (Light passing through bottom/center) -->
+          <path d="M 24,36 C 14.5,27.5 9.5,20.5 9.5,15.5 C 9.5,15 9.8,14.5 10.5,14.5 Q 24,19 37.5,14.5 C 38.2,14.5 38.5,15 38.5,15.5 C 38.5,20.5 33.5,27.5 24,36 Z" fill="#ff5252" opacity="0.35" filter="blur(1px)"/>
+          
+          <!-- Glossy Crescent Reflection on Left Lobe -->
+          <path d="M 9.5,14 C 9.5,10.2 12.5,7.2 16.5,7.2 C 18.5,7.2 20.5,8.2 21.5,9.5 C 19.5,9.5 14,10.5 11.5,13.5 C 10.2,15 9.8,16.5 9.8,18 C 9.5,16.5 9.5,15.2 9.5,14 Z" fill="#ffffff" opacity="0.8"/>
+          
+          <!-- High-gloss Specular Highlights (Glassy shine dots) -->
+          <ellipse cx="14" cy="11.5" rx="3" ry="1.4" transform="rotate(-40 14 11.5)" fill="#ffffff" opacity="0.95"/>
+          <circle cx="16.5" cy="9.5" r="0.9" fill="#ffffff" opacity="0.85"/>
+          <circle cx="11.5" cy="14" r="0.8" fill="#ffffff" opacity="0.75"/>
+          
+          <!-- Secondary Soft Reflection on Right Lobe -->
+          <path d="M 33.5,7.2 C 36,7.2 38.5,8.5 39.5,10.5 C 38.5,10.5 35.5,10.8 33.5,12.5 C 32,13.8 31.5,15.5 31.5,17 C 31.2,15.5 31.2,14 31.2,13 C 31.2,9.8 32.2,7.2 33.5,7.2 Z" fill="#ffffff" opacity="0.35"/>
+          <ellipse cx="36" cy="11" rx="1.8" ry="0.8" transform="rotate(30 36 11)" fill="#ffffff" opacity="0.6"/>
         </g>
 
-        <!-- 2. Portakal Jeli (Orange Jelly Pillow) -->
+        <!-- 2. Turuncu Girdap Şeker (Orange Swirl Candy) -->
         <g id="candy-orange">
-          <radialGradient id="grad-orange-jelly" cx="35%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#fff8e1"/>
-            <stop offset="30%" stop-color="#ffa726"/>
-            <stop offset="75%" stop-color="#f57c00"/>
-            <stop offset="100%" stop-color="#5d2500"/>
-          </radialGradient>
-          <!-- Pillow Shape -->
-          <rect x="7" y="7" width="34" height="34" rx="13" ry="13" fill="url(#grad-orange-jelly)" filter="url(#shadow-candy)"/>
-          <!-- Inner bevel contour highlight -->
-          <rect x="10" y="10" width="28" height="28" rx="10" ry="10" fill="none" stroke="#ffe082" stroke-width="1.8" opacity="0.6"/>
-          <!-- High Gloss Highlight -->
-          <ellipse cx="16" cy="15" rx="5" ry="2.2" transform="rotate(-30 16 15)" fill="#ffffff" opacity="0.85"/>
-          <circle cx="14" cy="13" r="1.5" fill="#ffffff" opacity="0.95"/>
+          <!-- Outer Base Sphere -->
+          <circle cx="24" cy="24" r="17" fill="url(#grad-cc-orange)" filter="url(#shadow-candy)"/>
+          
+          <!-- Archimedean Spiral Swirl Pattern (Juicy Swirl) -->
+          <path d="M 24,24 A 2.8,2.8 0 0,0 26.8,24 A 5.6,5.6 0 0,1 21.2,24 A 8.4,8.4 0 0,0 32.4,24 A 11.2,11.2 0 0,1 15.6,24 A 14,14 0 0,0 38,24" fill="none" stroke="#fffde7" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+          
+          <!-- Glossy Crescent Reflection on Top-Left -->
+          <path d="M 12,18 A 12,12 0 0 1 30,12 A 15,15 0 0 0 12,18" fill="#ffffff" opacity="0.8"/>
+          
+          <!-- Specular Highlight Dots (3D Glassy look) -->
+          <circle cx="15.5" cy="14.5" r="1.8" fill="#ffffff" opacity="0.95"/>
+          <circle cx="18" cy="12" r="0.8" fill="#ffffff" opacity="0.8"/>
+          
+          <!-- Bottom-Right Subsurface Scattering / Refraction Glow -->
+          <path d="M 12 30 A 15 15 0 0 0 36 30 A 15 15 0 0 1 12 30" fill="#ffe082" opacity="0.35"/>
+          
+          <!-- Thin 3D Rim Light around the border -->
+          <circle cx="24" cy="24" r="16.2" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.35"/>
         </g>
 
-        <!-- 3. Bal Damlası (Golden Honey Drop) -->
+        <!-- 3. Sarı Damla Şeker (Yellow Drop Candy) -->
         <g id="candy-yellow">
-          <radialGradient id="grad-honey-drop" cx="35%" cy="40%" r="70%">
-            <stop offset="0%" stop-color="#fffde7"/>
-            <stop offset="25%" stop-color="#ffd54f"/>
-            <stop offset="65%" stop-color="#ffb300"/>
-            <stop offset="100%" stop-color="#ff6f00"/>
-          </radialGradient>
-          <!-- Droplet -->
-          <path d="M24,5 C24,5 40,20 40,31 C40,39 33,42 24,42 C15,42 8,39 8,31 C8,20 24,5 24,5 Z" fill="url(#grad-honey-drop)" filter="url(#shadow-candy)"/>
-          <path d="M33,33 C33,36 29,39 24,39 C19,39 15,36 15,33" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.55" stroke-linecap="round"/>
-          <!-- Specular Highlight -->
-          <ellipse cx="19" cy="27" rx="5" ry="2.2" transform="rotate(-30 19 27)" fill="#ffffff" opacity="0.85"/>
-          <circle cx="21" cy="24" r="1.2" fill="#ffffff" opacity="0.95"/>
+          <!-- Droplet Base -->
+          <path d="M24,5 C24,5 40,20 40,31 C40,39 33,42 24,42 C15,42 8,39 8,31 C8,20 24,5 24,5 Z" fill="url(#grad-cc-yellow)" filter="url(#shadow-candy)"/>
+          <!-- Contour ridges like a lemon wedge candy -->
+          <path d="M 24,6 C 28,15 36,25 36,31" fill="none" stroke="#fff59d" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
+          <path d="M 24,6 C 20,15 12,25 12,31" fill="none" stroke="#fff59d" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
+          <path d="M 24,5 L 24,42" fill="none" stroke="#fff59d" stroke-width="1.5" opacity="0.45"/>
+          <!-- Sharp Curved Specular Highlight -->
+          <path d="M 14,26 C 14,20 22,12 24,10 C 24,12 17,22 17,28 C 17,31 15,30 14,26 Z" fill="#ffffff" opacity="0.8"/>
+          <circle cx="18" cy="22" r="1.5" fill="#ffffff" opacity="0.9"/>
+          <!-- 3D Rim Light -->
+          <path d="M24,6.2 C24,6.2 38.8,20.5 38.8,31 C38.8,38.2 32.5,40.8 24,40.8 C15.5,40.8 9.2,38.2 9.2,31 C9.2,20.5 24,6.2 24,6.2 Z" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.45" />
         </g>
 
-        <!-- 4. Elma Karesi (Apple Square with Leaf Imprint) -->
+        <!-- 4. Yeşil Elmas Şeker (Green Diamond Candy) -->
         <g id="candy-green">
-          <radialGradient id="grad-apple-square" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#f1f8e9"/>
-            <stop offset="25%" stop-color="#8bc34a"/>
-            <stop offset="70%" stop-color="#558b2f"/>
-            <stop offset="100%" stop-color="#1b3a00"/>
-          </radialGradient>
-          <!-- Rounded Square -->
-          <rect x="7" y="7" width="34" height="34" rx="11" ry="11" fill="url(#grad-apple-square)" filter="url(#shadow-candy)"/>
-          <!-- Leaf imprint in center -->
-          <path d="M24,13 C18,17 18,27 24,31 C30,27 30,17 24,13 Z M24,13 L24,31" fill="none" stroke="#dcedc8" stroke-width="1.8" stroke-linecap="round" opacity="0.75"/>
-          <path d="M21,21 Q24,20 24,20 M27,24 Q24,23 24,23" fill="none" stroke="#dcedc8" stroke-width="1.2" opacity="0.6"/>
-          <!-- Top edge highlight -->
-          <path d="M11,11 L37,11" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
-          <circle cx="13" cy="14" r="1.8" fill="#ffffff" opacity="0.95"/>
+          <!-- 3D Octagonal Diamond Base -->
+          <path d="M 24,7 L 36,15 L 36,33 L 24,41 L 12,33 L 12,15 Z" fill="url(#grad-cc-green)" filter="url(#shadow-candy)"/>
+          
+          <!-- Facets shading to give 3D cut glass look -->
+          <!-- Top-Left Facet (Facing light source) -->
+          <path d="M 12,15 L 24,7 L 24,16 L 17,24 Z" fill="#ffffff" opacity="0.38"/>
+          <!-- Top-Right Facet (Light highlight) -->
+          <path d="M 24,7 L 36,15 L 31,24 L 24,16 Z" fill="#ffffff" opacity="0.2"/>
+          <!-- Left Facet -->
+          <path d="M 12,15 L 17,24 L 12,33 Z" fill="#ffffff" opacity="0.12"/>
+          <!-- Right Facet (Shadow side) -->
+          <path d="M 36,15 L 36,33 L 31,24 Z" fill="#000000" opacity="0.12"/>
+          <!-- Bottom-Left Facet (Shadow side) -->
+          <path d="M 12,33 L 17,24 L 24,32 L 24,41 Z" fill="#000000" opacity="0.18"/>
+          <!-- Bottom-Right Facet (Deep shadow) -->
+          <path d="M 36,33 L 31,24 L 24,32 L 24,41 Z" fill="#000000" opacity="0.3"/>
+          
+          <!-- Center Diamond Table Facet -->
+          <path d="M 24,16 L 31,24 L 24,32 L 17,24 Z" fill="url(#grad-cc-green)" opacity="0.95"/>
+          <path d="M 24,16 L 31,24 L 24,32 L 17,24 Z" fill="none" stroke="#e8f5e9" stroke-width="0.8" opacity="0.35"/>
+          
+          <!-- Inner Top-Left Bright Glow -->
+          <path d="M 24,16 L 27.5,20 L 24,24 L 20.5,20 Z" fill="#ffffff" opacity="0.5"/>
+          
+          <!-- Sharp Corner Specular Reflection -->
+          <ellipse cx="20.5" cy="20.5" rx="3" ry="1.2" transform="rotate(-45 20.5 20.5)" fill="#ffffff" opacity="0.9"/>
+          <circle cx="23" cy="18" r="0.8" fill="#ffffff" opacity="0.9"/>
+          
+          <!-- Outer 3D Rim Lights -->
+          <path d="M 12.2,15.2 L 24,7.2 L 35.8,15.2" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+          <path d="M 35.8,32.8 L 24,40.8 L 12.2,32.8" fill="none" stroke="#a7ffeb" stroke-width="1" opacity="0.35"/>
         </g>
 
-        <!-- 5. Yaban Mersini (Blueberry Cluster) -->
+        <!-- 5. Mavi Yuvarlak Şeker (Blue Round Candy) -->
         <g id="candy-blue">
-          <radialGradient id="grad-blueberry-sphere" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#e3f2fd"/>
-            <stop offset="35%" stop-color="#2196f3"/>
-            <stop offset="75%" stop-color="#0d47a1"/>
-            <stop offset="100%" stop-color="#00154f"/>
-          </radialGradient>
-          <!-- Overlapping cluster of blueberry segments -->
-          <circle cx="17" cy="18" r="6" fill="url(#grad-blueberry-sphere)"/>
-          <circle cx="31" cy="18" r="6" fill="url(#grad-blueberry-sphere)"/>
-          <circle cx="24" cy="14" r="6.5" fill="url(#grad-blueberry-sphere)"/>
-          <circle cx="17" cy="30" r="6" fill="url(#grad-blueberry-sphere)"/>
-          <circle cx="31" cy="30" r="6" fill="url(#grad-blueberry-sphere)"/>
-          <circle cx="24" cy="25" r="7.5" fill="url(#grad-blueberry-sphere)" filter="url(#shadow-candy)"/>
-          <circle cx="24" cy="34" r="6" fill="url(#grad-blueberry-sphere)"/>
-          <path d="M22,10 L26,10 L24,14 Z" fill="#00154f" opacity="0.8"/>
+          <circle cx="24" cy="24" r="17" fill="url(#grad-cc-blue)" filter="url(#shadow-candy)"/>
+          <!-- Crescent Reflection Highlight -->
+          <path d="M 12,18 A 12,12 0 0 1 30,12 A 15,15 0 0 0 12,18" fill="#ffffff" opacity="0.75"/>
+          <circle cx="15" cy="14" r="1.8" fill="#ffffff" opacity="0.9"/>
+          <!-- Refraction Glow at the bottom -->
+          <path d="M 12 30 A 15 15 0 0 0 36 30 A 15 15 0 0 1 12 30" fill="#e0f7fa" opacity="0.3"/>
+          <!-- Rim Light -->
+          <circle cx="24" cy="24" r="16.2" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.35"/>
         </g>
 
-        <!-- 6. Çiçek Şekeri (Purple Flower Candy) -->
+        <!-- 6. Mor Jelibon Şekeri (Purple Jellybean Candy) -->
         <g id="candy-purple">
-          <radialGradient id="grad-flower-petal" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#f3e5f5"/>
-            <stop offset="30%" stop-color="#ab47bc"/>
-            <stop offset="70%" stop-color="#6a1b9a"/>
-            <stop offset="100%" stop-color="#2a004f"/>
-          </radialGradient>
-          <!-- Five-petaled flower shape -->
-          <path d="M24,14 A5.5,5.5 0 0,1 29,19 A5.5,5.5 0 0,1 24,24 A5.5,5.5 0 0,1 19,19 A5.5,5.5 0 0,1 24,14 M32,20 A5.5,5.5 0 0,1 37,25 A5.5,5.5 0 0,1 32,30 A5.5,5.5 0 0,1 27,25 A5.5,5.5 0 0,1 32,20 M16,20 A5.5,5.5 0 0,1 21,25 A5.5,5.5 0 0,1 16,30 A5.5,5.5 0 0,1 11,25 A5.5,5.5 0 0,1 16,20 M29,29 A5.5,5.5 0 0,1 34,34 A5.5,5.5 0 0,1 29,39 A5.5,5.5 0 0,1 24,34 A5.5,5.5 0 0,1 29,29 M19,29 A5.5,5.5 0 0,1 24,34 A5.5,5.5 0 0,1 19,39 A5.5,5.5 0 0,1 14,34 A5.5,5.5 0 0,1 19,29" fill="url(#grad-flower-petal)" filter="url(#shadow-candy)"/>
-          <!-- Yellow center core -->
-          <circle cx="24" cy="25" r="4.5" fill="#ffd54f" stroke="#ff8f00" stroke-width="1"/>
-          <circle cx="22.5" cy="23.5" r="1.2" fill="#ffffff" opacity="0.95"/>
+          <!-- Base Tilted Oval -->
+          <ellipse cx="24" cy="24" rx="17" ry="12.5" transform="rotate(-30 24 24)" fill="url(#grad-cc-purple)" filter="url(#shadow-candy)"/>
+          
+          <!-- Glossy Crescent Highlight on Top-Left -->
+          <path d="M 12.5,18 C 11.5,14.5 17.5,9.5 25.5,9 C 20,11.5 14.5,13.5 13.5,18 Z" fill="#ffffff" opacity="0.75"/>
+          
+          <!-- Inner Rim Specular Edge -->
+          <ellipse cx="24" cy="24" rx="16.2" ry="11.7" transform="rotate(-30 24 24)" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.35"/>
+          
+          <!-- Specular Highlight Dots -->
+          <circle cx="15.5" cy="15.5" r="1.8" fill="#ffffff" opacity="0.95"/>
+          <circle cx="18" cy="13" r="0.9" fill="#ffffff" opacity="0.8"/>
+          
+          <!-- Bottom-Right Subsurface Scattering / Refraction Glow -->
+          <path d="M 23,31 C 29,30 33.5,27 34.5,23.5 C 32,27 27,29.5 21,30 Z" fill="#f3e5f5" opacity="0.4"/>
         </g>
 
         <!-- ==================== ÖZEL ŞEKERLER ==================== -->
 
-        <!-- Şeker Paketi (Gold Gift Box with Purple Ribbon) -->
+        <!-- Şeker Paketi (Pembe Kare Şeker) -->
         <g id="special-wrapped">
-          <rect x="7" y="7" width="34" height="34" rx="5" fill="#ffd54f" stroke="#ff8f00" stroke-width="1.8" filter="url(#shadow-candy)"/>
-          <rect x="21" y="7" width="6" height="34" fill="#ab47bc"/>
-          <rect x="7" y="21" width="34" height="6" fill="#ab47bc"/>
-          <path d="M21,7 C17,3 21,1 24,6 C27,1 31,3 27,7 Z" fill="#ab47bc"/>
+          <!-- Main Rounded Square (Soft edges, plump center) -->
+          <rect x="7" y="7" width="34" height="34" rx="9" ry="9" fill="url(#grad-cc-pink)" filter="url(#shadow-candy)"/>
+          
+          <!-- Inner bevel to give 3D depth and plumpness -->
+          <rect x="8.5" y="8.5" width="31" height="31" rx="8" ry="8" fill="none" stroke="#ff80ab" stroke-width="1.8" opacity="0.45"/>
+          
+          <!-- Wide top-left glossy reflection (crescent following the corner curve) -->
+          <path d="M 9,21 A 12,12 0 0 1 21,9" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+          <ellipse cx="14" cy="14" rx="4" ry="1.8" transform="rotate(-45 14 14)" fill="#ffffff" opacity="0.95"/>
+          
+          <!-- Outer 3D rim light glow on the right/bottom edge -->
+          <rect x="7.6" y="7.6" width="32.8" height="32.8" rx="8.5" ry="8.5" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.3"/>
+          <path d="M 39,22 C 39,31 31,39 22,39" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
         </g>
 
-        <!-- 7. Kurabiye Bombası (Cookie Bomb) -->
+        <!-- 7. Çikolatalı Top Şeker (Color Bomb) -->
         <g id="candy-bomb">
-          <radialGradient id="grad-cookie-bomb" cx="35%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#ffe0b2"/>
-            <stop offset="50%" stop-color="#d84315"/>
-            <stop offset="90%" stop-color="#8d6e63"/>
-            <stop offset="100%" stop-color="#4e342e"/>
+          <radialGradient id="grad-chocolate-bomb" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#a1887f"/>
+            <stop offset="25%" stop-color="#6d4c41"/>
+            <stop offset="65%" stop-color="#4e342e"/>
+            <stop offset="100%" stop-color="#2d1510"/>
           </radialGradient>
+          <!-- Base Sphere -->
+          <circle cx="24" cy="24" r="18" fill="url(#grad-chocolate-bomb)" filter="url(#shadow-candy)"/>
           
-          <!-- Arkada parlayan fırın parıltısı -->
-          <circle cx="24" cy="24" r="21" fill="#ffe082" opacity="0.25" filter="blur(1.5px)"/>
-          
-          <!-- Cookie Body -->
-          <circle cx="24" cy="24" r="18" fill="url(#grad-cookie-bomb)" filter="url(#shadow-candy)"/>
-          
-          <!-- Chocolate chips & colorful sprinkles -->
-          <!-- Red Chip -->
-          <circle cx="16" cy="18" r="3" fill="#ff1744" stroke="#880e4f" stroke-width="0.8"/>
-          <circle cx="15" cy="17" r="0.8" fill="#ffffff" opacity="0.8"/>
-          <!-- Yellow Chip -->
-          <circle cx="24" cy="13" r="2.8" fill="#ffea00" stroke="#f57f17" stroke-width="0.8"/>
-          <circle cx="23" cy="12" r="0.8" fill="#ffffff" opacity="0.8"/>
-          <!-- Blue Chip -->
-          <circle cx="31" cy="19" r="3.2" fill="#00e5ff" stroke="#006064" stroke-width="0.8"/>
-          <circle cx="30" cy="18" r="0.8" fill="#ffffff" opacity="0.8"/>
-          <!-- Green Chip -->
-          <circle cx="20" cy="30" r="3" fill="#00e676" stroke="#1b5e20" stroke-width="0.8"/>
-          <circle cx="19" cy="29" r="0.8" fill="#ffffff" opacity="0.8"/>
-          <!-- Purple Chip -->
-          <circle cx="29" cy="28" r="2.8" fill="#d500f9" stroke="#4a148c" stroke-width="0.8"/>
-          <circle cx="28" cy="27" r="0.8" fill="#ffffff" opacity="0.8"/>
-          
-          <!-- Specular Highlight -->
-          <ellipse cx="19" cy="14" rx="7" ry="3.2" transform="rotate(-30 19 14)" fill="#ffffff" opacity="0.45"/>
+          <!-- 3D Protruding Dragées (M&M Smarties) -->
+          <!-- 1. Cyan-blue Dragée -->
+          <circle cx="12" cy="19" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="12" cy="18" r="3.2" fill="#29b6f6" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="11" cy="17" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 2. Yellow Dragée -->
+          <circle cx="18" cy="13" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="18" cy="12" r="3.2" fill="#ffd54f" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="17" cy="11" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 3. Pink Dragée -->
+          <circle cx="26" cy="12" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="26" cy="11" r="3.2" fill="#f48fb1" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="25" cy="10" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 4. Orange Dragée -->
+          <circle cx="34" cy="17" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="34" cy="16" r="3.2" fill="#ffb74d" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="33" cy="15" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 5. Green Dragée -->
+          <circle cx="36" cy="25" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="36" cy="24" r="3.2" fill="#81c784" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="35" cy="23" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 6. Cyan-blue Dragée -->
+          <circle cx="33" cy="33" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="33" cy="32" r="3.2" fill="#29b6f6" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="32" cy="31" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 7. Yellow Dragée -->
+          <circle cx="26" cy="38" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="26" cy="37" r="3.2" fill="#ffd54f" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="25" cy="36" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 8. Pink Dragée -->
+          <circle cx="17" cy="37" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="17" cy="36" r="3.2" fill="#f48fb1" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="16" cy="35" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 9. Green Dragée -->
+          <circle cx="11" cy="31" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="11" cy="30" r="3.2" fill="#81c784" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="10" cy="29" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 10. Orange Dragée -->
+          <circle cx="10" cy="23" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="10" cy="22" r="3.2" fill="#ffb74d" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="9" cy="21" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 11. Yellow Dragée (Inner) -->
+          <circle cx="18" cy="22" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="18" cy="21" r="3.2" fill="#ffd54f" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="17" cy="20" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 12. White Dragée (Inner) -->
+          <circle cx="25" cy="20" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="25" cy="19" r="3.2" fill="#ffffff" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="24" cy="18" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 13. Pink Dragée (Inner) -->
+          <circle cx="30" cy="25" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="30" cy="24" r="3.2" fill="#f48fb1" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="29" cy="23" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 14. Green Dragée (Inner) -->
+          <circle cx="24" cy="30" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="24" cy="29" r="3.2" fill="#81c784" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="23" cy="28" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- 15. Orange Dragée (Inner) -->
+          <circle cx="17" cy="30" r="3.2" fill="#140502" opacity="0.45"/>
+          <circle cx="17" cy="29" r="3.2" fill="#ffb74d" stroke="#140502" stroke-width="0.3"/>
+          <circle cx="16" cy="28" r="1.1" fill="#ffffff" opacity="0.8"/>
+
+          <!-- Specular Highlight for the main chocolate sphere -->
+          <ellipse cx="18" cy="15" rx="8" ry="3.5" transform="rotate(-30 18 15)" fill="#ffffff" opacity="0.3"/>
+          <!-- 3D Rim Light -->
+          <circle cx="24" cy="24" r="17.2" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.2"/>
         </g>
         
-        <!-- 8. Jöle Balığı (Glossy 3D Jelly Fish Candy) -->
-        <g id="candy-fish-shape">
-          <path d="M38,24 C38,15 28,11 20,16 C13,12 8,9 8,16 C10,20 11,22 9,24 C11,26 10,28 8,32 C8,39 13,36 20,32 C28,37 38,33 38,24 Z" filter="url(#shadow-candy)"/>
-          <!-- Parlama konturu -->
-          <path d="M20,15 C26,13 32,15 34,20" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-          <!-- Göz ve Yanak -->
-          <circle cx="26" cy="23" r="2.5" fill="#ff7675" opacity="0.65"/>
-          <circle cx="28" cy="19.5" r="3.5" fill="#ffffff"/>
-          <circle cx="29" cy="19.5" r="1.4" fill="#000000"/>
+        <!-- 8. Özel Jelly Fish Şekeri (Jelly Fish Candy) -->
+        <g id="candy-fish-shape" filter="url(#shadow-candy)">
+          <!-- Golden/Orange Double-Lobed Tail Fin (Right side) -->
+          <path d="M 30,24 C 35,13 46,9 45,20 C 44,24 45,26 46,28 C 47,37 36,35 30,24 Z" />
+          <path d="M 30,24 C 35,13 46,9 45,20 C 44,24 45,26 46,28 C 47,37 36,35 30,24 Z" fill="url(#grad-fish-tail-overlay)" opacity="0.85"/>
+          <path d="M 34,17 Q 43,13 41,20 M 34,31 Q 43,35 41,28" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.45" stroke-linecap="round"/>
+
+          <!-- Dorsal Fin (Top fin) -->
+          <path d="M 16,13 C 18,4 30,4 32,13 C 27,14 21,14 16,13 Z" />
+          <path d="M 18,9 Q 24,6 29,9" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+
+          <!-- Bottom Fins -->
+          <path d="M 15,34 C 15,38 17,40 19,36 Z" />
+          <path d="M 22,33 C 23,38 25,39 26,34 Z" />
+
+          <!-- Chubby Fish Body (Chubbier & larger) -->
+          <path d="M 7,24 C 7,12 16,9 28,13 C 35,16 35,32 28,35 C 16,39 7,36 7,24 Z" />
+
+          <!-- Side Pectoral Fin -->
+          <path d="M 20,27 C 20,30 18,32 16,30 C 14,28 16,25 20,27 Z" />
+          <path d="M 17,27 Q 19,28 19,29" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.6"/>
+
+          <!-- Body Scales Pattern Overlay -->
+          <path d="M 19,16 Q 21,18 22,16 M 22,16 Q 24,18 25,16 M 18,20 Q 20,22 22,20 M 22,20 Q 24,22 26,20 M 20,24 Q 22,26 24,24" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.45" stroke-linecap="round"/>
+
+          <!-- Big Shiny Blue Eyes -->
+          <circle cx="15" cy="19" r="6" fill="#ffffff" stroke="#110300" stroke-width="0.5"/>
+          <circle cx="15.5" cy="19" r="4.3" fill="#0288d1"/>
+          <circle cx="16.2" cy="19" r="2.8" fill="#000000"/>
+          <circle cx="15" cy="17.5" r="1.4" fill="#ffffff"/>
+          <circle cx="17.5" cy="20.5" r="0.7" fill="#ffffff"/>
+
+          <!-- Cute smiling mouth & Chubby pink cheek -->
+          <ellipse cx="12" cy="24" rx="2.5" ry="1.5" fill="#ff80ab" opacity="0.65"/>
+          <path d="M 9,25 Q 11,28 14,25" fill="none" stroke="#260802" stroke-width="0.8" stroke-linecap="round"/>
+          <path d="M 14,24 Q 15,25 14.5,26" fill="none" stroke="#260802" stroke-width="0.8"/>
+
+          <!-- Head Specular Highlight (3D glossy look) -->
+          <path d="M 8,22 C 10,15 17,11 25,13" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
         </g>
 
         <!-- ==================== ÇİZGİLİ ŞEKERLER (3D Striped) ==================== -->
@@ -1120,72 +1370,182 @@
 
         <!-- Kırmızı Çizgili Şekiller -->
         <g id="candy-red-striped-h">
-          <rect x="9" y="14" width="30" height="20" rx="10" ry="10" transform="rotate(-30 24 24)" fill="url(#grad-red-striped-h)" filter="url(#shadow-candy)"/>
-          <path d="M 12 17 C 16 11, 28 11, 31 16 Q 24 13 14 19 Z" fill="#ffffff" opacity="0.65" transform="rotate(-30 24 24)"/>
-          <circle cx="16" cy="18" r="2" fill="#ffffff" opacity="0.85"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-red)"/>
+            <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
         <g id="candy-red-striped-v">
-          <rect x="9" y="14" width="30" height="20" rx="10" ry="10" transform="rotate(-30 24 24)" fill="url(#grad-red-striped-v)" filter="url(#shadow-candy)"/>
-          <path d="M 12 17 C 16 11, 28 11, 31 16 Q 24 13 14 19 Z" fill="#ffffff" opacity="0.65" transform="rotate(-30 24 24)"/>
-          <circle cx="16" cy="18" r="2" fill="#ffffff" opacity="0.85"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-red)"/>
+            <g transform="rotate(90 24 24)">
+              <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+            </g>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
 
         <!-- Turuncu Çizgili Şekiller -->
         <g id="candy-orange-striped-h">
-          <rect x="7" y="13" width="34" height="22" rx="11" ry="11" fill="url(#grad-orange-striped-h)" filter="url(#shadow-candy)"/>
-          <path d="M 11 17 C 15 14, 31 14, 36 17 Q 24 12 12 18 Z" fill="#ffffff" opacity="0.65"/>
-          <circle cx="13" cy="19" r="2.2" fill="#ffffff" opacity="0.85"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-orange)"/>
+            <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
         <g id="candy-orange-striped-v">
-          <rect x="7" y="13" width="34" height="22" rx="11" ry="11" fill="url(#grad-orange-striped-v)" filter="url(#shadow-candy)"/>
-          <path d="M 11 17 C 15 14, 31 14, 36 17 Q 24 12 12 18 Z" fill="#ffffff" opacity="0.65"/>
-          <circle cx="13" cy="19" r="2.2" fill="#ffffff" opacity="0.85"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-orange)"/>
+            <g transform="rotate(90 24 24)">
+              <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+            </g>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
 
         <!-- Sarı Çizgili Şekiller -->
         <g id="candy-yellow-striped-h">
-          <path d="M24,5 C24,5 40,21 40,32 C40,40 33,42 24,42 C15,42 8,40 8,32 C8,21 24,5 24,5 Z" fill="url(#grad-yellow-striped-h)" filter="url(#shadow-candy)"/>
-          <path d="M24,8 C24,8 37,21 37,32 C37,36 32,39 24,39" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-          <ellipse cx="18" cy="28" rx="5" ry="2.5" transform="rotate(-35 18 28)" fill="#ffffff" opacity="0.8"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-yellow)"/>
+            <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
         <g id="candy-yellow-striped-v">
-          <path d="M24,5 C24,5 40,21 40,32 C40,40 33,42 24,42 C15,42 8,40 8,32 C8,21 24,5 24,5 Z" fill="url(#grad-yellow-striped-v)" filter="url(#shadow-candy)"/>
-          <path d="M24,8 C24,8 37,21 37,32 C37,36 32,39 24,39" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-          <ellipse cx="18" cy="28" rx="5" ry="2.5" transform="rotate(-35 18 28)" fill="#ffffff" opacity="0.8"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-yellow)"/>
+            <g transform="rotate(90 24 24)">
+              <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+            </g>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
 
         <!-- Yeşil Çizgili Şekiller -->
         <g id="candy-green-striped-h">
-          <rect x="8" y="8" width="32" height="32" rx="9" ry="9" fill="url(#grad-green-striped-h)" filter="url(#shadow-candy)"/>
-          <rect x="10" y="10" width="28" height="28" rx="7" ry="7" fill="none" stroke="#ffffff" stroke-width="2.2" opacity="0.55"/>
-          <path d="M 12 13 Q 24 9 36 13" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-green)"/>
+            <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
         <g id="candy-green-striped-v">
-          <rect x="8" y="8" width="32" height="32" rx="9" ry="9" fill="url(#grad-green-striped-v)" filter="url(#shadow-candy)"/>
-          <rect x="10" y="10" width="28" height="28" rx="7" ry="7" fill="none" stroke="#ffffff" stroke-width="2.2" opacity="0.55"/>
-          <path d="M 12 13 Q 24 9 36 13" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-green)"/>
+            <g transform="rotate(90 24 24)">
+              <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+            </g>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
 
         <!-- Mavi Çizgili Şekiller -->
         <g id="candy-blue-striped-h">
-          <circle cx="24" cy="24" r="17" fill="url(#grad-blue-striped-h)" filter="url(#shadow-candy)"/>
-          <ellipse cx="20" cy="15" rx="8.5" ry="4" transform="rotate(-30 20 15)" fill="#ffffff" opacity="0.75"/>
-          <circle cx="15" cy="14" r="1.8" fill="#ffffff" opacity="0.85"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-blue)"/>
+            <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
         <g id="candy-blue-striped-v">
-          <circle cx="24" cy="24" r="17" fill="url(#grad-blue-striped-v)" filter="url(#shadow-candy)"/>
-          <ellipse cx="20" cy="15" rx="8.5" ry="4" transform="rotate(-30 20 15)" fill="#ffffff" opacity="0.75"/>
-          <circle cx="15" cy="14" r="1.8" fill="#ffffff" opacity="0.85"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-blue)"/>
+            <g transform="rotate(90 24 24)">
+              <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+            </g>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
 
         <!-- Mor Çizgili Şekiller -->
         <g id="candy-purple-striped-h">
-          <path d="M24,7 C29,7 33,11 34,16 C38,16 41,19 41,23 C41,27 38,30 35,30 C33,35 29,38 24,38 C19,38 15,35 13,30 C10,30 7,27 7,23 C7,19 10,16 14,16 C15,11 19,7 24,7 Z" fill="url(#grad-purple-striped-h)" filter="url(#shadow-candy)"/>
-          <ellipse cx="24" cy="14" rx="8" ry="3.5" fill="#ffffff" opacity="0.75"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-purple)"/>
+            <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+            <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
         <g id="candy-purple-striped-v">
-          <path d="M24,7 C29,7 33,11 34,16 C38,16 41,19 41,23 C41,27 38,30 35,30 C33,35 29,38 24,38 C19,38 15,35 13,30 C10,30 7,27 7,23 C7,19 10,16 14,16 C15,11 19,7 24,7 Z" fill="url(#grad-purple-striped-v)" filter="url(#shadow-candy)"/>
-          <ellipse cx="24" cy="14" rx="8" ry="3.5" fill="#ffffff" opacity="0.75"/>
+          <rect x="9" y="5" width="30" height="38" rx="15" ry="19" fill="none" filter="url(#shadow-candy)"/>
+          <g clip-path="url(#clip-candy-striped-egg)">
+            <rect x="9" y="5" width="30" height="38" fill="url(#grad-cc-purple)"/>
+            <g transform="rotate(90 24 24)">
+              <path d="M5,8 Q24,12 43,8 L43,13 Q24,17 5,13 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,17 Q24,21 43,17 L43,22 Q24,26 5,22 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,26 Q24,30 43,26 L43,31 Q24,35 5,31 Z" fill="#ffffff" opacity="0.9"/>
+              <path d="M5,35 Q24,39 43,35 L43,40 Q24,44 5,40 Z" fill="#ffffff" opacity="0.9"/>
+            </g>
+          </g>
+          <path d="M 33,10 Q 36,24 33,38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M 15,10 Q 12,24 15,38" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+          <ellipse cx="24" cy="9" rx="8" ry="2.5" fill="#ffffff" opacity="0.65"/>
         </g>
       </defs>
     </svg>

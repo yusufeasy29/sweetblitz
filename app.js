@@ -26,6 +26,9 @@ const CANDY_IDS = [
   'candy-purple'
 ];
 
+const CANDY_COLOR_NAMES = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+const CANDY_LABELS = ['Kırmızı', 'Turuncu', 'Sarı', 'Yeşil', 'Mavi', 'Mor'];
+
 let board = [];
 let score = 0;
 let scoreAtLevelStart = 0; // Seviye başındaki skoru korumak için
@@ -1030,54 +1033,80 @@ function getRandomType() {
   return Math.floor(Math.random() * activeCandyTypesCount);
 }
 
+function getCandyVisualMarkup(type, special = null) {
+  if (special === 'bomb') {
+    return `<svg class="candy-svg candy-svg-bomb" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="#candy-bomb"></use></svg>`;
+  }
+
+  const safeType = Number.isInteger(type) && type >= 0 && type < CANDY_IDS.length ? type : 0;
+  const svgId = CANDY_IDS[safeType];
+  const colorName = CANDY_COLOR_NAMES[safeType];
+
+  if (special === 'fish') {
+    return `<svg class="candy-svg candy-svg-fish" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="#candy-fish-shape" fill="url(#grad-cc-${colorName})"></use></svg>`;
+  }
+
+  if (special === 'striped-h' || special === 'striped-v') {
+    const stripeId = special === 'striped-h' ? 'premium-stripes-h' : 'premium-stripes-v';
+    return `<svg class="candy-svg candy-svg-striped" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="#${svgId}"></use><g clip-path="url(#clip-${svgId})"><use href="#${stripeId}"></use></g><use href="#premium-stripe-sparkle"></use></svg>`;
+  }
+
+  if (special === 'wrapped') {
+    return `<svg class="candy-svg candy-svg-wrapped" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="#wrapped-candy-shell" fill="url(#grad-cc-${colorName})"></use><use href="#wrapped-candy-details"></use></svg>`;
+  }
+
+  return `<svg class="candy-svg candy-svg-regular" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="#${svgId}"></use></svg>`;
+}
+
+function renderCandyElement(candy) {
+  if (!candy || !candy.element) return;
+
+  const special = candy.special || null;
+  const safeType = Number.isInteger(candy.type) && candy.type >= 0 && candy.type < CANDY_IDS.length ? candy.type : 0;
+  const colorName = special === 'bomb' ? 'bomb' : CANDY_COLOR_NAMES[safeType];
+  const classNames = ['candy', `candy-tone-${colorName}`];
+  if (special) classNames.push(special);
+
+  candy.element.className = classNames.join(' ');
+  candy.element.dataset.candyType = colorName;
+  candy.element.dataset.candySpecial = special || 'regular';
+  candy.element.setAttribute('role', 'button');
+
+  const specialLabels = {
+    'striped-h': 'yatay çizgili',
+    'striped-v': 'dikey çizgili',
+    wrapped: 'paketli',
+    fish: 'balık',
+    bomb: 'renk bombası'
+  };
+  const baseLabel = special === 'bomb' ? 'Renk bombası' : `${CANDY_LABELS[safeType]} şeker`;
+  candy.element.setAttribute('aria-label', special && special !== 'bomb' ? `${baseLabel}, ${specialLabels[special]}` : baseLabel);
+  candy.element.innerHTML = `<span class="candy-visual">${getCandyVisualMarkup(candy.type, special)}</span>`;
+}
+
 // Şeker Objesi Oluşturma ve DOM'a Ekleme
 function createCandy(x, y, type, special = null) {
   const element = document.createElement('div');
-  element.className = 'candy';
-  if (special) {
-    element.classList.add(special);
-  }
-  
+
   // Mobil performansı için donanım ivmeli CSS transform kullanıyoruz
   element.style.transform = `translate3d(${x * 100}%, ${y * 100}%, 0) scale(1)`;
   
-  let svgId;
-  let overlayHtml = '';
-  if (special === 'bomb') {
-    svgId = 'candy-bomb';
-    element.innerHTML = `<svg viewBox="0 0 48 48"><use href="#${svgId}"></use>${overlayHtml}</svg>`;
-  } else if (special === 'fish') {
-    const colorName = CANDY_IDS[type].replace('candy-', '');
-    element.innerHTML = `<svg viewBox="0 0 48 48"><use href="#candy-fish-shape" fill="url(#grad-${colorName})"></use></svg>`;
-  } else {
-    if (special === 'striped-h' || special === 'striped-v') {
-      svgId = `${CANDY_IDS[type]}-${special}`;
-      element.innerHTML = `<svg viewBox="0 0 48 48"><use href="#${svgId}"></use></svg>`;
-    } else if (special === 'wrapped') {
-      svgId = CANDY_IDS[type];
-      overlayHtml = `<use href="#special-wrapped"></use>`;
-      element.innerHTML = `<svg viewBox="0 0 48 48"><use href="#${svgId}"></use>${overlayHtml}</svg>`;
-    } else {
-      svgId = CANDY_IDS[type];
-      element.innerHTML = `<svg viewBox="0 0 48 48"><use href="#${svgId}"></use></svg>`;
-    }
-  }
-  
-  // Touch / Mouse olaylarını bağla
-  element.addEventListener('mousedown', dragStart, { passive: false });
-  element.addEventListener('touchstart', dragStart, { passive: false });
-  
-  boardContainer.appendChild(element);
-  
-  const id = candyIdCounter++;
-  return {
-    id,
+  const candy = {
+    id: candyIdCounter++,
     x,
     y,
     type,
     special,
     element
   };
+  renderCandyElement(candy);
+  
+  // Touch / Mouse olaylarını bağla
+  element.addEventListener('mousedown', dragStart, { passive: false });
+  element.addEventListener('touchstart', dragStart, { passive: false });
+  
+  boardContainer.appendChild(element);
+  return candy;
 }
 
 // --- 3.5. BÖLÜM VE HEDEF SİSTEMİ VERİTABANI ---
@@ -1128,14 +1157,24 @@ const LEVELS = {
 };
 
 const THEMES = [
-  { minLvl: 1, maxLvl: 2, className: 'theme-forest', name: 'Çiçek Bahçesi' },
-  { minLvl: 3, maxLvl: 4, className: 'theme-chocolate', name: 'Çikolata Nehri' },
-  { minLvl: 5, maxLvl: 6, className: 'theme-mint', name: 'Şeker Çalıları' },
-  { minLvl: 7, maxLvl: Infinity, className: 'theme-cosmic', name: 'Gökkuşağı Vadisi' }
+  { name: 'Çiçek Bahçesi' },
+  { name: 'Çikolata Nehri' },
+  { name: 'Şeker Çalıları' },
+  { name: 'Gökkuşağı Vadisi' },
+  { name: 'Altın Vadisi' },
+  { name: 'Karamel Tepeleri' },
+  { name: 'Meyve Ormanı' },
+  { name: 'Tatlı Düşler' }
 ];
 
 function getThemeForLevel(lvl) {
-  return THEMES.find(t => lvl >= t.minLvl && lvl <= t.maxLvl) || THEMES[THEMES.length - 1];
+  // Generate a dynamic theme for each level
+  const themeIndex = (lvl - 1) % THEMES.length;
+  const themeName = THEMES[themeIndex].name;
+  return {
+    className: `theme-level-${lvl}`,
+    name: `${themeName} - Seviye ${lvl}`
+  };
 }
 
 function getLevelConfig(lvl) {
@@ -1417,8 +1456,69 @@ function loadLevel(lvl) {
   const theme = getThemeForLevel(lvl);
   const container = document.querySelector('.game-container');
   if (container) {
-    container.classList.remove('theme-forest', 'theme-chocolate', 'theme-mint', 'theme-cosmic');
+    // Remove old classes
+    container.className = container.className.split(' ')
+      .filter(c => !c.startsWith('theme-'))
+      .join(' ');
     container.classList.add(theme.className);
+
+    // Warm & Vibrant level theme presets (8 variations)
+    const presets = [
+      { // 1. Warm Golden Peach
+        bg: 'linear-gradient(135deg, #ff3d00 0%, #ff9100 50%, #d84315 100%)',
+        border: '#ffea00',
+        bubble: 'rgba(255, 234, 0, 0.35)',
+        board: 'rgba(46, 11, 4, 0.72)'
+      },
+      { // 2. Sunset Berry Magenta
+        bg: 'linear-gradient(135deg, #ad1457 0%, #d81b60 50%, #880e4f 100%)',
+        border: '#ff80ab',
+        bubble: 'rgba(255, 128, 171, 0.35)',
+        board: 'rgba(38, 5, 20, 0.72)'
+      },
+      { // 3. Fiery Orange Ruby
+        bg: 'linear-gradient(135deg, #ff1a4a 0%, #ff5722 50%, #e65100 100%)',
+        border: '#ffd54f',
+        bubble: 'rgba(255, 213, 79, 0.35)',
+        board: 'rgba(43, 8, 4, 0.72)'
+      },
+      { // 4. Vibrant Mango Dream
+        bg: 'linear-gradient(135deg, #ff6f00 0%, #ffb300 55%, #f57f17 100%)',
+        border: '#ffeb3b',
+        bubble: 'rgba(255, 235, 59, 0.35)',
+        board: 'rgba(43, 20, 4, 0.72)'
+      },
+      { // 5. Honey Plum Violet
+        bg: 'linear-gradient(135deg, #b71c1c 0%, #7b1fa2 50%, #4a148c 100%)',
+        border: '#ff80ab',
+        bubble: 'rgba(255, 128, 171, 0.35)',
+        board: 'rgba(28, 5, 38, 0.72)'
+      },
+      { // 6. Coral Grapefruit Sunshine
+        bg: 'linear-gradient(135deg, #ff5252 0%, #ff7043 50%, #f4511e 100%)',
+        border: '#ffd54f',
+        bubble: 'rgba(255, 213, 79, 0.35)',
+        board: 'rgba(43, 11, 4, 0.72)'
+      },
+      { // 7. Gold Crimson Amber
+        bg: 'linear-gradient(135deg, #d84315 0%, #c62828 50%, #ff8f00 100%)',
+        border: '#ffea00',
+        bubble: 'rgba(255, 234, 0, 0.35)',
+        board: 'rgba(38, 8, 4, 0.72)'
+      },
+      { // 8. Lava Cosmic Rose
+        bg: 'linear-gradient(135deg, #311b92 0%, #880e4f 45%, #ff3d00 100%)',
+        border: '#ffd54f',
+        bubble: 'rgba(255, 213, 79, 0.35)',
+        board: 'rgba(28, 5, 31, 0.72)'
+      }
+    ];
+
+    const currentPreset = presets[(lvl - 1) % presets.length];
+    container.style.setProperty('--bg-gradient', currentPreset.bg);
+    container.style.setProperty('--board-border', currentPreset.border);
+    container.style.setProperty('--bubble-color', currentPreset.bubble);
+    container.style.setProperty('--board-bg', currentPreset.board);
   }
   
   const worldLabel = document.getElementById('world-name');
@@ -1610,25 +1710,31 @@ function initializeBoard() {
         <svg viewBox="0 0 48 48" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="choc-grad" cx="30%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#8d6e63"/>
-              <stop offset="35%" stop-color="#4e342e"/>
-              <stop offset="85%" stop-color="#2d1510"/>
-              <stop offset="100%" stop-color="#140502"/>
+              <stop offset="0%" stop-color="#a1887f"/>
+              <stop offset="35%" stop-color="#5d4037"/>
+              <stop offset="85%" stop-color="#3e2723"/>
+              <stop offset="100%" stop-color="#1b0000"/>
             </radialGradient>
+            <linearGradient id="white-choc-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#ffe0b2"/>
+            </linearGradient>
           </defs>
-          <!-- Base tile -->
-          <rect x="3" y="3" width="42" height="42" rx="8" fill="url(#choc-grad)" stroke="#140502" stroke-width="1.8" filter="url(#shadow-candy)"/>
-          <!-- Concentric Square 1 (Outer Emboss) -->
-          <rect x="8" y="8" width="32" height="32" rx="5" fill="none" stroke="#140502" stroke-width="1.8"/>
-          <rect x="9" y="9" width="30" height="30" rx="4" fill="none" stroke="#a1887f" stroke-width="1" opacity="0.3"/>
-          <!-- Concentric Square 2 (Inner Emboss) -->
-          <rect x="14" y="14" width="20" height="20" rx="3" fill="none" stroke="#140502" stroke-width="1.8"/>
-          <rect x="15" y="15" width="18" height="18" rx="2" fill="none" stroke="#a1887f" stroke-width="1" opacity="0.4"/>
-          <!-- Concentric Square 3 (Center button) -->
-          <rect x="20" y="20" width="8" height="8" rx="1.5" fill="#140502" opacity="0.4"/>
-          <!-- Spec gloss sheen -->
-          <path d="M 6 6 L 42 6" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
-          <path d="M 6 6 L 6 42" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+          <!-- 3D Puffy Dome Base -->
+          <rect x="4" y="4" width="40" height="40" rx="10" fill="url(#choc-grad)" stroke="#1a0c02" stroke-width="1.8" filter="url(#shadow-candy)"/>
+          
+          <!-- Glossy Rim Highlight inside the dome -->
+          <rect x="6.5" y="6.5" width="35" height="35" rx="8" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.18"/>
+          
+          <!-- White Chocolate Drizzle / Swirl lines (Wave path on top) -->
+          <path d="M 8,24 Q 16,14 24,24 T 40,24" fill="none" stroke="url(#white-choc-grad)" stroke-width="2.5" stroke-linecap="round" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.5))"/>
+          <path d="M 12,28 Q 20,18 28,28 T 36,28" fill="none" stroke="url(#white-choc-grad)" stroke-width="1.8" stroke-linecap="round" opacity="0.8" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.4))"/>
+          
+          <!-- Wet/Glossy Specular Highlights -->
+          <!-- Top crescent light -->
+          <path d="M 8,14 A 14,14 0 0 1 24,7" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" opacity="0.65"/>
+          <circle cx="12" cy="11" r="1.5" fill="#ffffff" opacity="0.85"/>
+          <circle cx="15" cy="9" r="0.8" fill="#ffffff" opacity="0.75"/>
         </svg>
       </div>`;
       boardContainer.appendChild(chocolateDiv);
@@ -1644,29 +1750,55 @@ function initializeBoard() {
         <div class="blocker-inner">
           <svg viewBox="0 0 48 48" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <radialGradient id="stone-grad" cx="30%" cy="30%" r="70%">
-                <stop offset="0%" stop-color="#e0e0e0"/>
-                <stop offset="45%" stop-color="#9e9e9e"/>
-                <stop offset="85%" stop-color="#424242"/>
-                <stop offset="100%" stop-color="#212121"/>
-              </radialGradient>
+              <linearGradient id="wood-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#a1887f"/>
+                <stop offset="45%" stop-color="#6d4c41"/>
+                <stop offset="90%" stop-color="#3e2723"/>
+              </linearGradient>
+              <linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#fff59d"/>
+                <stop offset="50%" stop-color="#ffb300"/>
+                <stop offset="100%" stop-color="#ff8f00"/>
+              </linearGradient>
             </defs>
-
-            <!-- Stone base block -->
-            <rect x="4" y="4" width="40" height="40" rx="8" fill="url(#stone-grad)" stroke="#212121" stroke-width="1.8" filter="url(#shadow-candy)"/>
+            <!-- 3D Wood Crate Base -->
+            <rect x="4" y="4" width="40" height="40" rx="6" fill="url(#wood-grad)" stroke="#271206" stroke-width="2" filter="url(#shadow-candy)"/>
             
-            <!-- Moss overlay at the top -->
-            <path d="M4,10 C10,6 18,12 28,6 C34,10 40,5 44,10 L44,4 L4,4 Z" fill="#4caf50" opacity="0.85"/>
-            <path d="M12,12 C16,10 20,14 24,11 C28,13 32,10 36,12" fill="none" stroke="#2e7d32" stroke-width="1.2" opacity="0.6"/>
-
-            <!-- Highlights -->
-            <path d="M6,6 L42,6" stroke="#ffffff" stroke-width="1.5" opacity="0.55" stroke-linecap="round"/>
-            <path d="M6,6 L6,42" stroke="#ffffff" stroke-width="1.5" opacity="0.55" stroke-linecap="round"/>
+            <!-- Wood Plank lines -->
+            <line x1="4" y1="14" x2="44" y2="14" stroke="#271206" stroke-width="1.8"/>
+            <line x1="4" y1="24" x2="44" y2="24" stroke="#271206" stroke-width="1.8"/>
+            <line x1="4" y1="34" x2="44" y2="34" stroke="#271206" stroke-width="1.8"/>
+            
+            <!-- Wood grain details -->
+            <path d="M 8,9 C 14,8 18,11 26,9 M 32,9 C 36,10 38,8 41,9" fill="none" stroke="#5d4037" stroke-width="0.8" opacity="0.6"/>
+            <path d="M 6,19 C 12,20 20,18 28,19 M 34,19 C 38,18 40,20 42,19" fill="none" stroke="#5d4037" stroke-width="0.8" opacity="0.6"/>
+            <path d="M 8,29 C 16,28 24,30 32,29 M 36,29 C 40,28 42,30 43,29" fill="none" stroke="#5d4037" stroke-width="0.8" opacity="0.6"/>
+            
+            <!-- Diagonal wooden brace (X shape to look like a sturdy crate) -->
+            <path d="M 7,7 L 41,41 M 41,7 L 7,41" fill="none" stroke="#271206" stroke-width="3" opacity="0.85"/>
+            <path d="M 7,7 L 41,41 M 41,7 L 7,41" fill="none" stroke="#a1887f" stroke-width="1" opacity="0.4"/>
+            
+            <!-- Golden Corner brackets (reinforced chest look) -->
+            <!-- Top-Left -->
+            <path d="M 4,14 L 14,4" fill="none" stroke="url(#gold-grad)" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="9" cy="9" r="1.2" fill="#ffffff"/>
+            <!-- Top-Right -->
+            <path d="M 44,14 L 34,4" fill="none" stroke="url(#gold-grad)" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="39" cy="9" r="1.2" fill="#ffffff"/>
+            <!-- Bottom-Left -->
+            <path d="M 4,34 L 14,44" fill="none" stroke="url(#gold-grad)" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="9" cy="39" r="1.2" fill="#ffffff"/>
+            <!-- Bottom-Right -->
+            <path d="M 44,34 L 34,44" fill="none" stroke="url(#gold-grad)" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="39" cy="39" r="1.2" fill="#ffffff"/>
+            
+            <!-- Rim Highlight -->
+            <path d="M 5,5 L 43,5 L 43,43 L 5,43 Z" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.25"/>
 
             <!-- Cracks layer (visible in Layer 1) -->
             <g class="blocker-cracks">
-              <polyline points="20,15 15,22 25,28 18,36" stroke="#1c1c1c" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="32,18 28,24 35,32" stroke="#1c1c1c" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="20,15 15,22 25,28 18,36" stroke="#1c1c1c" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="32,18 28,24 35,32" stroke="#1c1c1c" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </g>
           </svg>
         </div>
@@ -1680,15 +1812,20 @@ function initializeBoard() {
   for (let y = 0; y < GRID_SIZE; y++) {
     for (let x = 0; x < GRID_SIZE; x++) {
       let type;
-      // Kurulurken eşleşme olmayacak şekilde bir tür seç
+      // Kurulurken eşleşme olmayacak şekilde bir tür seç (null güvenliği eklendi)
       do {
         type = getRandomType();
       } while (
-        (x >= 2 && board[y * GRID_SIZE + (x - 1)].type === type && board[y * GRID_SIZE + (x - 2)].type === type) ||
-        (y >= 2 && board[(y - 1) * GRID_SIZE + x].type === type && board[(y - 2) * GRID_SIZE + x].type === type)
+        (x >= 2 && board[y * GRID_SIZE + (x - 1)] && board[y * GRID_SIZE + (x - 1)].type === type && board[y * GRID_SIZE + (x - 2)] && board[y * GRID_SIZE + (x - 2)].type === type) ||
+        (y >= 2 && board[(y - 1) * GRID_SIZE + x] && board[(y - 1) * GRID_SIZE + x].type === type && board[(y - 2) * GRID_SIZE + x] && board[(y - 2) * GRID_SIZE + x].type === type)
       );
 
-      board[y * GRID_SIZE + x] = createCandy(x, y, type);
+      const idx = y * GRID_SIZE + x;
+      if (chocolateBoard[idx] === 1) {
+        board[idx] = null; // Çikolata altında şeker bulunmaz
+      } else {
+        board[idx] = createCandy(x, y, type);
+      }
     }
   }
 
@@ -2788,6 +2925,14 @@ async function spreadChocolate() {
   const spreadIdx = targetList[Math.floor(Math.random() * targetList.length)];
 
   chocolateBoard[spreadIdx] = 1;
+
+  // Çikolata yayıldığı yerdeki şekeri tamamen yok eder (altına şeker girmemesi için)
+  if (board[spreadIdx]) {
+    if (board[spreadIdx].element) {
+      board[spreadIdx].element.remove();
+    }
+    board[spreadIdx] = null;
+  }
   
   const x = spreadIdx % GRID_SIZE;
   const y = Math.floor(spreadIdx / GRID_SIZE);
@@ -3315,32 +3460,67 @@ function refillBoard() {
 
     // Her sütun için işlemleri yap
     for (let x = 0; x < GRID_SIZE; x++) {
-      let emptyCount = 0;
-      
-      // Sütunu aşağıdan yukarıya doğru tara
-      for (let y = GRID_SIZE - 1; y >= 0; y--) {
-        const idx = y * GRID_SIZE + x;
-        if (board[idx] === null) {
-          emptyCount++;
-        } else if (emptyCount > 0) {
-          // Bu şekeri emptyCount kadar aşağı kaydır
-          const candy = board[idx];
-          const newIdx = (y + emptyCount) * GRID_SIZE + x;
-          
-          board[newIdx] = candy;
-          board[idx] = null;
-          candy.y = y + emptyCount;
+      // Sütunu aşağıdan yukarıya doğru tara ve kaydırılabilir şekerleri yerçekimiyle düşür
+      let targetY = GRID_SIZE - 1;
+      while (targetY >= 0) {
+        const targetIdx = targetY * GRID_SIZE + x;
 
-          // CSS animasyonunu tetikle
-          candy.element.style.transform = `translate3d(${x * 100}%, ${candy.y * 100}%, 0) scale(1)`;
-          maxFallDistance = Math.max(maxFallDistance, emptyCount);
+        // Eğer bu hücrede duvar veya çikolata varsa, altındaki şeker kayamaz ve buraya yukarıdan şeker düşemez
+        if (blockerBoard[targetIdx] > 0 || chocolateBoard[targetIdx] > 0) {
+          targetY--;
+          continue;
+        }
+
+        // Eğer hedef hücre zaten doluysa bir sonraki hücreye geç
+        if (board[targetIdx] !== null) {
+          targetY--;
+          continue;
+        }
+
+        // Hücre boşsa, yukarısından çekebileceğimiz ilk kaydırılabilir şekeri ara
+        let sourceY = targetY - 1;
+        let found = false;
+
+        while (sourceY >= 0) {
+          const sourceIdx = sourceY * GRID_SIZE + x;
+
+          // Eğer arama yaparken araya duvar veya çikolata girerse, yerçekimi akışı engellenir
+          if (blockerBoard[sourceIdx] > 0 || chocolateBoard[sourceIdx] > 0) {
+            break; // Arama döngüsünü sonlandır, yukarıdan bu hücreye şeker geçemez
+          }
+
+          if (board[sourceIdx] !== null) {
+            // Şekeri bulduk, kaydır
+            const candy = board[sourceIdx];
+            board[targetIdx] = candy;
+            board[sourceIdx] = null;
+            candy.y = targetY;
+
+            // CSS transform ile düşme animasyonunu tetikle
+            candy.element.style.transform = `translate3d(${x * 100}%, ${targetY * 100}%, 0) scale(1)`;
+            maxFallDistance = Math.max(maxFallDistance, targetY - sourceY);
+            found = true;
+            break;
+          }
+          sourceY--;
+        }
+
+        // Hedef hücre doldurulduysa veya yukarıdan akış engellendiyse bir yukarıdaki hedef hücreye geç
+        targetY--;
+      }
+
+      // Sütundaki boş kalan hücreleri (yukarıda kalan veya duvar/çikolata sebebiyle akışı kesilen yerleri) yenileriyle doldur
+      const emptyYs = [];
+      for (let y = 0; y < GRID_SIZE; y++) {
+        const idx = y * GRID_SIZE + x;
+        if (board[idx] === null && blockerBoard[idx] === 0 && chocolateBoard[idx] === 0) {
+          emptyYs.push(y);
         }
       }
 
-      // Sütunun tepesinde oluşan boşluklara yenilerini yerleştir
-      for (let i = 0; i < emptyCount; i++) {
-        const targetY = emptyCount - 1 - i;
-        const startY = -(i + 1); // Ekranın hemen üzerinden dökülsün
+      for (let i = 0; i < emptyYs.length; i++) {
+        const targetY = emptyYs[i];
+        const startY = -(i + 1); // Ekranın üstünden dökülüyormuş gibi başla
         
         let type = getRandomType();
         let special = null;
@@ -3361,12 +3541,12 @@ function refillBoard() {
         board[targetY * GRID_SIZE + x] = candy;
         candy.y = targetY;
 
-        // Force browser reflow: Başlangıç konumunun tarayıcı tarafından kayda geçmesini sağla
+        // Force browser reflow
         candy.element.getBoundingClientRect();
 
         // Hedef konuma düşür
         candy.element.style.transform = `translate3d(${x * 100}%, ${targetY * 100}%, 0) scale(1)`;
-        maxFallDistance = Math.max(maxFallDistance, emptyCount);
+        maxFallDistance = Math.max(maxFallDistance, targetY - startY);
       }
     }
 
@@ -4228,57 +4408,66 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Google Sign-In SDK'sını Yerel Olarak Başlatmayı Dene
-  try {
+  // Google Sign-In SDK Başlatma
+  const GOOGLE_CLIENT_ID = '804041541426-6c0vd2u7gm058a31hjetf2b9bh5b04s1.apps.googleusercontent.com';
+
+  function initGoogleSignIn() {
     if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-      const clientId = localStorage.getItem('google_client_id') || 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
       google.accounts.id.initialize({
-        client_id: clientId,
-        callback: (response) => {
-          try {
-            // Google ID Token (JWT) çözümlenir
-            const base64Url = response.credential.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-
-            const payload = JSON.parse(jsonPayload);
-            const name = payload.name || 'Google Oyuncusu';
-            const email = payload.email || '';
-            const picUrl = payload.picture || '';
-
-            // Bilgileri kaydet
-            googleLoggedIn = true;
-            googleUserName = name;
-            googleUserEmail = email;
-            googleUserPicUrl = picUrl;
-            googleUserBgClass = '';
-            googleUserLetter = name.charAt(0).toUpperCase();
-
-            localStorage.setItem('google_logged_in', 'true');
-            localStorage.setItem('google_user_name', name);
-            localStorage.setItem('google_user_email', email);
-            localStorage.setItem('google_user_pic_url', picUrl);
-            localStorage.setItem('google_user_letter', googleUserLetter);
-
-            const btn = document.getElementById('btn-google-login');
-            if (btn) {
-              btn.innerHTML = `✔️ ${googleUserName}`;
-              btn.disabled = true;
-              btn.style.opacity = '0.7';
-            }
-            updateSidebarStats();
-            
-            soundEngine.playLevelUp();
-            spawnFloatingText(3, 3, "HOŞ GELDİNİZ! 🌟", "#ffd23f");
-          } catch (err) {
-            console.error("Google Token decode hatası:", err);
-            triggerGoogleLoginFallback();
-          }
-        }
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential,
+        auto_select: false,
+        cancel_on_tap_outside: true
       });
     }
+  }
+
+  function handleGoogleCredential(response) {
+    try {
+      // Google ID Token (JWT) çözümlenir
+      const base64Url = response.credential.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      const payload = JSON.parse(jsonPayload);
+      const name = payload.name || 'Google Oyuncusu';
+      const email = payload.email || '';
+      const picUrl = payload.picture || '';
+
+      // Bilgileri kaydet
+      googleLoggedIn = true;
+      googleUserName = name;
+      googleUserEmail = email;
+      googleUserPicUrl = picUrl;
+      googleUserBgClass = '';
+      googleUserLetter = name.charAt(0).toUpperCase();
+
+      localStorage.setItem('google_logged_in', 'true');
+      localStorage.setItem('google_user_name', name);
+      localStorage.setItem('google_user_email', email);
+      localStorage.setItem('google_user_pic_url', picUrl);
+      localStorage.setItem('google_user_letter', googleUserLetter);
+
+      const btn = document.getElementById('btn-google-login');
+      if (btn) {
+        btn.innerHTML = `✔️ ${googleUserName}`;
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
+      }
+      updateSidebarStats();
+      soundEngine.playLevelUp();
+      spawnFloatingText(3, 3, "HOŞ GELDİNİZ! 🌟", "#ffd23f");
+    } catch (err) {
+      console.error("Google Token decode hatası:", err);
+      triggerGoogleLoginFallback();
+    }
+  }
+
+  // SDK yüklendiğinde başlat
+  try {
+    initGoogleSignIn();
   } catch (e) {
     console.warn("Google SDK yükleme hatası:", e);
   }
@@ -4343,6 +4532,29 @@ document.addEventListener('DOMContentLoaded', () => {
   if (googleBtn) {
     googleBtn.addEventListener('click', () => {
       soundEngine.init();
+
+      if (googleLoggedIn) {
+        // Zaten giriş yapılmış — tekrar tıklamak logout yapar
+        if (confirm(`${googleUserName} hesabından çıkış yapmak istiyor musunuz?`)) {
+          googleLoggedIn = false;
+          googleUserName = '';
+          googleUserEmail = '';
+          googleUserPicUrl = '';
+          googleUserBgClass = '';
+          googleUserLetter = '';
+          localStorage.removeItem('google_logged_in');
+          localStorage.removeItem('google_user_name');
+          localStorage.removeItem('google_user_email');
+          localStorage.removeItem('google_user_pic_url');
+          localStorage.removeItem('google_user_letter');
+          googleBtn.innerHTML = `<svg class="google-icon" viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg" style="margin-right: 7px; vertical-align: middle;"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>Google ile Giriş Yap`;
+          googleBtn.disabled = false;
+          googleBtn.style.opacity = '1';
+          updateSidebarStats();
+        }
+        return;
+      }
+
       googleBtn.disabled = true;
       googleBtn.style.opacity = '0.8';
       googleBtn.innerHTML = `
@@ -4355,18 +4567,23 @@ document.addEventListener('DOMContentLoaded', () => {
         Giriş Yapılıyor...
       `;
       
-      const isLocalFile = window.location.protocol === 'file:';
       const sdkLoaded = typeof google !== 'undefined' && google.accounts && google.accounts.id;
-      const customClientId = localStorage.getItem('google_client_id') || 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
-      const isPlaceholder = customClientId.includes('YOUR_GOOGLE_CLIENT_ID');
-
-      if (!isLocalFile && sdkLoaded && !isPlaceholder) {
-        google.accounts.id.prompt((notification) => {
-          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-            triggerGoogleLoginFallback();
-          }
-        });
+      
+      if (sdkLoaded) {
+        // Gerçek Google One Tap dene
+        try {
+          initGoogleSignIn();
+          google.accounts.id.prompt((notification) => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+              // One Tap gösterilemedi, popup fallback'e geç
+              triggerGoogleLoginFallback();
+            }
+          });
+        } catch(e) {
+          triggerGoogleLoginFallback();
+        }
       } else {
+        // SDK yüklenmemişse (APK/offline) popup fallback
         triggerGoogleLoginFallback();
       }
     });
@@ -4698,20 +4915,70 @@ function initMap(forcedAvatarLevel = null) {
   if (mapPathLine) {
     mapPathLine.setAttribute('d', dPath);
   }
+  
+  const pathShadow = document.getElementById('map-path-line-shadow');
+  if (pathShadow) {
+    pathShadow.setAttribute('d', dPath);
+  }
 
-  // 2. Dekorasyonları Konumlandır (Bulutlar)
+  // 2. Position dynamic decorations (bridges, garden layout elements, pollen)
   const decorContainer = document.getElementById('map-decorations');
   if (decorContainer) {
     decorContainer.innerHTML = '';
     
-    for (let c = 0; c < 3; c++) {
-      const cloud = document.createElement('div');
-      cloud.className = 'map-cloud';
-      cloud.style.top = (150 + c * 800) + 'px';
-      cloud.style.animationDelay = (c * 8) + 's';
-      cloud.style.transform = `scale(${0.7 + c * 0.25})`;
-      cloud.style.opacity = '0.7';
-      decorContainer.appendChild(cloud);
+    // Wooden bridges placed exactly where the path crosses the river
+    const bridgePositions = [
+      { x: 600, y: 520, rotate: 10 },
+      { x: 350, y: 1350, rotate: -35 },
+      { x: 650, y: 2150, rotate: 25 }
+    ];
+    bridgePositions.forEach(pos => {
+      const bridge = document.createElement('div');
+      bridge.className = 'map-bridge';
+      bridge.style.left = `calc(${pos.x / 10}%)`;
+      bridge.style.top = `${pos.y}px`;
+      bridge.style.transform = `translate(-50%, -50%) rotate(${pos.rotate}deg)`;
+      decorContainer.appendChild(bridge);
+    });
+
+    // Rich garden layout elements
+    const gardenElements = [
+      { class: 'map-tree', count: 8, symbols: ['🌳', '🌲', '🍭', '🍒'] },
+      { class: 'map-flower', count: 18, symbols: ['🌸', '🌻', '🌷', '🌹', '🌼', '🌺', '🍄', '🍓'] },
+      { class: 'map-butterfly', count: 6, symbols: ['🦋'] },
+      { class: 'map-bee', count: 5, symbols: ['🐝'] },
+      { class: 'map-leaf', count: 10, symbols: ['🍃', '🍂'] },
+      { class: 'map-sparkle', count: 20, symbols: ['✨'] }
+    ];
+
+    gardenElements.forEach(group => {
+      for (let i = 0; i < group.count; i++) {
+        const el = document.createElement('div');
+        el.className = group.class;
+        el.innerText = group.symbols[Math.floor(Math.random() * group.symbols.length)];
+        
+        // Random placement with pointer-events: none
+        el.style.left = Math.floor(Math.random() * 90) + '%';
+        el.style.top = Math.floor(Math.random() * 2400) + 'px';
+        el.style.animationDelay = (Math.random() * 5) + 's';
+        
+        const scale = 0.5 + Math.random() * 0.8;
+        el.style.transform = `scale(${scale})`;
+        
+        decorContainer.appendChild(el);
+      }
+    });
+
+    // Floating golden pollen particles for atmospheric magic
+    const pollenCount = 15;
+    for (let i = 0; i < pollenCount; i++) {
+      const pollen = document.createElement('div');
+      pollen.className = 'map-pollen';
+      pollen.style.left = Math.floor(Math.random() * 90) + '%';
+      pollen.style.top = Math.floor(Math.random() * 2400) + 'px';
+      pollen.style.animationDelay = (Math.random() * 8) + 's';
+      pollen.style.animationDuration = (12 + Math.random() * 6) + 's';
+      decorContainer.appendChild(pollen);
     }
   }
 
@@ -4720,7 +4987,8 @@ function initMap(forcedAvatarLevel = null) {
     const coords = getLevelCoords(l, startLvl);
     
     const wrapper = document.createElement('div');
-    wrapper.className = 'level-node-wrapper';
+    const flowerClasses = ['flower-daisy', 'flower-tulip', 'flower-rose', 'flower-hydrangea'];
+    wrapper.className = 'level-node-wrapper ' + flowerClasses[l % 4];
     wrapper.style.left = `calc(${coords.x / 10}%)`;
     wrapper.style.top = `${coords.y}px`;
     
@@ -4732,7 +5000,7 @@ function initMap(forcedAvatarLevel = null) {
       wrapper.classList.add('completed');
     }
     
-    // Özel dekorasyonlar (her 10 seviyede bir Taç, her 5 seviyede bir Kuru Kafa)
+    // Özel dekorasyonlar (her 10 seviyede bir Taç, her 5 seviyede bir Hediye Kutusu)
     if (l % 10 === 0) {
       const dec = document.createElement('div');
       dec.className = 'level-decoration';
@@ -4741,7 +5009,7 @@ function initMap(forcedAvatarLevel = null) {
     } else if (l % 5 === 0) {
       const dec = document.createElement('div');
       dec.className = 'level-decoration';
-      dec.innerText = '💀';
+      dec.innerText = '🎁';
       wrapper.appendChild(dec);
     }
     
@@ -5182,8 +5450,8 @@ function checkDailySpinState() {
       freeSpinsEl.style.color = "#ff5252";
     }
     if (btnSpin) {
-      btnSpin.disabled = false; // Altın ile çevirmeye izin ver
-      btnSpin.innerText = "50 ALTIN İLE ÇEVİR";
+      btnSpin.disabled = false; // Reklam ile çevirmeye izin ver
+      btnSpin.innerText = "REKLAM İZLE VE ÇEVİR";
     }
     if (timerMsg) timerMsg.style.display = 'block';
     
@@ -5229,7 +5497,7 @@ function checkDailySpinState() {
   }
 }
 
-function triggerWheelSpin() {
+async function triggerWheelSpin() {
   if (isWheelSpinning) return;
   
   const lastSpin = localStorage.getItem('candy_last_spin_time');
@@ -5238,22 +5506,12 @@ function triggerWheelSpin() {
   
   let isFree = true;
   if (diff < oneDay) {
-    if (goldBars < 50) {
-      soundEngine.playPop(0);
-      spawnFloatingText(1, 20, "Yetersiz Altın! 🪙", "#ff3366");
-      alert("Çarkıfeleği döndürmek için yeterli Altınınız yok! (50 Altın gerekli)");
-      return;
-    }
     isFree = false;
   }
   
   if (!isFree) {
-    goldBars -= 50;
-    saveGameState();
-    updateHUD();
-    updateSidebarStats();
-    const goldValEl = document.getElementById('wheel-gold-value');
-    if (goldValEl) goldValEl.innerText = goldBars;
+    const adSuccess = await showRewardedAdForSpin();
+    if (!adSuccess) return;
   }
   
   isWheelSpinning = true;
@@ -5733,5 +5991,64 @@ async function showRewardedAdForBooster(boosterType) {
       soundEngine.playSpecial();
       spawnFloatingText(3, 2, "+1 " + nameTr + " (Simüle) 🎁", "#4caf50");
     }
+  }
+}
+
+async function showRewardedAdForSpin() {
+  if (typeof window !== 'undefined' && window.Capacitor && window.Capacitor.Plugins.AdMob) {
+    const { AdMob } = window.Capacitor.Plugins;
+    try {
+      spawnFloatingText(3, 2, "Reklam yükleniyor...", "#ffd23f");
+      
+      // Android Test Rewarded Ad ID: ca-app-pub-3940256099942544/5224354917
+      await AdMob.prepareRewardVideoAd({
+        adId: 'ca-app-pub-3940256099942544/5224354917',
+        isTesting: true
+      });
+      
+      let gotReward = false;
+      
+      const l1 = await AdMob.addListener('onRewarded', (info) => {
+        gotReward = true;
+      });
+      const l2 = await AdMob.addListener('rewardedVideoAdReward', (info) => {
+        gotReward = true;
+      });
+      const l3 = await AdMob.addListener('onAdReward', (info) => {
+        gotReward = true;
+      });
+
+      const result = await AdMob.showRewardVideoAd();
+      if (result && result.amount > 0) {
+        gotReward = true;
+      }
+
+      setTimeout(() => {
+        l1.remove();
+        l2.remove();
+        l3.remove();
+      }, 1000);
+
+      if (gotReward) {
+        soundEngine.playSpecial();
+        spawnFloatingText(3, 2, "Çevirme Hakkı Kazanıldı! 🎉", "#4caf50");
+        return true;
+      } else {
+        spawnFloatingText(3, 2, "Reklam tamamlanmadı 😢", "#ff6b6b");
+        return false;
+      }
+    } catch (e) {
+      console.error("Rewarded ad error:", e);
+      spawnFloatingText(3, 2, "Reklam yüklenemedi 😞", "#ff6b6b");
+      return false;
+    }
+  } else {
+    // Tarayıcı test simülasyonu
+    if (confirm("Web tarayıcısındasınız. Test amaçlı reklam izlemeyi simüle edip ücretsiz çevirme hakkı kazanmak ister misiniz?")) {
+      soundEngine.playSpecial();
+      spawnFloatingText(3, 2, "Çevirme Hakkı Simüle Edildi 🎁", "#4caf50");
+      return true;
+    }
+    return false;
   }
 }

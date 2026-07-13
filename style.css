@@ -141,21 +141,17 @@ body {
 
 /* BAŞLANGIÇ EKRANI ÖZELLİKLERİ */
 #start-screen {
-  justify-content: center;
-  gap: 32px;
-}
-
-/* ════════════════════════════════════
-   SPLASH / GİRİŞ EKRANI
-════════════════════════════════════ */
-#start-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding: 0;
   overflow: hidden;
-  position: relative;
 }
 
 /* ── Yüzen arka plan şekerleri ── */
@@ -313,8 +309,8 @@ body {
   gap: 12px;
   width: 100%;
   padding: 0 28px;
-  margin-top: 8px;
-  padding-bottom: 36px;
+  margin-top: auto;
+  padding-bottom: 48px;
 }
 
 .splash-play-btn {
@@ -394,28 +390,29 @@ body {
 
 /* OYUN EKRANI VE HUD */
 #game-screen {
+  position: relative;
   justify-content: flex-start;
   padding: 8px;
   gap: 8px;
-  background: 
-    radial-gradient(circle at 20% 20%, rgba(138, 43, 226, 0.45) 0%, transparent 45%),
-    radial-gradient(circle at 80% 80%, rgba(124, 77, 255, 0.35) 0%, transparent 50%),
-    radial-gradient(circle at center, #251245 0%, #0c0218 100%) !important;
+  background: var(--bg-gradient);
+  overflow: hidden;
 }
 
 /* --- PREMIUM GAME HUD HEADER --- */
 .game-header-premium {
   width: 100%;
-  background: rgba(26, 10, 48, 0.85);
-  border: 2px solid #5c2c9d;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2.5px solid rgba(255, 255, 255, 0.45);
   border-radius: 24px;
   padding: 8px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.5), 
-    inset 0 0 10px rgba(171, 71, 188, 0.35);
+    0 8px 24px rgba(0, 0, 0, 0.12), 
+    inset 0 0 10px rgba(255, 255, 255, 0.35);
   margin-top: env(safe-area-inset-top, 4px);
   position: relative;
   z-index: 100;
@@ -423,8 +420,8 @@ body {
 
 /* Sol: Hamle Sayısı Rozeti */
 .hud-moves-badge {
-  background: rgba(43, 17, 82, 0.8);
-  border: 2px solid #7c4dff;
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border: 2px solid #ffa726;
   border-radius: 16px;
   width: 60px;
   height: 60px;
@@ -432,14 +429,14 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12), inset 0 2px 2px #ffffff;
   flex-shrink: 0;
 }
 
 .hud-moves-label {
   font-size: 0.46rem;
   font-weight: 900;
-  color: #ffffff;
+  color: #e65100;
   letter-spacing: 0.4px;
   line-height: 1;
 }
@@ -447,9 +444,9 @@ body {
 .hud-moves-number {
   font-size: 1.6rem;
   font-weight: 900;
-  color: #00f5d4;
+  color: #ff3d00;
   line-height: 1;
-  text-shadow: 0 1.5px 3px rgba(0,0,0,0.5);
+  text-shadow: none;
   font-family: var(--font-main);
 }
 
@@ -521,8 +518,7 @@ body {
 .target-card .target-count {
   font-size: 0.95rem;
   font-weight: 900;
-  color: #ffffff;
-  text-shadow: 0 1.5px 3px rgba(0,0,0,0.6);
+  color: #5d4037; /* Dark wood color */
   font-family: var(--font-main);
 }
 
@@ -626,26 +622,27 @@ body {
   text-shadow: 0 0 8px rgba(255, 213, 79, 0.6);
 }
 
-/* Oyun Tahtası Alanı */
 .board-wrapper {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background-color: #1b0a2e;
+  background-color: var(--board-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   background-image: 
-    linear-gradient(45deg, #2d134d 25%, transparent 25%), 
-    linear-gradient(-45deg, #2d134d 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #2d134d 75%), 
-    linear-gradient(-45deg, transparent 75%, #2d134d 75%);
+    linear-gradient(45deg, rgba(255, 255, 255, 0.045) 25%, transparent 25%), 
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.045) 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.045) 75%), 
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.045) 75%);
   background-size: calc(200% / 8) calc(200% / 8); /* 8x8 checkerboard size */
   background-position: 0 0, 0 0, 0 0, 0 0;
-  border: 6px solid #4a1c8c;
+  border: 8px solid var(--board-border);
   border-radius: 28px;
   overflow: hidden;
   box-shadow: 
-    0 16px 45px rgba(0,0,0,0.8),
-    0 0 25px rgba(171, 71, 188, 0.5),
-    inset 0 4px 12px rgba(0,0,0,0.9);
+    0 20px 50px rgba(0,0,0,0.4),
+    0 0 30px var(--bubble-color),
+    inset 0 4px 12px rgba(0,0,0,0.25);
   margin: auto 0;
   touch-action: none;
 }
@@ -896,37 +893,27 @@ body {
   to { opacity: 0.9; transform: translateY(0); }
 }
 
-/* 1. Şeker Bahçesi - Çiçekler (Flowers) */
-.game-container.theme-forest {
-  --bg-gradient: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 50%, #e8f5e9 100%);
-  --board-border: rgba(240, 98, 146, 0.7);
-  --bubble-color: rgba(240, 98, 146, 0.05);
-  --board-bg: rgba(255, 255, 255, 0.78);
+/* Dynamic Level-based Theme Styling */
+
+/* Fallback default values if dynamic variables are not resolved */
+.game-container[class*="theme-level-"] {
+  --bg-gradient: linear-gradient(135deg, #2e0854 0%, #180030 100%);
+  --board-border: #ffd54f;
+  --bubble-color: rgba(255, 213, 79, 0.35);
+  --board-bg: rgba(26, 9, 38, 0.72);
 }
 
-/* 2. Şeker Bahçesi - Çikolata Nehri (Chocolate River) */
-.game-container.theme-chocolate {
-  --bg-gradient: linear-gradient(135deg, #efebe9 0%, #d7ccc8 50%, #fff3e0 100%);
-  --board-border: rgba(141, 110, 99, 0.7);
-  --bubble-color: rgba(141, 110, 99, 0.05);
-  --board-bg: rgba(255, 255, 255, 0.78);
+/* Warm & Vibrant dynamic gradients mapped modulo-wise per level to keep them unique and high-contrast */
+.game-container[class*="theme-level-"]:nth-child(n) {
+  /* We will dynamically declare inline style custom variables on container via app.js or pre-calculate them here */
 }
 
-/* 3. Şeker Bahçesi - Şeker Çalıları (Candy Shrubs) */
-.game-container.theme-mint {
-  --bg-gradient: linear-gradient(135deg, #e8f5e9 0%, #e8f8f5 50%, #fbe9e7 100%);
-  --board-border: rgba(76, 175, 80, 0.7);
-  --bubble-color: rgba(76, 175, 80, 0.05);
-  --board-bg: rgba(255, 255, 255, 0.78);
+/* Specific Level Theme rules mapped via attribute class wildcard */
+/* Let's define the 8 warm, vibrant candy night theme gradients */
+.game-container[class*="theme-level-"] {
+  background: var(--bg-gradient);
 }
 
-/* 4. Şeker Bahçesi - Gökkuşağı (Rainbow) */
-.game-container.theme-cosmic {
-  --bg-gradient: linear-gradient(135deg, #fff9c4 0%, #e1f5fe 50%, #fce4ec 100%);
-  --board-border: rgba(255, 112, 67, 0.7);
-  --bubble-color: rgba(255, 112, 67, 0.05);
-  --board-bg: rgba(255, 255, 255, 0.78);
-}
 
 /* --- JOKERLER PANELİ STİLLERİ --- */
 
@@ -941,8 +928,8 @@ body {
 }
 
 .joker-btn {
-  background: linear-gradient(135deg, #0df5db 0%, #0288d1 100%);
-  border: 3px solid #ffffff;
+  background: linear-gradient(135deg, #4a148c 0%, #1a237e 100%);
+  border: 3px solid #ffca28;
   border-radius: 20px;
   width: 66px;
   height: 66px;
@@ -954,40 +941,40 @@ body {
   position: relative;
   cursor: pointer;
   transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 5px 0 #01579b, 0 8px 12px rgba(0,0,0,0.35);
+  box-shadow: 0 5px 0 #0d1b3e, 0 8px 12px rgba(0,0,0,0.45);
   outline: none;
 }
 
 .joker-btn:active {
   transform: translateY(3px);
-  box-shadow: 0 2px 0 #01579b, 0 3px 6px rgba(0,0,0,0.35);
+  box-shadow: 0 2px 0 #0d1b3e, 0 3px 6px rgba(0,0,0,0.45);
 }
 
 .joker-btn.active {
-  border-color: #ffd23f;
-  background: linear-gradient(135deg, #ffd23f 0%, #ff9800 100%);
-  box-shadow: 0 5px 0 #b71c1c, 0 8px 16px rgba(255, 210, 63, 0.65);
+  border-color: #ffffff;
+  background: linear-gradient(135deg, #ff5722 0%, #d84315 100%);
+  box-shadow: 0 5px 0 #5d4037, 0 8px 16px rgba(255, 87, 34, 0.65);
   animation: pulseJoker 1.2s ease-in-out infinite alternate;
 }
 
 @keyframes pulseJoker {
-  from { filter: brightness(0.9); }
-  to { filter: brightness(1.15) drop-shadow(0 0 8px rgba(255, 210, 63, 0.8)); }
+  from { filter: brightness(0.95); }
+  to { filter: brightness(1.2) drop-shadow(0 0 8px rgba(255, 87, 34, 0.8)); }
 }
 
 .joker-icon {
-  font-size: 1.45rem;
+  font-size: 1.75rem;
   line-height: 1.1;
   margin-bottom: 0px;
   filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
 }
 
 .joker-name {
-  font-size: 0.55rem;
+  font-size: 0.62rem;
   font-weight: 900;
-  color: #ffffff;
-  letter-spacing: 0.3px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+  color: #ffd23f;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1.5px 3px rgba(0,0,0,0.9);
   position: absolute;
   bottom: 7px;
   width: 100%;
@@ -1341,26 +1328,29 @@ body {
   flex-direction: row;
   padding: 0;
   gap: 0;
-  background: #0d031c; /* Yedek arka plan */
+  background: #a8d86d; /* Backup green */
 }
 
-/* Sol Pembe Menü Çubuğu (Sidebar) */
+/* Sol Pembe Menü Çubuğu (Sidebar) - Sweet Garden Glassmorphism */
 .map-sidebar {
-  width: 75px;
+  width: 80px;
   height: 100%;
-  background: linear-gradient(180deg, #3d1b7b 0%, #1e0933 50%, #0d0418 100%);
-  border-right: 3px solid #5c2c9d;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-right: 4px solid rgba(255, 255, 255, 0.35);
   box-shadow: 
-    5px 0 20px rgba(0, 0, 0, 0.5), 
-    inset -1px 0 0 rgba(255,255,255,0.05);
+    5px 0 25px rgba(0, 0, 0, 0.15), 
+    inset -1px 0 0 rgba(255, 255, 255, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 16px 2px;
-  gap: 16px;
+  padding: 20px 2px;
+  gap: 18px;
   z-index: 10;
   flex-shrink: 0;
+  background-image: linear-gradient(180deg, rgba(76, 175, 80, 0.22) 0%, rgba(46, 125, 50, 0.22) 100%);
 }
 
 /* Profil Resmi Kutusu */
@@ -1373,12 +1363,12 @@ body {
 
 .profile-avatar-frame {
   position: relative;
-  width: 52px;
-  height: 52px;
-  background: radial-gradient(circle, #ffe082 0%, #f57f17 100%);
+  width: 54px;
+  height: 54px;
+  background: radial-gradient(circle, #a5d6a7 0%, #2e7d32 100%);
   border: 3px solid #ffffff;
   border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.25);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1394,43 +1384,59 @@ body {
   bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
-  background: #fbc02d;
+  background: #ffcc80;
   color: #5d4037;
-  border: 1.5px solid white;
-  border-radius: 10px;
-  font-size: 0.58rem;
-  font-weight: 700;
-  padding: 1px 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  border: 2px solid white;
+  border-radius: 12px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   white-space: nowrap;
 }
 
 .profile-score-badge {
-  background: #ffffff;
-  color: #e02878;
+  background: #fff8e1;
+  color: #e65100;
   border-radius: 12px;
   font-size: 0.65rem;
-  font-weight: 700;
-  padding: 2px 8px;
+  font-weight: 800;
+  padding: 3px 10px;
   margin-top: 8px;
-  border: 1px solid #ff71ad;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  border: 2px solid #ffe082;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Sidebar Item (Hearts, Gold, Letters) */
 .sidebar-item {
-  width: 58px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
-  border: 2px solid #ffffff;
-  border-radius: 18px;
-  padding: 6px 2px;
+  width: 62px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 243, 224, 0.9) 100%);
+  border: 2px solid #ffd54f; /* Thin gold border */
+  border-radius: 20px;
+  padding: 8px 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 
-    0 4px 8px rgba(0,0,0,0.18),
-    inset 0 1.5px 1.5px rgba(255,255,255,0.4);
+    0 5px 0 #c68a3a, /* Goldish-brown 3D bottom */
+    0 8px 16px rgba(0,0,0,0.12),
+    inset 0 2px 2px #ffffff;
   position: relative;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sidebar-item::after {
+  content: '';
+  position: absolute;
+  top: 1px; left: 1px; right: 1px;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 18px 18px 2px 2px;
+  pointer-events: none;
+}
+
+.sidebar-item:hover {
+  transform: translateY(-3px) scale(1.05);
 }
 
 .sidebar-icon {
@@ -1439,17 +1445,17 @@ body {
 }
 
 .sidebar-value {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: #5d4037; /* Dark wood color for readability */
   margin-top: 2px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  text-shadow: none;
 }
 
 .sidebar-label {
   font-size: 0.55rem;
-  font-weight: 600;
-  color: #ffe0b2;
+  font-weight: 800;
+  color: #8d6e63;
   text-transform: uppercase;
 }
 
@@ -1474,27 +1480,32 @@ body {
 
 /* Ayarlar Düğmesi */
 .btn-sidebar-icon {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
-  color: white;
-  width: 48px;
-  height: 48px;
+  background: linear-gradient(180deg, #fffcf5 0%, #fff3e0 100%);
+  border: 2.5px solid #ffcc80;
+  color: #8d6e63;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15), inset 0 2px 2px #fff;
   margin-top: auto; /* En alta ittir */
   transition: all 0.2s ease;
 }
 
+.btn-sidebar-icon:hover {
+  transform: scale(1.08);
+  background: linear-gradient(180deg, #fff3e0 0%, #ffe0b2 100%);
+}
+
 .btn-sidebar-icon:active {
-  transform: scale(0.9);
-  background: rgba(255, 255, 255, 0.35);
+  transform: scale(0.95);
 }
 
 .btn-sidebar-icon svg {
+  fill: #8d6e63;
   transition: transform 0.4s ease;
 }
 
@@ -1519,24 +1530,54 @@ body {
 /* Harita Yüksekliği ve Yollar */
 .map-scroll-container {
   width: 100%;
-  height: 2500px; /* Yol uzunluğu */
+  height: 2500px;
   position: relative;
-  /* Premium Candy Land Cartoon Background Landscape */
+  /* Magical Sweet Garden Background Landscape with sunrise gradient */
   background: 
-    radial-gradient(circle at 10% 15%, rgba(138, 43, 226, 0.45) 0%, transparent 40%),
-    radial-gradient(circle at 85% 45%, rgba(0, 245, 212, 0.35) 0%, transparent 35%),
-    radial-gradient(circle at 20% 75%, rgba(124, 77, 255, 0.45) 0%, transparent 30%),
+    radial-gradient(circle at 15% 10%, rgba(255, 235, 120, 0.4) 0%, transparent 35%), /* Warm sun */
+    radial-gradient(circle at 80% 25%, rgba(255, 180, 220, 0.25) 0%, transparent 40%), /* Flower field glow */
+    radial-gradient(circle at 20% 60%, rgba(180, 255, 180, 0.25) 0%, transparent 45%), /* Grass meadow */
+    radial-gradient(circle at 85% 85%, rgba(255, 210, 120, 0.3) 0%, transparent 40%),
     linear-gradient(180deg, 
-      #080214 0%,    /* Cosmic dark */
-      #1b0a33 15%,   /* Nebula violet */
-      #2c0c5e 35%,
-      #1a0438 50%,   /* Space purple */
-      #0f0224 65%,
-      #210940 80%,   /* Galactic nebulae */
-      #0a0118 100%
+      #d0f0ff 0%,     /* Gentle morning sky */
+      #ffecd2 8%,     /* Soft sunrise dawn */
+      #bce875 14%,    /* Lush soft meadow top */
+      #9ad24f 30%,    /* Rich warm grass */
+      #7cb324 50%,    /* Deep garden field */
+      #609b11 75%,    /* Forest edge greens */
+      #4b8005 100%    /* Cool shade bottom */
     );
   background-size: 100% 100%;
   overflow: hidden;
+}
+
+/* Sunlight rays diagonal pattern overlay - 3D light feel */
+.map-scroll-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -40deg,
+    rgba(255, 255, 255, 0.08) 0px,
+    rgba(255, 255, 255, 0.08) 30px,
+    rgba(255, 255, 255, 0) 30px,
+    rgba(255, 255, 255, 0) 70px
+  );
+  mask-image: radial-gradient(circle at 15% 10%, black 20%, transparent 85%);
+  -webkit-mask-image: radial-gradient(circle at 15% 10%, black 20%, transparent 85%);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Warm bloom light overlay */
+.map-viewport::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 15% 10%, rgba(255, 248, 225, 0.22) 0%, transparent 60%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 8;
 }
 
 /* SVG Çizim Katmanı */
@@ -1550,12 +1591,54 @@ body {
   z-index: 1;
 }
 
-/* Şeker Kamışı Kesikli Yol Çizgisi */
+/* Path Shadow (Depth) */
+#map-path-line-shadow {
+  stroke: #2e5416 !important;
+  stroke-width: 32px !important;
+  stroke-dasharray: 22, 12 !important;
+  stroke-linecap: round !important;
+  opacity: 0.45;
+}
+
+/* Doğal taş döşeli bahçe yolu (Stepping Cookie Stones) */
 #map-path-line {
-  stroke: #ff3366 !important; /* Canlı Şeker Pembesi */
-  stroke-width: 10px !important;
-  stroke-dasharray: 20, 15 !important;
-  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.35));
+  stroke: #dfb589 !important; /* Cookie stone color */
+  stroke-width: 24px !important;
+  stroke-dasharray: 22, 12 !important; /* long stone, short gap */
+  stroke-linecap: round !important; /* circular ends */
+  filter: drop-shadow(0 4px 0 #a97d55);
+}
+
+/* Winding flowing river */
+#map-river-line {
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.18));
+}
+
+#map-river-ripples {
+  stroke-dasharray: 45, 180;
+  animation: flowRipples 8s linear infinite;
+  opacity: 0.75;
+}
+
+@keyframes flowRipples {
+  to {
+    stroke-dashoffset: -225;
+  }
+}
+
+/* Bridges across the river */
+.map-bridge {
+  position: absolute;
+  width: 90px;
+  height: 48px;
+  background: linear-gradient(90deg, #7d5a3c 0%, #a1887f 15%, #a1887f 85%, #7d5a3c 100%);
+  border-top: 4px solid #ffcc80;
+  border-bottom: 4px solid #ffcc80;
+  border-radius: 8px;
+  box-shadow: 
+    0 4px 0 #5c3d28,
+    0 10px 18px rgba(0,0,0,0.4);
+  z-index: 2; /* above path/river but below buttons */
 }
 
 /* Dekoratif Katman */
@@ -1566,62 +1649,89 @@ body {
   z-index: 2;
 }
 
-/* Deniz, Ada, Balina, Gemi vb. Görsel Stilleri */
-.map-whale {
+/* Sihirli Bahçe Dekorasyonları (Magical Garden Decorations) */
+.map-butterfly {
   position: absolute;
-  width: 100px;
-  height: 100px;
-  animation: floatWhale 4s infinite ease-in-out alternate;
-  pointer-events: auto;
-  cursor: pointer;
+  font-size: 2rem;
+  animation: flyButterfly 8s linear infinite;
+  pointer-events: none;
+  filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
 }
 
-@keyframes floatWhale {
-  0% { transform: translateY(0) rotate(-2deg); }
-  100% { transform: translateY(-8px) rotate(3deg); }
+@keyframes flyButterfly {
+  0% { transform: translate(0, 0) scale(1) rotate(-10deg); }
+  25% { transform: translate(30px, -20px) scale(1.1) rotate(10deg); }
+  50% { transform: translate(60px, 0) scale(1) rotate(-10deg); }
+  75% { transform: translate(30px, 20px) scale(0.9) rotate(10deg); }
+  100% { transform: translate(0, 0) scale(1) rotate(-10deg); }
 }
 
-.map-ship {
+.map-bee {
   position: absolute;
-  width: 80px;
-  height: 80px;
-  animation: floatShip 5s infinite ease-in-out alternate;
-  pointer-events: auto;
-  cursor: pointer;
+  font-size: 1.8rem;
+  animation: hoverBee 3s infinite ease-in-out alternate;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 6px rgba(0,0,0,0.4));
 }
 
-@keyframes floatShip {
-  0% { transform: translate(0, 0) rotate(-4deg); }
-  100% { transform: translate(5px, -4px) rotate(4deg); }
+@keyframes hoverBee {
+  0% { transform: translateY(0) rotate(-5deg); }
+  100% { transform: translateY(-12px) rotate(5deg); }
 }
 
-.map-chest {
+.map-tree {
   position: absolute;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  pointer-events: auto;
-  animation: pulseChest 2s infinite ease-in-out;
+  font-size: 4rem;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.4));
+  transform-origin: bottom center;
+  animation: swayTree 6s infinite ease-in-out alternate;
 }
 
-@keyframes pulseChest {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
-  50% { transform: scale(1.1); filter: drop-shadow(0 4px 10px rgba(255, 210, 63, 0.6)); }
+@keyframes swayTree {
+  0% { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
 }
 
-.map-cloud {
+.map-flower {
   position: absolute;
-  width: 90px;
-  height: 45px;
-  background: rgba(255,255,255,0.85);
-  border-radius: 30px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  animation: moveCloud 30s linear infinite;
+  font-size: 2.5rem;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+  transform-origin: bottom center;
+  animation: swayFlower 4s infinite ease-in-out alternate;
 }
 
-@keyframes moveCloud {
-  from { left: -100px; }
-  to { left: 100%; }
+@keyframes swayFlower {
+  0% { transform: rotate(-4deg) scale(0.95); }
+  100% { transform: rotate(4deg) scale(1.05); }
+}
+
+.map-leaf {
+  position: absolute;
+  font-size: 1.5rem;
+  pointer-events: none;
+  opacity: 0.8;
+  animation: floatLeaf 10s linear infinite;
+}
+
+@keyframes floatLeaf {
+  0% { transform: translate(0, -50px) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translate(100px, 300px) rotate(360deg); opacity: 0; }
+}
+
+.map-sparkle {
+  position: absolute;
+  font-size: 1.5rem;
+  pointer-events: none;
+  animation: sparkleBlink 2s infinite ease-in-out alternate;
+}
+
+@keyframes sparkleBlink {
+  0% { transform: scale(0.5) rotate(0deg); opacity: 0.2; }
+  100% { transform: scale(1.5) rotate(180deg); opacity: 1; filter: drop-shadow(0 0 8px #fff); }
 }
 
 /* Harita Düğümleri (Level Buttons) */
@@ -1634,94 +1744,217 @@ body {
   z-index: 3;
 }
 
-/* Seviye Düğmesi Kutusu */
+/* Seviye Düğmesi Kutusu - 3D Drop Shadow for Depth */
 .level-node-wrapper {
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   transform: translate(-50%, -50%);
-  width: 70px;
-  height: 90px;
+  width: 90px;
+  height: 120px;
+  filter: drop-shadow(0 10px 8px rgba(0,0,0,0.35)); /* Drop shadow applied to whole flower shape */
 }
 
+/* Flower base setup */
 .level-node-btn {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px; /* Circular center */
   font-family: var(--font-main);
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   font-weight: 900;
-  color: white;
-  border: 3.5px solid #ffffff;
+  color: #fff;
+  border: 3.5px solid #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   outline: none;
-  box-shadow: 
-    0 6px 0 #e65100, 
-    0 8px 15px rgba(0,0,0,0.35),
-    inset 0 3px 5px rgba(255,255,255,0.6);
-  background: radial-gradient(circle at 35% 35%, #ffd54f 0%, #ff9800 60%, #ff5722 100%); /* Gold/Orange 3D button */
-  transition: all 0.1s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   position: relative;
+  overflow: visible; /* Let inner overlays expand */
+  z-index: 2;
+}
+
+/* Glass shine overlay inside button */
+.level-node-btn::before {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px; right: 2px;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.05) 100%);
+  border-radius: 20px 20px 4px 4px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Flower petals using rotated round rects */
+.level-node-wrapper::before,
+.level-node-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 66px; height: 66px;
+  border-radius: 22px;
+  transform: translate(-50%, -50%) rotate(30deg);
+  z-index: 1;
+}
+
+.level-node-wrapper::after {
+  transform: translate(-50%, -50%) rotate(60deg);
+}
+
+/* --- Flower Types styling --- */
+/* Daisy (Papatya) - White/Yellow */
+.level-node-wrapper.flower-daisy .level-node-btn {
+  background: radial-gradient(circle at 30% 20%, #fffde7 0%, #ffeb3b 60%, #fbc02d 100%);
+  box-shadow: 0 8px 0 #f57f17, inset 0 3px 5px rgba(255,255,255,0.7);
+  border-color: #ffffff;
+}
+.level-node-wrapper.flower-daisy::before,
+.level-node-wrapper.flower-daisy::after {
+  background: radial-gradient(circle at 30% 20%, #ffffff 0%, #f5f5f5 75%, #e0e0e0 100%);
+  box-shadow: 0 8px 0 #cccccc, inset 0 0 0 3.5px #ffffff;
+}
+
+/* Tulip (Lale) - Red/Golden */
+.level-node-wrapper.flower-tulip .level-node-btn {
+  background: radial-gradient(circle at 30% 20%, #ff8a80 0%, #ff5252 60%, #d50000 100%);
+  box-shadow: 0 8px 0 #9c0000, inset 0 3px 5px rgba(255,255,255,0.7);
+  border-color: #ffeb3b; /* gold border for tulip center */
+}
+.level-node-wrapper.flower-tulip::before,
+.level-node-wrapper.flower-tulip::after {
+  background: radial-gradient(circle at 30% 20%, #ff4081 0%, #f50057 75%, #c51162 100%);
+  box-shadow: 0 8px 0 #880e4f, inset 0 0 0 3.5px #ff80ab;
+}
+
+/* Rose (Gül) - Rose pink */
+.level-node-wrapper.flower-rose .level-node-btn {
+  background: radial-gradient(circle at 30% 20%, #f48fb1 0%, #ec407a 60%, #ad1457 100%);
+  box-shadow: 0 8px 0 #880e4f, inset 0 3px 5px rgba(255,255,255,0.7);
+  border-color: #ffffff;
+}
+.level-node-wrapper.flower-rose::before,
+.level-node-wrapper.flower-rose::after {
+  background: radial-gradient(circle at 30% 20%, #e91e63 0%, #d81b60 75%, #880e4f 100%);
+  box-shadow: 0 8px 0 #5c0032, inset 0 0 0 3.5px #f48fb1;
+}
+
+/* Hydrangea (Ortanca) - Lavender/Blue */
+.level-node-wrapper.flower-hydrangea .level-node-btn {
+  background: radial-gradient(circle at 30% 20%, #ea80fc 0%, #e040fb 60%, #aa00ff 100%);
+  box-shadow: 0 8px 0 #6a00c8, inset 0 3px 5px rgba(255,255,255,0.7);
+  border-color: #e0f7fa;
+}
+.level-node-wrapper.flower-hydrangea::before,
+.level-node-wrapper.flower-hydrangea::after {
+  background: radial-gradient(circle at 30% 20%, #3f51b5 0%, #303f9f 75%, #1a237e 100%);
+  box-shadow: 0 8px 0 #0d1246, inset 0 0 0 3.5px #7986cb;
 }
 
 /* Düğmeye Tıklama Hissi */
 .level-node-btn:active {
-  transform: translateY(3px);
+  transform: translateY(4px);
   box-shadow: 
-    0 3px 0 #e65100, 
-    0 4px 8px rgba(0,0,0,0.25),
-    inset 0 1.5px 3px rgba(255,255,255,0.4);
+    0 4px 0 inherit, 
+    inset 0 4px 6px rgba(255,255,255,0.7);
 }
 
-/* Kilitli Seviye Düğmesi */
+/* Kilitli Seviye Düğmesi - Yeşil Sarmaşık/Tomurcuk */
+.level-node-wrapper.locked {
+  filter: drop-shadow(0 6px 5px rgba(0,0,0,0.25)); /* Lighter shadow for flat locked nodes */
+}
+
 .level-node-wrapper.locked .level-node-btn {
-  background: radial-gradient(circle at 35% 35%, #503d6d 0%, #31214a 70%, #1e1133 100%) !important;
+  background: radial-gradient(circle at 35% 35%, #aed581 0%, #7cb342 60%, #33691e 100%) !important;
   box-shadow: 
-    0 6px 0 #120921, 
-    0 6px 10px rgba(0,0,0,0.3),
-    inset 0 2px 3px rgba(255,255,255,0.2) !important;
-  border-color: #4a3666 !important;
+    0 8px 0 #1b5e20, 
+    inset 0 3px 5px rgba(255,255,255,0.3) !important;
+  border-color: #81c784 !important;
+  color: #c5e1a5 !important;
   cursor: not-allowed;
   pointer-events: none;
 }
 
+.level-node-wrapper.locked::before,
+.level-node-wrapper.locked::after {
+  background: radial-gradient(circle at 30% 20%, #81c784 0%, #4caf50 60%, #1b5e20 100%) !important;
+  box-shadow: 0 8px 0 #0f3d10, inset 0 0 0 3px #a5d6a7 !important;
+}
+
 .level-node-wrapper.locked .level-node-btn::after {
   content: '🔒';
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   position: absolute;
-  bottom: -2px; right: -2px;
-  background: rgba(0,0,0,0.6);
+  bottom: -6px; right: -8px;
+  background: radial-gradient(circle at 30% 30%, #ffd54f 0%, #f57f17 100%);
   border-radius: 50%;
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid white;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.6);
+  z-index: 4;
 }
 
-/* Aktif (Bir Sonraki Oynanacak) Seviye */
+/* Aktif (Bir Sonraki Oynanacak) Seviye - Pulsing/Breathing Golden Aura */
+.level-node-wrapper.active {
+  animation: activeBreathing 2s infinite ease-in-out alternate;
+  z-index: 10 !important;
+}
+
 .level-node-wrapper.active .level-node-btn {
-  background: radial-gradient(circle at 35% 35%, #9bec00 0%, #7ad312 65%, #4cb006 100%) !important; /* Premium Glossy Green */
   box-shadow: 
-    0 6px 0 #2e6b03, 
-    0 0 20px rgba(122, 211, 18, 0.8),
-    inset 0 3px 5px rgba(255,255,255,0.6) !important;
+    0 10px 0 inherit, 
+    inset 0 4px 6px rgba(255,255,255,0.8) !important;
   border-color: #ffffff !important;
-  animation: pulseActiveNode 1.2s infinite alternate ease-in-out;
 }
 
-@keyframes pulseActiveNode {
-  from { transform: scale(1); }
-  to { transform: scale(1.08); filter: brightness(1.1); }
+.level-node-wrapper.active::before,
+.level-node-wrapper.active::after {
+  animation: rotateActivePetals 12s linear infinite;
+  box-shadow: 0 10px 0 inherit !important;
 }
 
-/* Dekorasyon Simgeleri (Taç, Kuru Kafa) */
+.level-node-wrapper.active::after {
+  animation: rotateActivePetalsCounter 12s linear infinite;
+}
+
+@keyframes activeBreathing {
+  0% { 
+    transform: translate(-50%, -50%) scale(1.1); 
+    filter: drop-shadow(0 0 12px rgba(255, 235, 59, 0.6)) drop-shadow(0 8px 6px rgba(0,0,0,0.35)); 
+  }
+  100% { 
+    transform: translate(-50%, -50%) scale(1.18); 
+    filter: drop-shadow(0 0 28px rgba(255, 235, 59, 0.95)) drop-shadow(0 15px 12px rgba(0,0,0,0.45)); 
+  }
+}
+
+@keyframes rotateActivePetals {
+  from { transform: translate(-50%, -50%) rotate(30deg); }
+  to { transform: translate(-50%, -50%) rotate(390deg); }
+}
+
+@keyframes rotateActivePetalsCounter {
+  from { transform: translate(-50%, -50%) rotate(60deg); }
+  to { transform: translate(-50%, -50%) rotate(-300deg); }
+}
+
+/* Geçilmiş Bölüm */
+.level-node-wrapper.completed .level-node-btn {
+  box-shadow: 
+    0 8px 0 inherit, 
+    0 0 12px rgba(255, 215, 0, 0.45),
+    inset 0 3px 5px rgba(255,255,255,0.7);
+}
+
+/* Dekorasyon Simgeleri (Taç, Hediye vb.) */
 .level-decoration {
   position: absolute;
   top: -15px;
@@ -1736,30 +1969,52 @@ body {
   to { transform: translateY(-4px); }
 }
 
-/* Seviye Yıldız Kutusu */
 .level-stars-container {
   display: flex;
   justify-content: center;
-  gap: 2px;
-  margin-top: 5px;
-  height: 15px;
+  gap: 3px;
+  margin-top: 10px;
+  height: 25px;
+  z-index: 5;
+  position: relative;
 }
 
 .node-star {
-  font-size: 0.72rem;
+  font-size: 1.3rem;
   color: #bdc3c7; /* Dolu olmayan yıldız */
-  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+  text-shadow: 0 2px 3px rgba(0,0,0,0.5);
 }
 
 .node-star.filled {
-  color: #f1c40f; /* Altın yıldız */
-  text-shadow: 0 1px 3px rgba(241, 196, 15, 0.7);
+  color: #ffcc00; /* Altın yıldız */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 0 6px rgba(255, 204, 0, 0.8);
   animation: popStar 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes popStar {
   0% { transform: scale(0); }
   100% { transform: scale(1); }
+}
+
+/* Sihirli Bahçe Polen Uçuşu (Floating pollen / Light particles) */
+.map-pollen {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #fff59d;
+  border-radius: 50%;
+  opacity: 0.6;
+  filter: blur(0.5px) drop-shadow(0 0 5px #fbc02d);
+  animation: floatPollen 15s linear infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+@keyframes floatPollen {
+  0% { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% { transform: translate(140px, -200px) scale(1.3); opacity: 0; }
 }
 
 /* Oyuncu Avatar Simgesi (Avatar Token) */
@@ -2568,18 +2823,35 @@ body {
 
 /* Günlük Çarkıfelek Modalı */
 .spin-wheel-modal-content {
-  max-width: 400px !important;
-  background: linear-gradient(135deg, #fffdf0 0%, #fff8e1 45%, #e8f5e9 100%) !important;
-  border: 3.5px solid #81c784 !important;
-  box-shadow: 0 0 35px rgba(76,175,80,0.35), 0 15px 40px rgba(0,0,0,0.15) !important;
-  border-radius: 28px !important;
+  max-width: 420px !important;
+  /* Clean cream/parchment board - matching reference */
+  background: linear-gradient(180deg, #fef9ef 0%, #f5ecd5 40%, #ede0c0 100%) !important;
+  border: 6px solid #a0714f !important;
+  box-shadow: 
+    inset 0 0 0 3px #d4a96a,
+    0 15px 50px rgba(0,0,0,0.45) !important;
+  border-radius: 22px !important;
+  padding: 28px 22px 22px !important;
+  overflow: visible !important;
+  position: relative;
+}
+
+/* Subtle inner glow */
+.spin-wheel-modal-content::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 16px;
+  border: 2px solid rgba(212, 169, 106, 0.35);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .wheel-outer-container {
   position: relative;
-  width: 280px;
-  height: 280px;
-  margin: 15px auto;
+  width: 290px;
+  height: 290px;
+  margin: 8px auto 8px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2587,26 +2859,28 @@ body {
 
 .wheel-pointer {
   position: absolute;
-  top: -22px;
+  top: -20px;
   z-index: 30;
-  width: 60px;
-  height: 60px;
+  width: 65px;
+  height: 65px;
   display: flex;
   justify-content: center;
   align-items: center;
   pointer-events: none;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35));
 }
 
 .wheel-main {
   position: relative;
-  width: 260px;
-  height: 260px;
+  width: 270px;
+  height: 270px;
   border-radius: 50%;
-  border: 10px solid #ffca28; /* Gold honey border */
+  /* Thick brown wooden border like in the reference image */
+  border: 12px solid #7d5a3c;
   box-shadow: 
-    0 10px 24px rgba(76,175,80,0.15), 
-    inset 0 0 0 3px #ffffff,
-    inset 0 0 15px rgba(0,0,0,0.15);
+    inset 0 0 0 3px #d4a96a,
+    0 0 0 2px #5c3d28,
+    0 8px 25px rgba(0,0,0,0.4);
   overflow: hidden;
   transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
   transform: rotate(0deg);
